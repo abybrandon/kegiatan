@@ -1,7 +1,7 @@
+import 'package:newtest/module/home/controller.dart';
+import 'package:newtest/module/home/model.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:newtest/module/home/contorller/jadwal_kegiatan_controller.dart';
-import 'package:newtest/module/home/model/model_jadwalkegiatan.dart';
 import 'package:get/get.dart';
 
 class DateSelectionPage extends StatelessWidget {
@@ -47,6 +47,9 @@ class DateSelectionPage extends StatelessWidget {
               }
             },
             child: Text('Pilih Tanggal'),
+          ),
+          Obx(
+            () => Text('Total Data ${controller.dateList.length.toString()}'),
           ),
           Obx(() => EventListView(events: controller.dateList.value))
         ],
