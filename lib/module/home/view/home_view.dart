@@ -2,6 +2,7 @@ import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:newtest/module/home/trynotification.dart';
 import 'package:newtest/theme.dart';
 import 'package:newtest/widget/empty_state.dart';
 import 'package:newtest/widget/sizedbox_extension.dart';
@@ -35,6 +36,16 @@ class HomeView extends StatelessWidget {
         ),
         body: Column(
           children: [
+            InkWell(
+              onTap: () {
+                Get.toNamed(Routes.EVENT_LIST);
+              },
+              child: Container(
+                height: 20,
+                color: bgRed,
+                child: Text('go to list event'),
+              ),
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -79,6 +90,16 @@ class HomeView extends StatelessWidget {
                   ),
                 )
               ],
+            ),
+            InkWell(
+              onTap: () async {
+                Get.to(ApiScreen());
+              },
+              child: Container(
+                height: 20,
+                color: bgRed,
+                child: Text('coba notification'),
+              ),
             ),
             Row(
               children: [
@@ -140,7 +161,6 @@ class HomeView extends StatelessWidget {
               ),
               label: 'System Role',
               items: controller.roleOption,
-              selectedItems: controller.selectedCity,
               onSelect: (selectedItems) {
                 print(selectedItems);
                 // controller.selectedSystemRole.value =

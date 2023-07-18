@@ -1,7 +1,9 @@
+import 'package:newtest/module/event/bindings/event_binding.dart';
 import 'package:newtest/module/login/bindings/login_binding.dart';
 import 'package:get/get.dart';
 import 'package:newtest/module/signup/view/sign_up_view.dart';
 
+import '../module/event/view/llist_event_view.dart';
 import '../module/home/bindings/home_binding.dart';
 import '../module/home/home_screen.dart';
 import '../module/home/view/home_view.dart';
@@ -27,5 +29,12 @@ class AppPages {
         page: () => SignUpView(),
         binding: SignUpBinding()),
     GetPage(name: Routes.HOME, page: () => HomeView(), binding: HomeBinding()),
+
+    //event list
+
+    GetPage(
+        name: Routes.EVENT_LIST,
+        page: () => ListEventView(),
+        binding: EventBinding()),
   ];
 }

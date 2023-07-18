@@ -46,6 +46,7 @@ dependencies:
   flutter_local_notifications: ^13.0.0
   remixicon: ^1.0.0
   fluttertoast: ^8.1.1
+  awesome_notifications: ^0.7.4+1
 
 
 

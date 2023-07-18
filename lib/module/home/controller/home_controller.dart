@@ -14,6 +14,7 @@ import '../city.dart';
 class HomeController extends GetxController {
   final CollectionReference eventCollection =
       FirebaseFirestore.instance.collection('event');
+
   final CollectionReference locationColection =
       FirebaseFirestore.instance.collection('location');
   final TextEditingController controller = TextEditingController();

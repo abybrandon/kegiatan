@@ -106,6 +106,9 @@ class _RoleSelectorMultiState<T extends Object>
               ),
             ),
             child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: bgRed, // Ganti dengan warna yang diinginkan
+              ),
               onPressed: () {
                 Get.back();
                 setState(() {

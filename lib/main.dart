@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:newtest/module/notification/pages/home_page.dart';
 import 'package:newtest/routes/app_pages.dart';
 import 'package:newtest/theme.dart';
 import 'controller_universal/controller_universal.dart';
@@ -66,6 +67,8 @@ class _MyAppState extends State<MyApp> {
             scaffoldMessengerKey: rootScaffoldMessengerKey,
             debugShowCheckedModeBanner: false,
             getPages: AppPages.routes,
-            initialRoute: _getInitialRoute()));
+            initialRoute: _getInitialRoute()
+            // home: MyHomePage(),
+            ));
   }
 }
