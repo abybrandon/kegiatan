@@ -39,8 +39,9 @@ class HomeController extends GetxController {
 
   @override
   void onInit() {
-    super.onInit();
+    getLocation();
     fetchData();
+    super.onInit();
   }
 
   final RxList<LocationModel> allCity = <LocationModel>[].obs;
@@ -66,7 +67,6 @@ class HomeController extends GetxController {
               LocationModel.fromJson(doc.data() as Map<String, dynamic>))
           .toList();
       allCity.value = fethedLocation;
-      print('sukses');
     } catch (error) {
       print(error.toString());
     }
