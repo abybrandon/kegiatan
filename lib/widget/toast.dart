@@ -138,3 +138,57 @@ class Toast {
     );
   }
 }
+
+class CustomToast {
+  static void showErrorToast(BuildContext context, String message) {
+    final overlay = Overlay.of(context);
+    OverlayEntry overlayEntry;
+
+    overlayEntry = OverlayEntry(
+      builder: (context) => Positioned(
+        bottom: MediaQuery.of(context).size.height * 0.5,
+        left: MediaQuery.of(context).size.width * 0.1,
+        child: Material(
+          color: Colors.transparent,
+          child: Container(
+            width: 320.sp,
+            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+            decoration: BoxDecoration(
+              color: bgRed,
+              borderRadius: BorderRadius.circular(50),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  Icons.error,
+                  color: Colors.white,
+                  size: 20,
+                ),
+                SizedBox(width: 8),
+                Flexible(
+                  child: Text(
+                    message,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 12,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+
+    overlay.insert(overlayEntry);
+
+    // Hapus Toast setelah beberapa detik
+    Future.delayed(Duration(seconds: 2), () {
+      overlayEntry.remove();
+    });
+  }
+}
+
+// Panggil CustomToast.showErrorToast seperti berikut in

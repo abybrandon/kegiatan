@@ -10,7 +10,7 @@ import '../../../routes/app_pages.dart';
 import '../../../local_storage/local_storage_helper.dart';
 import '../../../widget/toast.dart';
 
-class SignUpController extends GetxController {
+class SignUpController extends GetxController with StateMixin {
   //TextEditing
   final controllerEmail = TextEditingController();
   final controllerPassword = TextEditingController();
@@ -20,6 +20,12 @@ class SignUpController extends GetxController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  @override
+  void onInit() {
+    change(null, status: RxStatus.success());
+    super.onInit();
+  }
 
   RxString tokenNew = ''.obs;
 
@@ -52,6 +58,7 @@ class SignUpController extends GetxController {
 
   Future<void> signupAuth(
       context, String email, String password, String username) async {
+    change(null, status: RxStatus.loading());
     if (username.isEmpty) {
       Toast.showErrorToastWithoutContext('Username Wajib diisi');
     } else {
@@ -88,6 +95,7 @@ class SignUpController extends GetxController {
         }
       }
     }
+    change(null, status: RxStatus.success());
   }
 
   void clearController() {
@@ -96,18 +104,9 @@ class SignUpController extends GetxController {
     controllerPassword.clear();
   }
 
-  RxInt value = 0.obs;
-
-  RxString dataShared = ''.obs;
-
-  void getDataFromSharedPreference() async {
-    int? data = await SharedPreferenceHelper.getDataPrelogin();
-    value.value = data ?? 0;
-    print(value);
-  }
-
   @override
-  void onInit() {
-    super.onInit();
+  void onClose() {
+    Get.delete<SignUpController>();
+    super.onClose();
   }
 }

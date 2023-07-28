@@ -16,20 +16,19 @@ class CustomTextField extends StatelessWidget {
   final bool autoFocus;
   final IconData? icon;
 
-  const CustomTextField({
-    super.key,
-    this.controller,
-    required this.errorText,
-    this.isError = false,
-    this.onSubmitted,
-    this.borderStyle,
-    this.style,
-    this.hintText,
-    this.hintStyle,
-    this.padding,
-    this.autoFocus = false,
-    this.icon
-  });
+  const CustomTextField(
+      {super.key,
+      this.controller,
+      required this.errorText,
+      this.isError = false,
+      this.onSubmitted,
+      this.borderStyle,
+      this.style,
+      this.hintText,
+      this.hintStyle,
+      this.padding,
+      this.autoFocus = false,
+      this.icon});
 
   @override
   Widget build(BuildContext context) {
@@ -59,18 +58,17 @@ class CustomTextField extends StatelessWidget {
               fontSize: 16.sp,
               color: isError ? dangerDefault : Colors.grey[700],
               fontWeight: Config.medium,
-            
             ).merge(style),
             decoration: InputDecoration(
-              suffixIcon: Icon(icon,size: 24.sp,
-              
-               ),
+              suffixIcon: Icon(
+                icon,
+                size: 24.sp,
+              ),
               border: borderStyle ??
                   OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8.r),
                       borderSide: BorderSide.none),
               hintText: hintText,
-
               hintStyle: TextStyle(
                   fontSize: 16.sp,
                   fontWeight: Config.medium,

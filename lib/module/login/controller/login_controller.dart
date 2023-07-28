@@ -8,7 +8,7 @@ import '../../../local_storage/local_storage_helper.dart';
 import '../../../routes/app_pages.dart';
 import '../../../widget/toast.dart';
 
-class LoginController extends GetxController {
+class LoginController extends GetxController with StateMixin {
   TextEditingController controllerEmail = TextEditingController();
   TextEditingController controllerPassword = TextEditingController();
 
@@ -93,6 +93,7 @@ class LoginController extends GetxController {
   }
 
   Future<void> loginAuth(context, String email, String password) async {
+    change(null, status: RxStatus.loading());
     try {
       UserCredential userCredential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password)
@@ -103,7 +104,7 @@ class LoginController extends GetxController {
         });
       });
 
-      Get.offAllNamed(Routes.HOME);
+      Get.offAllNamed(Routes.NAVIGATION_BAR);
       Toast.showSuccessToastWithoutContext('Berhasil Login');
       await SharedPreferenceHelper.setUserUid(userCredential.user!.uid);
       String? data = await SharedPreferenceHelper.getUserUid();
@@ -123,6 +124,7 @@ class LoginController extends GetxController {
         print(e.code);
       }
     }
+    change(null, status: RxStatus.success());
   }
 
   void clearController() {
@@ -130,18 +132,21 @@ class LoginController extends GetxController {
     controllerPassword.clear();
   }
 
-  RxInt value = 0.obs;
+  RxInt valueData = 0.obs;
 
   RxString dataShared = ''.obs;
 
   void getDataFromSharedPreference() async {
     int? data = await SharedPreferenceHelper.getDataPrelogin();
-    value.value = data ?? 0;
+    valueData.value = data ?? 0;
     print(value);
   }
 
   @override
   void onInit() {
+    change(null, status: RxStatus.loading());
+
+    change(null, status: RxStatus.success());
     super.onInit();
   }
 }

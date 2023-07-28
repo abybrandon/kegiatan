@@ -155,7 +155,7 @@ class _ApiScreenState extends State<ApiScreen> {
                 isUserSaved(user) ? Icons.favorite : Icons.favorite_border,
                 color: isUserSaved(user) ? Colors.red : null,
               ),
-              onPressed: () {
+              onPressed: () async {
                 if (isUserSaved(user)) {
                   removeUser(user);
                 } else {
@@ -187,10 +187,41 @@ class SavedUserListScreen extends StatelessWidget {
         itemBuilder: (context, index) {
           final user = savedUserList[index];
           return ListTile(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => DetailPage(user: user),
+                ),
+              );
+            },
             title: Text(user.name),
             subtitle: Text(user.title),
           );
         },
+      ),
+    );
+  }
+}
+
+class DetailPage extends StatelessWidget {
+  final User user;
+
+  DetailPage({required this.user});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Detail User'),
+      ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('User ID: ${user.id}'),
+          Text('User Name: ${user.name}'),
+          Text('User Title: ${user.title}'),
+        ],
       ),
     );
   }

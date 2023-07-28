@@ -129,7 +129,7 @@ class HomeView extends StatelessWidget {
                 10.widthBox,
                 InkWell(
                   onTap: () async {
-                    controller.takeDate(context);
+                    // controller.takeDate(context);
                   },
                   child: Container(
                     height: 20,

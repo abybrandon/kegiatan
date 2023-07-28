@@ -6,14 +6,24 @@ class JadwalKegiatan {
   final String tryValue2;
   final String id;
   final Timestamp createdDate;
-  JadwalKegiatan(this.tryValue1, this.tryValue2, this.id, this.createdDate);
+  final List<String>? fotoKegiatanUrls;
+  JadwalKegiatan(
+      {required this.tryValue1,
+      required this.tryValue2,
+      required this.id,
+      required this.createdDate,
+      this.fotoKegiatanUrls});
 
   factory JadwalKegiatan.fromJson(Map<String, dynamic> json) {
     final id = json['id'];
     final tryValue1 = json['eventName'] ?? '';
     final tryValue2 = json['city'] ?? '';
     final createdDate = json['createdDate'] ?? '';
-    return JadwalKegiatan(tryValue1, tryValue2, id, createdDate);
+    return JadwalKegiatan(
+        tryValue1: tryValue1,
+        tryValue2: tryValue2,
+        id: id,
+        createdDate: createdDate);
   }
 
   Map<String, dynamic> toJson() {
@@ -21,7 +31,8 @@ class JadwalKegiatan {
       'id': id,
       'eventName': tryValue1,
       'city': tryValue2,
-      'createdDate': createdDate
+      'createdDate': createdDate,
+      'eventPict': fotoKegiatanUrls,
     };
   }
 }

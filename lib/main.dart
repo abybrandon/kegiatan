@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:newtest/module/notification/pages/home_page.dart';
@@ -26,7 +25,6 @@ void main() async {
   int? statusPrelogin = await SharedPreferenceHelper.getDataPrelogin();
   if (dataUser != null) {
     _isLoggedIn = true;
-    print(dataUser);
   }
   if (statusPrelogin == 1) {
     _preLoginStatus = true;
@@ -46,7 +44,7 @@ class _MyAppState extends State<MyApp> {
     String initialRoute = Routes.PRE_LOGIN;
 
     if (_isLoggedIn) {
-      initialRoute = Routes.HOME;
+      initialRoute = Routes.NAVIGATION_BAR;
     } else if (_preLoginStatus) {
       initialRoute = Routes.LOGIN;
     }
@@ -62,7 +60,6 @@ class _MyAppState extends State<MyApp> {
         designSize: const Size(360, 800),
         builder: (_, __) => GetMaterialApp(
             theme: Config.getTheme(),
-            builder: FToastBuilder(),
             defaultTransition: Transition.rightToLeft,
             scaffoldMessengerKey: rootScaffoldMessengerKey,
             debugShowCheckedModeBanner: false,

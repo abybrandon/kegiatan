@@ -51,7 +51,10 @@ class JadwalKegiatanController extends GetxController {
 
         final createdDate = date != null ? Timestamp.fromDate(date) : null;
         final newJadwalKegiatan = JadwalKegiatan(
-            tryValue, try2Value, newDoc.id, createdDate as Timestamp);
+            tryValue1: tryValue,
+            tryValue2: try2Value,
+            id: newDoc.id,
+            createdDate: createdDate as Timestamp);
         await newDoc
             .set(newJadwalKegiatan.toJson())
             .then((value) => print('data berhasil upload'));
