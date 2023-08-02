@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:map_launcher/map_launcher.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
 import 'package:newtest/widget/loader.dart';
 import 'package:newtest/widget/sizedbox_extension.dart';
 
@@ -17,7 +16,9 @@ class CreateEventAdmin extends GetView<CreateEventAdminController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(),
+        appBar: AppBar(
+          backgroundColor: bgRed,
+        ),
         body: controller.obx((state) => _FormUpload(),
             onLoading: Stack(
               children: [_FormUpload(), Loader()],
@@ -30,56 +31,11 @@ class _FormUpload extends GetView<CreateEventAdminController> {
 
   @override
   Widget build(BuildContext context) {
-    openMapsSheet(context) async {
-      try {
-        final coords = Coords(-6.2122975, 106.8027317);
-        final title = "Mall Taman Anngrek";
-        final availableMaps = await MapLauncher.installedMaps;
-
-        showModalBottomSheet(
-          context: context,
-          builder: (BuildContext context) {
-            return SafeArea(
-              child: SingleChildScrollView(
-                child: Container(
-                  child: Wrap(
-                    children: <Widget>[
-                      for (var map in availableMaps)
-                        ListTile(
-                          onTap: () => map.showDirections(
-                            destination: coords,
-                            destinationTitle: title,
-                            directionsMode: DirectionsMode.driving,
-                          ),
-                          leading: SvgPicture.asset(
-                            map.icon,
-                            height: 30.0,
-                            width: 30.0,
-                          ),
-                          title: Text(map.mapName),
-                        ),
-                    ],
-                  ),
-                ),
-              ),
-            );
-          },
-        );
-      } catch (e) {
-        print(e);
-      }
-    }
-
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Column(children: [
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           30.heightBox,
-          ElevatedButton(
-              onPressed: () {
-                openMapsSheet(context);
-              },
-              child: Text('try map')),
           Obx(
             () => controller.photoList.isNotEmpty
                 ? PhotoListWidget()
@@ -89,53 +45,8 @@ class _FormUpload extends GetView<CreateEventAdminController> {
                     },
                     child: SizedBox(height: 100, child: Placeholder())),
           ),
-          10.heightBox,
-          LocationEventSelector(
-            tittle: Obx(
-              () => Text(
-                controller.locationEventName.value,
-                style: TextStyle(
-                    fontSize: 14.sp,
-                    overflow: TextOverflow.clip,
-                    color: bgWhite,
-                    fontWeight: FontWeight.w400),
-              ),
-            ),
-            label: 'Lokasi Event',
-            items: controller.locationOption,
-            onSelect: (selectedItems) {
-              List<double> eventLatitude =
-                  selectedItems.map((e) => e.latitude).toList();
-              controller.eventLatitude = eventLatitude[0];
-
-              List<double> eventLongitude =
-                  selectedItems.map((e) => e.longitude).toList();
-              controller.eventLongitude = eventLongitude[0];
-
-              print(
-                  "${controller.eventLatitude} ${controller.eventLongitude} ");
-            },
-          ),
-          10.heightBox,
-          LocationEventSelector(
-            tittle: Obx(
-              () => Text(
-                controller.artistEventName.value,
-                style: TextStyle(
-                    fontSize: 14.sp,
-                    overflow: TextOverflow.clip,
-                    color: bgWhite,
-                    fontWeight: FontWeight.w400),
-              ),
-            ),
-            label: 'Artist Event',
-            items: controller.artistOption,
-            onSelect: (selectedItems) {
-              controller.selectedGuestStart = selectedItems;
-              print(controller.selectedGuestStart);
-            },
-          ),
           40.heightBox,
+          10.heightBox,
           CustomTextField(
             errorText: 'Nama Event',
             hintText: 'Nama Event',
@@ -160,14 +71,104 @@ class _FormUpload extends GetView<CreateEventAdminController> {
             decoration: InputDecoration(hintText: 'Deskripsi'),
           ),
           10.heightBox,
-          ElevatedButton(
-              onPressed: () {
-                controller.getDate(context);
-                print(controller.selectedDate.value);
-              },
-              child: Text('Pilih tanggal Event')),
+          LocationEventSelector(
+            tittle: Obx(
+              () => Text(
+                controller.locationEventName.value,
+                style: TextStyle(
+                    fontSize: 14.sp,
+                    overflow: TextOverflow.clip,
+                    color: bgWhite,
+                    fontWeight: FontWeight.w400),
+              ),
+            ),
+            label: 'Lokasi Event',
+            items: controller.locationOption,
+            onSelect: (selectedItems) {
+              List<double> eventLatitude =
+                  selectedItems.map((e) => e.latitude).toList();
+              controller.eventLatitude = eventLatitude[0];
+              List<double> eventLongitude =
+                  selectedItems.map((e) => e.longitude).toList();
+              controller.eventLongitude = eventLongitude[0];
+              controller.selectedNameLocaiton.value =
+                  selectedItems.map((e) => e.locationName).toList()[0];
+            },
+          ),
+          10.heightBox,
+          Obx(() => controller.selectedNameLocaiton.isNotEmpty
+              ? Text(controller.selectedNameLocaiton.value)
+              : SizedBox()),
+          10.heightBox,
+          LocationEventSelector(
+            tittle: Obx(
+              () => Text(
+                controller.artistEventName.value,
+                style: TextStyle(
+                    fontSize: 14.sp,
+                    overflow: TextOverflow.clip,
+                    color: bgWhite,
+                    fontWeight: FontWeight.w400),
+              ),
+            ),
+            label: 'Artist Event',
+            items: controller.artistOption,
+            onSelect: (selectedItems) {
+              controller.selectedGuestStart.value = selectedItems;
+              print(controller.selectedGuestStart);
+            },
+          ),
+          10.heightBox,
+          Obx(() => controller.selectedGuestStart.isNotEmpty
+              ? Text(controller.selectedGuestStart.toString())
+              : SizedBox()),
+          10.heightBox,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.4,
+                child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: bgRed,
+                    ),
+                    onPressed: () {
+                      controller.getDateStart(context);
+                    },
+                    child: Text(
+                      'Tanggal Awal Event',
+                      style: TextStyle(fontSize: 12),
+                    )),
+              ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.4,
+                child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: bgRed,
+                    ),
+                    onPressed: () {
+                      controller.getDateEnd(context);
+                    },
+                    child: Text(
+                      'Tanggal Akhir Event',
+                      style: TextStyle(fontSize: 12),
+                    )),
+              ),
+            ],
+          ),
           6.heightBox,
+          Obx(() => Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Text(controller.selectedDateStartText.value),
+                  Text(controller.selectedDateEndText.value)
+                ],
+              )),
+          10.heightBox,
           ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: bgRed,
+              ),
               onPressed: () {
                 // controller.createJadwalKegiatan(
                 //   controller.controller.text,
@@ -179,9 +180,11 @@ class _FormUpload extends GetView<CreateEventAdminController> {
                     nameEevent: controller.nameEventController.text,
                     organizerEvent: controller.organizerController.text,
                     deskripsi: controller.deskripsiEventController.text,
-                    date: controller.selectedDate.value,
+                    date: controller.selectedDateEndEvent.value,
+                    dateStart: controller.selectedDateStartEvent.value,
+                    dateEnd: controller.selectedDateEndEvent.value,
                     imageFiles: controller.photoList);
-                print(controller.selectedDate);
+                print(controller.selectedDateEndEvent);
               },
               child: Text('Upload'))
         ]),

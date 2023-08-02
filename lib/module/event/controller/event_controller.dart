@@ -14,6 +14,8 @@ import '../../../widget/toast.dart';
 import '../../home/city.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 
+import 'detail_event_controller.dart';
+
 class EventController extends GetxController with StateMixin {
   final CollectionReference eventCollection = FirebaseFirestore.instance
       .collection('events')
@@ -32,6 +34,7 @@ class EventController extends GetxController with StateMixin {
   @override
   void onClose() {
     Get.delete<EventController>();
+    Get.delete<DetailEventController>();
     super.onClose();
   }
 

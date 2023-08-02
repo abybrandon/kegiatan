@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-
+import 'package:intl/intl.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:get/get.dart';
 import 'package:newtest/admin/module/home_admin/model/artist_event_model.dart';
@@ -42,18 +42,40 @@ class CreateEventAdminController extends GetxController with StateMixin {
   }
 
   //get date
-  Future<void> getDate(context) async {
+  Future<void> getDateStart(context) async {
     final DateTime? pickerDate = await showDatePicker(
+        helpText: 'Select Start Date Event',
         context: context,
         initialDate: DateTime.now(),
         firstDate: DateTime(1990),
         lastDate: DateTime(2024));
-    if (pickerDate != null && selectedDate.value != pickerDate) {
-      selectedDate.value = pickerDate;
+    if (pickerDate != null && selectedDateStartEvent.value != pickerDate) {
+      selectedDateStartEvent.value = pickerDate;
+      String formattedDate =
+          DateFormat('d MMMM yyyy').format(selectedDateStartEvent.value!);
+      selectedDateStartText.value = formattedDate;
     }
   }
 
-  Rxn<DateTime> selectedDate = Rxn<DateTime>();
+  RxString selectedDateStartText = ''.obs;
+  RxString selectedDateEndText = ''.obs;
+  Future<void> getDateEnd(context) async {
+    final DateTime? pickerDate = await showDatePicker(
+        context: context,
+        helpText: 'Select Start Date Event',
+        initialDate: DateTime.now(),
+        firstDate: DateTime(1990),
+        lastDate: DateTime(2024));
+    if (pickerDate != null && selectedDateEndEvent.value != pickerDate) {
+      selectedDateEndEvent.value = pickerDate;
+      String formattedDate =
+          DateFormat('d MMMM yyyy').format(selectedDateEndEvent.value!);
+      selectedDateEndText.value = formattedDate;
+    }
+  }
+
+  Rxn<DateTime> selectedDateStartEvent = Rxn<DateTime>();
+  Rxn<DateTime> selectedDateEndEvent = Rxn<DateTime>();
 
   //textfield
   final nameEventController = TextEditingController();
@@ -72,16 +94,21 @@ class CreateEventAdminController extends GetxController with StateMixin {
       required String cityEvent,
       required String deskripsi,
       DateTime? date,
+      DateTime? dateStart,
+      DateTime? dateEnd,
       required List<File> imageFiles}) async {
     change(null, status: RxStatus.loading());
     try {
       final newDoc = eventCollection.doc();
 
-      final createdDate = date != null ? Timestamp.fromDate(date) : null;
+      final startDate =
+          dateStart != null ? Timestamp.fromDate(dateStart) : null;
+
+      final endDate = dateEnd != null ? Timestamp.fromDate(dateEnd) : null;
+
       List<String> fotoKegiatanUrls = [];
 
       if (imageFiles.isNotEmpty) {
-        // Upload gambar ke Firebase Storage dan dapatkan URL-nya
         fotoKegiatanUrls = await uploadImagesToFirebaseStorage(imageFiles);
       }
 
@@ -91,8 +118,10 @@ class CreateEventAdminController extends GetxController with StateMixin {
           deskripsi: deskripsi,
           organizerEvent: organizerEvent,
           id: newDoc.id,
-          createdDate: createdDate as Timestamp,
+          createdDate: startDate as Timestamp,
           fotoKegiatanUrls: fotoKegiatanUrls,
+          startDate: startDate as Timestamp,
+          endDate: endDate as Timestamp,
           location: GeoPoint(
             eventLatitude,
             eventLongitude,
@@ -133,7 +162,7 @@ class CreateEventAdminController extends GetxController with StateMixin {
   //Artist
 
   RxString artistEventName = 'Pilih Artist'.obs;
-  List<String> selectedGuestStart = [];
+  RxList<String> selectedGuestStart = <String>[].obs;
 
   final RxList<ArtistEventModel> allArtistData = <ArtistEventModel>[].obs;
   final RxList<ArtistEventModel> selectedArtist = <ArtistEventModel>[].obs;
@@ -168,6 +197,7 @@ class CreateEventAdminController extends GetxController with StateMixin {
       <LocationEventModel>[].obs;
   final RxList<LocationEventModel> selectedLocation =
       <LocationEventModel>[].obs;
+  RxString selectedNameLocaiton = ''.obs;
 
   List<SelectItem<LocationEventModel>> get locationOption {
     return allLocationEvent.map(

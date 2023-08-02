@@ -68,10 +68,7 @@ class _BodyDetail extends GetView<DetailEventController> {
                 return CachedNetworkImage(
                   imageUrl: controller.listPict[index],
                   fit: BoxFit.contain,
-                  placeholder: (context, url) =>
-                      CircularProgressIndicator(), // Widget yang ditampilkan selama gambar sedang diunduh
-                  errorWidget: (context, url, error) =>
-                      Icon(Icons.error), // Widg
+                  errorWidget: (context, url, error) => Icon(Icons.error),
                 );
               },
               itemCount: controller.listPict.length,

@@ -70,7 +70,7 @@ class DetailEventController extends GetxController with StateMixin {
 
   //map
 
-  openMapsSheet(context) async {
+  void openMapsSheet(context) async {
     try {
       final coords = Coords(latitudeLoc, longitudeLoc);
       final title = "Mall Taman Anngrek";
@@ -108,12 +108,6 @@ class DetailEventController extends GetxController with StateMixin {
     } catch (e) {
       print(e);
     }
-  }
-
-  @override
-  void onClose() {
-    Get.delete<DetailEventController>();
-    super.onClose();
   }
 
   @override
