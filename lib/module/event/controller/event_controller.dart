@@ -8,6 +8,7 @@ import 'package:newtest/module/event/model/event_model.dart';
 
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
+import '../../../local_storage/local_storage_helper.dart';
 import '../../../theme.dart';
 import '../../../widget/multi_select/multi_select.dart';
 import '../../../widget/toast.dart';
@@ -27,6 +28,7 @@ class EventController extends GetxController with StateMixin {
 
   @override
   void onInit() {
+    getLocation();
     fetchData();
     super.onInit();
   }
@@ -320,4 +322,42 @@ class EventController extends GetxController with StateMixin {
 
   //save shared Preference
   Future<void> saveEvent(EventModel eventModel) async {}
+
+  //total liked
+
+  Future<void> addLikeToScheduleDocument(String documentId) async {
+    // Mendapatkan referensi dokumen jadwal kegiatan
+    DocumentReference scheduleDocRef = FirebaseFirestore.instance
+        .collection('events')
+        .doc('events')
+        .collection('eventList')
+        .doc(documentId);
+
+    // Mendapatkan data dokumen jadwal kegiatan
+    DocumentSnapshot scheduleSnapshot = await scheduleDocRef.get();
+    if (scheduleSnapshot.exists) {
+      // Mendapatkan nilai totalLikes dari dokumen
+      int totalLikes = scheduleSnapshot.get('totalLiked') ?? 0;
+
+      // Menambahkan 1 ke totalLikes
+      totalLikes += 1;
+
+      await scheduleDocRef.update({'totalLiked': totalLikes});
+
+      String? userUid = await SharedPreferenceHelper.getUserUid();
+
+      DocumentReference userDoc =
+          FirebaseFirestore.instance.collection('users').doc(userUid);
+      print('Total likes updated to: $totalLikes');
+
+      await userDoc.update({
+        'likedEvents': FieldValue.arrayRemove([documentId]),
+      });
+      // await userDoc.update({
+      //   'likedEvents': FieldValue.arrayUnion([documentId])
+      // });
+    } else {
+      print('Document not found');
+    }
+  }
 }

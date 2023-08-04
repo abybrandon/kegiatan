@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -23,8 +24,31 @@ class ListEventView extends GetView<EventController> {
     return Scaffold(
         backgroundColor: generalBgWeak,
         appBar: AppBar(
-          title: Text('Event List'),
-          backgroundColor: bgRed,
+          title: Text(
+            'Event List',
+            style: TextStyle(color: bgRed),
+          ),
+          backgroundColor: bgWhite,
+          elevation: 0,
+          leading: Padding(
+            padding: EdgeInsets.symmetric(
+              vertical: 12.h,
+              horizontal: 16.w,
+            ),
+            child: IconButton(
+              onPressed: () {
+                Get.back();
+              },
+              padding: EdgeInsets.zero,
+              constraints: const BoxConstraints(),
+              splashRadius: 15.r,
+              icon: Icon(
+                Remix.arrow_left_line,
+                size: 20.sp,
+                color: bgRed,
+              ),
+            ),
+          ),
         ),
         body: Column(
           children: [
@@ -93,6 +117,9 @@ class ListEventItem extends GetView<EventController> {
               itemBuilder: (context, index) {
                 final event = controller.filteredEventList[index];
                 return InkWell(
+                  onDoubleTap: () {
+                    controller.addLikeToScheduleDocument(event.id);
+                  },
                   onTap: () {
                     Get.toNamed(Routes.EVENT_DETAIL,
                         parameters: {'id': event.id});
@@ -102,15 +129,11 @@ class ListEventItem extends GetView<EventController> {
                       Card(
                         child: Column(
                           children: [
-                            Container(
+                            CachedNetworkImage(
+                              imageUrl: event.eventPict[0],
                               height: 170,
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                      fit: BoxFit.cover,
-                                      image: NetworkImage(
-                                        event.eventPict[0],
-                                      ))),
+                              fit: BoxFit.cover,
+                              filterQuality: FilterQuality.low,
                             ),
                             4.h.heightBox,
                             Padding(

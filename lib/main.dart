@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_map_tile_caching/flutter_map_tile_caching.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:newtest/module/notification/pages/home_page.dart';
@@ -17,6 +18,8 @@ bool _preLoginStatus = false;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await FlutterMapTileCaching.initialise();
+  await FMTC.instance('mapStore').manage.createAsync();
   await Firebase.initializeApp();
   Get.put(ControllerUniversal());
   NotificationService().initNotification();
@@ -60,7 +63,7 @@ class _MyAppState extends State<MyApp> {
         designSize: const Size(360, 800),
         builder: (_, __) => GetMaterialApp(
             theme: Config.getTheme(),
-            defaultTransition: Transition.rightToLeft,
+            defaultTransition: Transition.cupertinoDialog,
             scaffoldMessengerKey: rootScaffoldMessengerKey,
             debugShowCheckedModeBanner: false,
             getPages: AppPages.routes,

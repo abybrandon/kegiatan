@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:newtest/theme.dart';
 import 'package:newtest/widget/sizedbox_extension.dart';
 import 'package:remixicon/remixicon.dart';
-
+import 'package:cached_network_image/cached_network_image.dart';
 import '../../../routes/app_pages.dart';
 import '../../event/model/event_detail_model.dart';
 import '../controller/favorite_controller.dart';
@@ -37,7 +37,6 @@ class _BodyFavoritState extends State<_BodyFavorit> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text('try'),
         FutureBuilder<List<EventDetailModel>>(
           future: controller.getSavedEventList(),
           builder: (context, snapshot) {
@@ -61,23 +60,23 @@ class _BodyFavoritState extends State<_BodyFavorit> {
                     final event = savedEventList2[index];
                     return InkWell(
                       onTap: () {
-                        Get.toNamed(Routes.EVENT_DETAIL,
+                        Get.toNamed(Routes.FAVORITE_Detail,
                             parameters: {'id': event.id});
+                        //       final tryList = savedEventList2
+                        //     .firstWhere((element) => element.id == event.id);
+                        // print(tryList.eventName);
                       },
                       child: Stack(
                         children: [
                           Card(
                             child: Column(
                               children: [
-                                Container(
+                                CachedNetworkImage(
                                   height: 170,
-                                  width: double.infinity,
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                      fit: BoxFit.cover,
-                                      image: NetworkImage(event.eventPict[0]),
-                                    ),
-                                  ),
+                                  imageUrl: event.eventPict[0],
+                                  fit: BoxFit.contain,
+                                  errorWidget: (context, url, error) =>
+                                      Icon(Icons.error),
                                 ),
                                 4.h.heightBox,
                                 Padding(

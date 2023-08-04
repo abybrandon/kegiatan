@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_map_tile_caching/flutter_map_tile_caching.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:map_launcher/map_launcher.dart';
@@ -115,7 +116,6 @@ class DetailEventController extends GetxController with StateMixin {
     change(null, status: RxStatus.loading());
     getSavedEventList();
     fetchEventDetailById(Get.parameters["id"]!);
-
     super.onInit();
   }
 
@@ -226,4 +226,8 @@ class DetailEventController extends GetxController with StateMixin {
     print(savedEventList2.map((element) => element.id));
     return savedEventList;
   }
+
+  //tabbar
+
+  RxInt selectedButton = 0.obs;
 }

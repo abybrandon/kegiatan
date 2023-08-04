@@ -38,7 +38,7 @@ class FavoriteController extends GetxController with StateMixin {
     List<EventDetailModel> savedEventList = savedEventListMap
         .map((jsonMap) => EventDetailModel.fromJsonPref(jsonMap))
         .toList();
-    print(savedEventList2.map((element) => element.eventName));
+
     savedEventList2.value = savedEventList;
     return savedEventList;
   }

@@ -11,6 +11,7 @@ import '../admin/module/home_admin/view/create_artist_admin_view.dart';
 import '../admin/module/home_admin/view/menu_admin.dart';
 import '../module/event/view/event_detail_view.dart';
 import '../module/event/view/llist_event_view.dart';
+import '../module/favorite/view/favorite_detail.dart';
 import '../module/favorite/view/favorite_view.dart';
 import '../module/home/bindings/home_binding.dart';
 import '../module/home/home_screen.dart';
@@ -67,6 +68,12 @@ class AppPages {
     GetPage(
         name: Routes.FAVORITE,
         page: () => FavoriteView(),
+        binding: FavoriteBinding()),
+
+    //favorite detail
+    GetPage(
+        name: Routes.FAVORITE_Detail,
+        page: () => FavoriteDetail(),
         binding: FavoriteBinding()),
 
     //navigation home

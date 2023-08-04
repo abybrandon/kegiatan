@@ -15,6 +15,7 @@ abstract class Routes {
 
   //favorite
   static const FAVORITE = '/favorite';
+  static const FAVORITE_Detail = '/favorite/detail';
 
   //admin
 
