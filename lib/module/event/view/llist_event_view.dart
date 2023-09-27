@@ -1,5 +1,4 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -7,14 +6,11 @@ import 'package:newtest/module/event/controller/event_controller.dart';
 import 'package:newtest/module/event/widget/filter_date.dart';
 import 'package:newtest/routes/app_pages.dart';
 import 'package:newtest/theme.dart';
-import 'package:newtest/widget/loader.dart';
 import 'package:newtest/widget/sizedbox_extension.dart';
 import 'package:remixicon/remixicon.dart';
 import 'package:shimmer/shimmer.dart';
 
-import '../../../widget/empty_state.dart';
 import '../widget/filter_city_widget.dart';
-import 'event_detail_view.dart';
 
 class ListEventView extends GetView<EventController> {
   ListEventView({super.key});
@@ -118,7 +114,15 @@ class ListEventItem extends GetView<EventController> {
                 final event = controller.filteredEventList[index];
                 return InkWell(
                   onDoubleTap: () {
-                    controller.addLikeToScheduleDocument(event.id);
+                    bool alreadyLiked =
+                        controller.likedEventList.contains(event.id);
+                    if (alreadyLiked) {
+                      controller.likedEventList.remove(event.id);
+                      controller.dislikeEvent(event.id);
+                    } else if (!alreadyLiked) {
+                      controller.likedEventList.add(event.id);
+                      controller.likeEvent(event.id);
+                    }
                   },
                   onTap: () {
                     Get.toNamed(Routes.EVENT_DETAIL,
@@ -162,12 +166,26 @@ class ListEventItem extends GetView<EventController> {
                         child: Align(
                             alignment: Alignment.topRight,
                             child: InkWell(
-                              onTap: () {},
-                              child: Icon(
-                                Remix.heart_fill,
-                                color: generalGrey,
-                              ),
-                            )),
+                                onTap: () {
+                                  bool alreadyLiked = controller.likedEventList
+                                      .contains(event.id);
+                                  if (alreadyLiked) {
+                                    controller.likedEventList.remove(event.id);
+                                    controller.dislikeEvent(event.id);
+                                  } else if (!alreadyLiked) {
+                                    controller.likedEventList.add(event.id);
+                                    controller.likeEvent(event.id);
+                                  }
+                                },
+                                child: Obx(
+                                  () => Icon(
+                                    Remix.heart_fill,
+                                    color: controller.likedEventList
+                                            .contains(event.id)
+                                        ? bgRed
+                                        : generalGrey,
+                                  ),
+                                ))),
                       )
                     ],
                   ),

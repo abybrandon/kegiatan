@@ -28,6 +28,7 @@ class EventController extends GetxController with StateMixin {
 
   @override
   void onInit() {
+    fetchLikedEventsFromFirestore();
     getLocation();
     fetchData();
     super.onInit();
@@ -320,44 +321,69 @@ class EventController extends GetxController with StateMixin {
     return '$formattedDate $formattedTime';
   }
 
-  //save shared Preference
-  Future<void> saveEvent(EventModel eventModel) async {}
-
   //total liked
 
-  Future<void> addLikeToScheduleDocument(String documentId) async {
-    // Mendapatkan referensi dokumen jadwal kegiatan
+  final RxList<String> likedEventList = <String>[].obs;
+
+  Future<void> fetchLikedEventsFromFirestore() async {
+    try {
+      // Ambil data dari Firestore
+
+      String? userUid = await SharedPreferenceHelper.getUserUid();
+      DocumentSnapshot snapshot = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userUid)
+          .get();
+
+      // Ambil array likedEvent dari data snapshot
+
+      List<dynamic> likedEventArray = snapshot['likedEvents'];
+
+      // Konversi dan masukkan ke dalam RxList
+      likedEventList.assignAll(likedEventArray.cast<String>());
+    } catch (e) {
+      print('Error fetching liked events: $e');
+    }
+  }
+
+  Future<void> dislikeEvent(String documentId) async {
+    DocumentReference scheduleDocRef = FirebaseFirestore.instance
+        .collection('events')
+        .doc('events')
+        .collection('eventList')
+        .doc(documentId);
+    String? userUid = await SharedPreferenceHelper.getUserUid();
+
+    DocumentReference userDoc =
+        FirebaseFirestore.instance.collection('users').doc(userUid);
+
+    await userDoc.update({
+      'likedEvents': FieldValue.arrayRemove([documentId]),
+    });
+
+    await scheduleDocRef.update({
+      'totalLiked': FieldValue.increment(-1),
+    });
+  }
+
+  Future<void> likeEvent(String documentId) async {
     DocumentReference scheduleDocRef = FirebaseFirestore.instance
         .collection('events')
         .doc('events')
         .collection('eventList')
         .doc(documentId);
 
-    // Mendapatkan data dokumen jadwal kegiatan
-    DocumentSnapshot scheduleSnapshot = await scheduleDocRef.get();
-    if (scheduleSnapshot.exists) {
-      // Mendapatkan nilai totalLikes dari dokumen
-      int totalLikes = scheduleSnapshot.get('totalLiked') ?? 0;
+    String? userUid = await SharedPreferenceHelper.getUserUid();
 
-      // Menambahkan 1 ke totalLikes
-      totalLikes += 1;
+    DocumentReference userDoc =
+        FirebaseFirestore.instance.collection('users').doc(userUid);
 
-      await scheduleDocRef.update({'totalLiked': totalLikes});
+    await userDoc.update({
+      'likedEvents': FieldValue.arrayUnion([documentId]),
+    });
 
-      String? userUid = await SharedPreferenceHelper.getUserUid();
-
-      DocumentReference userDoc =
-          FirebaseFirestore.instance.collection('users').doc(userUid);
-      print('Total likes updated to: $totalLikes');
-
-      await userDoc.update({
-        'likedEvents': FieldValue.arrayRemove([documentId]),
-      });
-      // await userDoc.update({
-      //   'likedEvents': FieldValue.arrayUnion([documentId])
-      // });
-    } else {
-      print('Document not found');
-    }
+    await scheduleDocRef.update({
+      'totalLiked': FieldValue.increment(1),
+    });
   }
 }
