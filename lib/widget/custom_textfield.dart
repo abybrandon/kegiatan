@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../theme.dart';
@@ -15,12 +16,17 @@ class CustomTextField extends StatelessWidget {
   final EdgeInsets? padding;
   final bool autoFocus;
   final IconData? icon;
+  final bool? isObscure;
+  final VoidCallback? iconFunction;
+  final double? maxWidth;
+  final bool digitOnly;
 
   const CustomTextField(
       {super.key,
       this.controller,
       required this.errorText,
       this.isError = false,
+      this.isObscure = false,
       this.onSubmitted,
       this.borderStyle,
       this.style,
@@ -28,6 +34,9 @@ class CustomTextField extends StatelessWidget {
       this.hintStyle,
       this.padding,
       this.autoFocus = false,
+      this.iconFunction,
+      this.maxWidth,
+      this.digitOnly = false,
       this.icon});
 
   @override
@@ -52,7 +61,10 @@ class CustomTextField extends StatelessWidget {
       children: [
         SizedBox(
           height: 43.h,
+          width:  maxWidth,
           child: TextField(
+            inputFormatters:  digitOnly? <TextInputFormatter>[
+          FilteringTextInputFormatter.digitsOnly         ] :null,
             controller: controller,
             style: TextStyle(
               fontSize: 16.sp,
@@ -60,10 +72,14 @@ class CustomTextField extends StatelessWidget {
               fontWeight: Config.medium,
             ).merge(style),
             decoration: InputDecoration(
-              suffixIcon: Icon(
-                icon,
-                size: 24.sp,
-              ),
+              suffixIcon: icon != null ? 
+              InkWell(
+                onTap: iconFunction ,
+                child: Icon(
+                  icon,
+                  size: 24.sp,
+                ),
+              ) : null,
               border: borderStyle ??
                   OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8.r),
@@ -86,6 +102,7 @@ class CustomTextField extends StatelessWidget {
             ),
             autofocus: autoFocus,
             onSubmitted: onSubmitted,
+            obscureText: isObscure ?? false,
           ),
         ),
         isError

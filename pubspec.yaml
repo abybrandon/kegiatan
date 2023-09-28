@@ -56,6 +56,8 @@ dependencies:
   connectivity_plus: ^4.0.1
   cached_network_image: ^3.2.3
   flutter_map_tile_caching: ^8.0.0
+  infinite_scroll_pagination: ^3.2.0
+  
 
 
 

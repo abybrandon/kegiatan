@@ -88,11 +88,19 @@ class _FormLogin extends GetView<LoginController> {
             SizedBox(
               height: 8.h,
             ),
-            CustomTextField(
-              errorText: 'errorText',
-              hintText: 'Masukan Password',
-              icon: FeatherIcons.eyeOff,
-              controller: controller.controllerPassword,
+            Obx(
+              () => CustomTextField(
+                errorText: 'errorText',
+                hintText: 'Masukan Password',
+                icon: controller.isObscure.value
+                    ? FeatherIcons.eye
+                    : FeatherIcons.eyeOff,
+                controller: controller.controllerPassword,
+                isObscure: controller.isObscure.value,
+                iconFunction: () {
+                  controller.isObscure.value = !controller.isObscure.value;
+                },
+              ),
             ),
             SizedBox(
               height: 40.h,

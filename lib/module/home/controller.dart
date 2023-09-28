@@ -172,4 +172,74 @@ class JadwalKegiatanController extends GetxController {
   //     print(error);
   //   }
   // }
+
+  RxList<File> selectedImages = RxList<File>([]);
+
+  Future<void> pickImages() async {
+    final picker = ImagePicker();
+    final pickedImages = await picker.pickMultiImage(imageQuality: 80);
+
+    if (pickedImages != null) {
+      selectedImages.value =
+          pickedImages.map((pickedImage) => File(pickedImage.path)).toList();
+    }
+  }
+
+  Future<List<String>> uploadImages() async {
+    List<String> downloadURLs = [];
+
+    for (int i = 0; i < selectedImages.length; i++) {
+      final image = selectedImages[i];
+      final fileName =
+          DateTime.now().millisecondsSinceEpoch.toString() + '_$i.jpg';
+      final destination = 'event_images/$fileName';
+
+      try {
+        // Upload image to Firebase Storage
+        final storageRef =
+            firebase_storage.FirebaseStorage.instance.ref().child(destination);
+        await storageRef.putFile(image);
+
+        // Get download URL of uploaded image
+        final downloadURL = await storageRef.getDownloadURL();
+        downloadURLs.add(downloadURL);
+      } catch (e) {
+        Get.snackbar('Error', 'Failed to upload image $i');
+        return [];
+      }
+    }
+
+    return downloadURLs;
+  }
+
+  Future<void> saveEvent(
+      List<String> downloadURLs, String tryValue, String try2Value,
+      {DateTime? date}) async {
+    try {
+      // Save download URLs to Firestore
+      if (tryValue.isNotEmpty && try2Value.isNotEmpty) {
+        final newDoc = eventCollection.doc();
+
+        final createdDate = date != null ? Timestamp.fromDate(date) : null;
+        final newJadwalKegiatan = JadwalKegiatan(
+            tryValue1: tryValue,
+            tryValue2: try2Value,
+            id: newDoc.id,
+            createdDate: createdDate as Timestamp);
+        await newDoc
+            .set(newJadwalKegiatan.toJson())
+            .then((value) => print('data berhasil upload'));
+        // Refresh the list after creating the new JadwalKegiatan
+        final eventRef = FirebaseFirestore.instance.collection('event').doc();
+        await eventRef.set({
+          'foto_event': downloadURLs,
+        });
+        await fetchData();
+      }
+
+      Toast.showSuccessToastWithoutContext('SuksesUpload');
+    } catch (e) {
+      Get.snackbar('Error', 'Failed to create event');
+    }
+  }
 }

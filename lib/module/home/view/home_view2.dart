@@ -67,104 +67,65 @@ class _FormHome extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              InkWell(
-                onTap: () {
+               _HomeButton(imagePath:    'assets/img/gate.png', tittle:  'Event', fuction: () {
+                
                   Get.toNamed(Routes.EVENT_LIST);
-                },
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: Card(
-                    elevation: 2,
-                    child: Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(300)),
-                      padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-                      height: 115,
-                      width: 70,
-                      child: Column(
-                        children: [
-                          Image.asset(
-                            'assets/img/gate.png',
-                            height: 72,
-                            width: 72,
-                            fit: BoxFit.contain,
-                          ),
-                          Text(
-                            'Event',
-                            style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500,
-                                color: generalBody),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: Card(
-                  elevation: 2,
-                  child: Container(
-                    decoration:
-                        BoxDecoration(borderRadius: BorderRadius.circular(300)),
-                    padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-                    height: 115,
-                    width: 70,
-                    child: Column(
-                      children: [
-                        Image.asset(
-                          'assets/img/costume.png',
-                          height: 72,
-                          width: 72,
-                          fit: BoxFit.contain,
-                        ),
-                        Text(
-                          'Cosplay',
-                          style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                              color: generalBody),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: Card(
-                  elevation: 2,
-                  child: Container(
-                    decoration:
-                        BoxDecoration(borderRadius: BorderRadius.circular(300)),
-                    padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-                    height: 115,
-                    width: 70,
-                    child: Column(
-                      children: [
-                        Image.asset(
-                          'assets/img/comunt.png',
-                          height: 72,
-                          width: 72,
-                          fit: BoxFit.contain,
-                        ),
-                        Text(
-                          'Commun',
-                          style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500,
-                              color: generalBody),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ],
+               }),
+                 _HomeButton(imagePath:  'assets/img/costume.png', tittle:  'Cosplay', fuction: () {
+                  Get.toNamed(Routes.COSTUME_RENT);
+                
+              },),
+                _HomeButton(imagePath: 'assets/img/comunt.png', tittle:  'Commun', fuction: () {
+                
+              },)
+                     ],
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _HomeButton extends StatelessWidget {
+  const _HomeButton({super.key, required this.imagePath, required this.tittle, required this.fuction});
+  final String imagePath;
+  final String tittle;
+  final VoidCallback fuction;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: fuction,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(20),
+        child: Card(
+          elevation: 2,
+          child: Container(
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(300)),
+            padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+            height: 115,
+            width: 70,
+            child: Column(
+              children: [
+                Image.asset(
+                 imagePath,
+                  height: 72,
+                  width: 72,
+                  fit: BoxFit.contain,
+                ),
+                Expanded(
+                  child: Text(
+                   tittle,
+                    style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                        color: generalBody),
+                  ),
+                )
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }

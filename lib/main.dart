@@ -23,7 +23,7 @@ void main() async {
   await Firebase.initializeApp();
   Get.put(ControllerUniversal());
   NotificationService().initNotification();
-
+  
   String? dataUser = await SharedPreferenceHelper.getUserUid();
   int? statusPrelogin = await SharedPreferenceHelper.getDataPrelogin();
   if (dataUser != null) {

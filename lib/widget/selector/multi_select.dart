@@ -2,24 +2,28 @@ import 'package:feather_icons/feather_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:newtest/widget/sizedbox_extension.dart';
+import 'package:remixicon/remixicon.dart';
 
 import '../../../../theme.dart';
 import '../../../../widget/multi_select/multi_select.dart';
 
-class LocationEventSelector<T extends Object> extends StatefulWidget {
+class MultiSelectorWidget<T extends Object> extends StatefulWidget {
   final String label;
   final List<SelectItem<T>> items;
   final List<T> selected = [];
   final Function(List<T> selectedItems)? onSelect;
-  final Widget tittle;
+  final Widget bodyWidget;
+  // final Future<void>? functionReset;
 
-  LocationEventSelector({
+  MultiSelectorWidget({
     super.key,
     required this.label,
     required this.items,
-    required this.tittle,
+    required this.bodyWidget,
     List<T>? selectedItems,
     this.onSelect,
+    // this.functionReset,
   }) {
     if (selectedItems != null) {
       selected.addAll(selectedItems);
@@ -27,12 +31,11 @@ class LocationEventSelector<T extends Object> extends StatefulWidget {
   }
 
   @override
-  State<LocationEventSelector<T>> createState() =>
-      _LocationEventSelectorState<T>();
+  State<MultiSelectorWidget<T>> createState() => _MultiSelectorWidgetState<T>();
 }
 
-class _LocationEventSelectorState<T extends Object>
-    extends State<LocationEventSelector<T>> {
+class _MultiSelectorWidgetState<T extends Object>
+    extends State<MultiSelectorWidget<T>> {
   late RxList<T> checkedItems;
   @override
   void initState() {
@@ -62,19 +65,29 @@ class _LocationEventSelectorState<T extends Object>
                     color: headerWeak,
                   ),
                 ),
-                InkWell(
-                  onTap: () {
-                    checkedItems.value = [];
-                    setState(() {});
-                  },
-                  child: Text(
-                    'Reset',
-                    style: TextStyle(
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.w500,
-                      color: headerWeak,
+                Row(
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        checkedItems.value = [];
+                        setState(() {});
+                      },
+                      child: Text(
+                        'Reset',
+                        style: TextStyle(
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w500,
+                          color: headerWeak,
+                        ),
+                      ),
                     ),
-                  ),
+                    5.w.widthBox,
+                    InkWell(
+                        onTap:  () async{
+                          // widget.functionReset;
+                        },
+                        child: Icon(Remix.refresh_line, size: 18.sp,)),
+                  ],
                 ),
               ],
             ),
@@ -108,7 +121,7 @@ class _LocationEventSelectorState<T extends Object>
             ),
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: bgRed, 
+                backgroundColor: bgRed,
               ),
               onPressed: () {
                 Get.back();
@@ -136,15 +149,14 @@ class _LocationEventSelectorState<T extends Object>
     return Column(
       children: [
         InkWell(
-          onTap: () {
-            showModalBottomSheet(
-              context: context,
-              isScrollControlled: true,
-              builder: _buildBottomSheet,
-            );
-          },
-          child: widget.tittle
-        ),
+            onTap: () {
+              showModalBottomSheet(
+                context: context,
+                isScrollControlled: true,
+                builder: _buildBottomSheet,
+              );
+            },
+            child: widget.bodyWidget),
       ],
     );
   }

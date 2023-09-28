@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:newtest/widget/toast.dart';
 
-import '../../../../widget/toast.dart';
 
 class CreateArtistAdminController extends GetxController with StateMixin {
   final CollectionReference artistCollection = FirebaseFirestore.instance

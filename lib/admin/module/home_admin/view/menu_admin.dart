@@ -41,6 +41,13 @@ class MenuAdmin extends StatelessWidget {
                 title: 'Create Location',
                 icon: Remix.user_location_line,
                 function: () {}),
+                   10.h.heightBox,
+            CustomCard(
+                title: 'Post Costume Rent',
+                icon: Remix.wechat_pay_line,
+                function: () {
+                  Get.toNamed(Routes.CREATE_COSTUME_RENT);
+                }),
           ],
         ),
       ),
@@ -78,7 +85,7 @@ class CustomCard extends StatelessWidget {
           trailing: Icon(
             Icons.arrow_forward,
             size: 24.sp,
-            color: Colors.black,
+            color: bgRed,
           ),
         ),
       ),

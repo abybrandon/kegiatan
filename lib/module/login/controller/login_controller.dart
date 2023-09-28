@@ -12,6 +12,8 @@ class LoginController extends GetxController with StateMixin {
   TextEditingController controllerEmail = TextEditingController();
   TextEditingController controllerPassword = TextEditingController();
 
+  //obsucre text
+  RxBool isObscure = true.obs;
   FirebaseAuth _auth = FirebaseAuth.instance;
   GoogleSignIn _googleSignIn = GoogleSignIn();
 

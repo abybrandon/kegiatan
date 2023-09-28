@@ -38,57 +38,46 @@ class Create_Screen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(children: [
-            30.heightBox,
-            PhotoListWidget(),
-            Obx(
-              () => controller.image.value != null
-                  ? PhotoListWidget()
-                  : InkWell(
-                      onTap: () {
-                        controller.getImageGalery();
-                      },
-                      child: Placeholder()),
-            ),
-            40.heightBox,
-            CustomTextField(
-              errorText: 'tryvalue',
-              hintText: 'Kota',
-              controller: controller.controller,
-            ),
-            10.heightBox,
-            CustomTextField(
-              hintText: 'tryvalue2',
-              errorText: 'Provinsi',
-              controller: controller.controller1,
-            ),
-            ElevatedButton(
-                onPressed: () {
-                  controller.getDate(context);
-                  print(controller.selectedDate.value);
-                },
-                child: Text('Pilih tanggal')),
-            6.heightBox,
-            ElevatedButton(
-                onPressed: () {
-                  // controller.createJadwalKegiatan(
-                  //   controller.controller.text,
-                  //   controller.controller1.text,
-                  //   controller.selectedDate.value,
-                  // );
-                  controller.createJadwalKegiatanwithfoto(
-                      controller.controller.text,
-                      controller.controller1.text,
-                      controller.selectedDate.value,
-                      controller.photoList);
-                  print(controller.selectedDate);
-                },
-                child: Text('Upload'))
-          ]),
-        ),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(children: [
+          ElevatedButton(
+              onPressed: () {
+                controller.getDate(context);
+                print(controller.selectedDate.value);
+              },
+              child: Text('Pilih tanggal')),
+          30.heightBox,
+          ElevatedButton(
+            onPressed: controller.pickImages,
+            child: Text('Pick Images'),
+          ),
+          30.heightBox,
+          CustomTextField(
+            errorText: 'tryvalue',
+            hintText: 'Kota',
+            controller: controller.controller,
+          ),
+          10.heightBox,
+          CustomTextField(
+            hintText: 'tryvalue2',
+            errorText: 'Provinsi',
+            controller: controller.controller1,
+          ),
+          ElevatedButton(
+              onPressed: () async {
+                // controller.createLocation(
+                //   controller.controller.text,
+                //   controller.controller1.text,
+                // );
+                // print(controller.selectedDate);
+                List<String> downloadURLs = await controller.uploadImages();
+                if (downloadURLs.isNotEmpty) {
+                  await controller.saveEvent(downloadURLs, controller.controller.text,controller.controller1.text);
+                }
+              },
+              child: Text('press'))
+        ]),
       ),
     );
   }

@@ -22,4 +22,11 @@ abstract class Routes {
   static const MENU_ADMIN = '/admin/menu';
   static const CREATE_ARTIST_ADMIN = '/admin/artist';
   static const CREATE_EVENT_ADMIN = '/admin/create-admin';
+  static const CREATE_COSTUME_RENT = '/admin/create-costume';
+
+
+  //costume
+  //costume rent
+  static const COSTUME_RENT = '/costume/rent';
+
 }

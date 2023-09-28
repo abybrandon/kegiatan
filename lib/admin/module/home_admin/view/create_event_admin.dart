@@ -78,7 +78,7 @@ class _FormUpload extends GetView<CreateEventAdminController> {
                 style: TextStyle(
                     fontSize: 14.sp,
                     overflow: TextOverflow.clip,
-                    color: bgWhite,
+                    color: bgRed,
                     fontWeight: FontWeight.w400),
               ),
             ),

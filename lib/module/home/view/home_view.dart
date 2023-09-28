@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:newtest/module/home/trynotification.dart';
+import 'package:newtest/module/home/view/trynavigationbar.dart';
 import 'package:newtest/theme.dart';
 import 'package:newtest/widget/empty_state.dart';
 import 'package:newtest/widget/sizedbox_extension.dart';
@@ -77,11 +78,13 @@ class HomeView extends StatelessWidget {
                   onTap: () async {
                     // await controller.tryQuery(
                     //     sortingAtoZ: controller.isSorting.value);
-                    Get.bottomSheet(
-                      _BulkActionBottomSheet(),
-                      isScrollControlled: true,
-                      backgroundColor: Colors.white,
-                    );
+                    // Get.bottomSheet(
+                    //   _BulkActionBottomSheet(),
+                    //   isScrollControlled: true,
+                    //   backgroundColor: Colors.white,
+                    // );
+                    Get.to(HomePage());
+
                   },
                   child: Container(
                     height: 20,
@@ -159,7 +162,7 @@ class HomeView extends StatelessWidget {
                     color: generalLabel,
                     fontWeight: FontWeight.w400),
               ),
-              label: 'System Role',
+              label: 'Daftar Kota',
               items: controller.roleOption,
               onSelect: (selectedItems) {
                 print(selectedItems);

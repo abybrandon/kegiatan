@@ -195,6 +195,7 @@ class CreateEventAdminController extends GetxController with StateMixin {
 
   final RxList<LocationEventModel> allLocationEvent =
       <LocationEventModel>[].obs;
+
   final RxList<LocationEventModel> selectedLocation =
       <LocationEventModel>[].obs;
   RxString selectedNameLocaiton = ''.obs;
@@ -216,6 +217,7 @@ class CreateEventAdminController extends GetxController with StateMixin {
               LocationEventModel.fromJson(doc.data() as Map<String, dynamic>))
           .toList();
       allLocationEvent.value = fethedLocation;
+      
     } catch (error) {
       print(error.toString());
     }

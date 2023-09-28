@@ -15,6 +15,7 @@ class HomeController extends GetxController {
   final CollectionReference eventCollection =
       FirebaseFirestore.instance.collection('event');
 
+
   final CollectionReference locationColection =
       FirebaseFirestore.instance.collection('location');
   final TextEditingController controller = TextEditingController();
@@ -39,9 +40,9 @@ class HomeController extends GetxController {
 
   @override
   void onInit() {
-    getLocation();
-    fetchData();
     super.onInit();
+    fetchData();
+    getLocation();
   }
 
   final RxList<LocationModel> allCity = <LocationModel>[].obs;
@@ -52,7 +53,7 @@ class HomeController extends GetxController {
     return allCity.map(
       (city) {
         return SelectItem(
-          label: city.province,
+          label: city.city,
           value: city.id,
         );
       },
@@ -67,6 +68,7 @@ class HomeController extends GetxController {
               LocationModel.fromJson(doc.data() as Map<String, dynamic>))
           .toList();
       allCity.value = fethedLocation;
+      print('sukses');
     } catch (error) {
       print(error.toString());
     }
