@@ -55,7 +55,9 @@ class _AppBar extends StatelessWidget implements PreferredSizeWidget {
 }
 
 class _FormHome extends StatelessWidget {
-  const _FormHome({super.key});
+  _FormHome({super.key});
+
+  RxBool isOn = false.obs;
 
   @override
   Widget build(BuildContext context) {
@@ -67,19 +69,34 @@ class _FormHome extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-               _HomeButton(imagePath:    'assets/img/gate.png', tittle:  'Event', fuction: () {
-                
-                  Get.toNamed(Routes.EVENT_LIST);
-               }),
-                 _HomeButton(imagePath:  'assets/img/costume.png', tittle:  'Cosplay', fuction: () {
+              _HomeButton(
+                  imagePath: 'assets/img/gate.png',
+                  tittle: 'Event',
+                  fuction: () {
+                    Get.toNamed(Routes.EVENT_LIST);
+                  }),
+              _HomeButton(
+                imagePath: 'assets/img/costume.png',
+                tittle: 'Cosplay',
+                fuction: () {
                   Get.toNamed(Routes.COSTUME_RENT);
-                
-              },),
-                _HomeButton(imagePath: 'assets/img/comunt.png', tittle:  'Commun', fuction: () {
-                
-              },)
-                     ],
+                },
+              ),
+              _HomeButton(
+                imagePath: 'assets/img/comunt.png',
+                tittle: 'Commun',
+                fuction: () {},
+              )
+            ],
           ),
+          Obx(() => InkWell(
+              onTap: () {
+                isOn.value = !isOn.value;
+              },
+              child: Icon(
+                Remix.heart_2_fill,
+                color: isOn.value ? bgRed : bgGrey,
+              )))
         ],
       ),
     );
@@ -87,7 +104,11 @@ class _FormHome extends StatelessWidget {
 }
 
 class _HomeButton extends StatelessWidget {
-  const _HomeButton({super.key, required this.imagePath, required this.tittle, required this.fuction});
+  const _HomeButton(
+      {super.key,
+      required this.imagePath,
+      required this.tittle,
+      required this.fuction});
   final String imagePath;
   final String tittle;
   final VoidCallback fuction;
@@ -108,14 +129,14 @@ class _HomeButton extends StatelessWidget {
             child: Column(
               children: [
                 Image.asset(
-                 imagePath,
+                  imagePath,
                   height: 72,
                   width: 72,
                   fit: BoxFit.contain,
                 ),
                 Expanded(
                   child: Text(
-                   tittle,
+                    tittle,
                     style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w500,

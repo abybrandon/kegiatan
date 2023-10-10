@@ -8,17 +8,18 @@ import '../model/costume_rent_model.dart';
 
 class CostumeRentController extends GetxController with StateMixin {
   final CollectionReference cosRentCollection = FirebaseFirestore.instance
-      .collection('events')
-      .doc('costume')
-      .collection('costume_list');
+      .collection('costume')
+      .doc('costume_rent')
+      .collection('list_costume');
 
   @override
   void onInit() {
-    // fetchData();
-    // _pagingController.addPageRequestListener((pageKey) {
-    //   fetchPage(pageKey);
-    // });
-    fetchData();
+    allAsetsListPagingController.addPageRequestListener(
+      (pageKey) {
+        fetchData(pageKey, 5);
+      },
+    );
+
     super.onInit();
   }
 
@@ -28,14 +29,22 @@ class CostumeRentController extends GetxController with StateMixin {
     super.onClose();
   }
 
+  final PagingController<int, CostumeRentPagination> allAsetsListPagingController =
+      PagingController(firstPageKey: 1);
+
+  bool get isFetchedAll => allAsetsListPagingController.nextPageKey == null;
+
   RxBool tryBool = false.obs;
   //list costume
-  RxList<CostumeRentModel> costumeList = <CostumeRentModel>[].obs;
-  RxList<CostumeRentModel> filteredCostumeList =
-      <CostumeRentModel>[].obs;
+  RxList<CostumeRentPagination> costumeList = <CostumeRentPagination>[].obs;
+  RxList<CostumeRentPagination> filteredCostumeList =
+      <CostumeRentPagination>[].obs;
 
   //fetch data
-  Future<void> fetchData() async {
+  Future<void> fetchData(
+    int page,
+    int? limit,
+  ) async {
     change(null, status: RxStatus.loading());
     var connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.none) {
@@ -45,11 +54,20 @@ class CostumeRentController extends GetxController with StateMixin {
       print('jalan');
     } else {
       try {
-        final QuerySnapshot snapshot = await cosRentCollection.get();
-        final List<CostumeRentModel> fetchedList = snapshot.docs
-            .map((doc) =>
-                CostumeRentModel.fromJson(doc.data() as Map<String, dynamic>))
+        final QuerySnapshot snapshot = await cosRentCollection.startAfter([allAsetsListPagingController.itemList != null ? allAsetsListPagingController.itemList!.length : null]).limit(limit!).get();
+        final List<CostumeRentPagination> fetchedList = snapshot.docs
+            .map((doc) => CostumeRentPagination.fromJson(
+                doc.data() as Map<String, dynamic>))
             .toList();
+
+        final isLastPage = limit == null ? true : fetchedList.length < limit;
+      
+        if (isLastPage) {
+          allAsetsListPagingController.appendLastPage(fetchedList);
+        } else {
+          allAsetsListPagingController.appendPage(fetchedList, page + 1);
+        }
+
         costumeList.value = fetchedList;
         filteredCostumeList.assignAll(costumeList);
       } catch (error) {
@@ -59,6 +77,8 @@ class CostumeRentController extends GetxController with StateMixin {
     }
     change(null, status: RxStatus.success());
   }
+
+   
 
   // try pagination
   // final CollectionReference tryPaginationCollection = FirebaseFirestore.instance
@@ -70,7 +90,7 @@ class CostumeRentController extends GetxController with StateMixin {
   //     PagingController(firstPageKey: 1);
 
   // Future<void> fetchPage(int pageKey) async {
-    
+
   //   change(null, status: RxStatus.loading());
   //   try {
   //     final QuerySnapshot<Map<String, dynamic>> querySnapshot =
@@ -97,7 +117,7 @@ class CostumeRentController extends GetxController with StateMixin {
   //     print(error);
   //     _pagingController.error = error;
   //   }
-    
+
   //   change(null, status: RxStatus.success());
   // }
 

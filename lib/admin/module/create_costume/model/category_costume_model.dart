@@ -1,15 +1,16 @@
-class CategoryCostumeModel{
-  
+class CategoryModel {
+  final String id;
   final String name;
 
-  CategoryCostumeModel({
-    required this.name
+  CategoryModel({
+    required this.name,
+    required this.id,
   });
 
-  factory CategoryCostumeModel.fromJson(Map<String, dynamic> json) {
-   
-    return CategoryCostumeModel(
-      name: json['category_name']
+  factory CategoryModel.fromJson(Map<String, dynamic> json) {
+    return CategoryModel(
+      id: json['id'],
+      name: json['name'],
     );
   }
 }

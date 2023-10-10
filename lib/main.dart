@@ -49,7 +49,7 @@ class _MyAppState extends State<MyApp> {
     if (_isLoggedIn) {
       initialRoute = Routes.NAVIGATION_BAR;
     } else if (_preLoginStatus) {
-      initialRoute = Routes.LOGIN;
+      initialRoute = Routes.PRE_LOGIN;
     }
 
     return initialRoute;

@@ -36,13 +36,15 @@ class CostumeRentModel {
 
 class CostumeRentPagination{
   final String name;
-  CostumeRentPagination({required this.name});
+  final String id;
+  CostumeRentPagination({required this.name, required this.id});
 
   
   factory CostumeRentPagination.fromJson(Map<String, dynamic> json) {
 
     return CostumeRentPagination(
-    name: json['name'] 
+    name: json['name'] ,
+id: json['id']
     );
   }
 }
