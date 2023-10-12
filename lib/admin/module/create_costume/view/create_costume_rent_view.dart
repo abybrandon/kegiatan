@@ -19,15 +19,15 @@ class CreateCostumeRentView extends GetView<CreateCostumeController> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(backgroundColor: bgRed),
-        body: controller.obx((state) => _FormCreateCostume(),
-            onLoading: Stack(
+        body: controller.obx((state) => const _FormCreateCostume(),
+            onLoading: const Stack(
               children: [_FormCreateCostume(), Loader()],
             )));
   }
 }
 
 class _FormCreateCostume extends GetView<CreateCostumeController> {
-  _FormCreateCostume({super.key});
+  const _FormCreateCostume();
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +54,7 @@ class _FormCreateCostume extends GetView<CreateCostumeController> {
                                   onTap: () {
                                     controller.getImageGalery();
                                   },
-                                  child: Text('Edit Photo')),
+                                  child: const Text('Edit Photo')),
                               PhotoListWidget(),
                             ],
                           )
@@ -78,30 +78,30 @@ class _FormCreateCostume extends GetView<CreateCostumeController> {
                           ),
                   ),
                   10.heightBox,
-                  Text('Size Avail'),
+                  const Text('Size Avail'),
                   10.h.heightBox,
                   Row(
                     children: [
-                      _widgetSize(
+                      _WidgetSize(
                         isChecked: controller.sizeSonChecked,
                         tittle: 'S',
                       ),
-                      _widgetSize(
+                      _WidgetSize(
                         isChecked: controller.sizeMonChecked,
                         tittle: 'M',
                       ),
-                      _widgetSize(
+                      _WidgetSize(
                         isChecked: controller.sizeLonChecked,
                         tittle: 'L',
                       ),
-                      _widgetSize(
+                      _WidgetSize(
                         isChecked: controller.sizeXLonChecked,
                         tittle: 'XL',
                       ),
                     ],
                   ),
                   15.h.heightBox,
-                  Text('Charackter Origin'),
+                  const Text('Charackter Name'),
                   5.h.heightBox,
                   ElevatedButton(
                       style: ElevatedButton.styleFrom(
@@ -114,7 +114,36 @@ class _FormCreateCostume extends GetView<CreateCostumeController> {
                         showModalBottomSheet(
                           context: context,
                           builder: (context) => SingleSelect(
-                            items: controller.chacarckterOption,
+                            items: controller.charackterOption,
+                            onSelect: (selectedItem) {
+                              controller.selectedCharackterName.value =
+                                  selectedItem;
+                            },
+                          ),
+                        );
+                      },
+                      child: const Text('Select Charackter Name')),
+                  Obx(
+                    () => controller.selectedCharackterName.value != null
+                        ? Text(
+                            'Value : ${controller.selectedCharackterName.value?.name ?? ''}')
+                        : const SizedBox.shrink(),
+                  ),
+                  15.h.heightBox,
+                  const Text('Charackter Origin'),
+                  5.h.heightBox,
+                  ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
+                        backgroundColor: bgRed,
+                      ),
+                      onPressed: () {
+                        showModalBottomSheet(
+                          context: context,
+                          builder: (context) => SingleSelect(
+                            items: controller.chacarckterOriginOption,
                             onSelect: (selectedItem) {
                               controller.selectedCharackter.value =
                                   selectedItem;
@@ -122,15 +151,15 @@ class _FormCreateCostume extends GetView<CreateCostumeController> {
                           ),
                         );
                       },
-                      child: Text('Select Charackter')),
+                      child: const Text('Select Charackter Origin')),
                   Obx(
                     () => controller.selectedCharackter.value != null
                         ? Text(
                             'Value : ${controller.selectedCharackter.value?.name ?? ''}')
-                        : SizedBox.shrink(),
+                        : const SizedBox.shrink(),
                   ),
                   15.h.heightBox,
-                  Text('Category Costume'),
+                  const Text('Category Costume'),
                   5.h.heightBox,
                   Obx(
                     () => MultiSelectorWidget(
@@ -144,7 +173,7 @@ class _FormCreateCostume extends GetView<CreateCostumeController> {
                       bodyWidget: Container(
                           width: double.infinity,
                           padding:
-                              EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                              const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8.r),
                             color: bgRed,
@@ -166,8 +195,8 @@ class _FormCreateCostume extends GetView<CreateCostumeController> {
                             return Padding(
                               padding: const EdgeInsets.only(top: 10),
                               child: Container(
-                                padding: EdgeInsets.all(8.0),
-                                margin: EdgeInsets.symmetric(horizontal: 4.0),
+                                padding: const EdgeInsets.all(8.0),
+                                margin: const EdgeInsets.symmetric(horizontal: 4.0),
                                 decoration: BoxDecoration(
                                   border: Border.all(color: generalGrey),
                                   borderRadius: BorderRadius.circular(8.0),
@@ -177,9 +206,9 @@ class _FormCreateCostume extends GetView<CreateCostumeController> {
                             );
                           }).toList(),
                         )
-                      : SizedBox.shrink()),
+                      : const SizedBox.shrink()),
                   15.h.heightBox,
-                  Text('Select Brand'),
+                  const Text('Select Brand'),
                   ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
@@ -193,34 +222,33 @@ class _FormCreateCostume extends GetView<CreateCostumeController> {
                           builder: (context) => SingleSelect(
                             items: controller.brandOption,
                             onSelect: (selectedItem) {
-                              controller.selectedBrand.value =
-                                  selectedItem;
+                              controller.selectedBrand.value = selectedItem;
                             },
                           ),
                         );
                       },
-                      child: Text('Select Brand')),
+                      child: const Text('Select Brand')),
                   Obx(
                     () => controller.selectedBrand.value != null
                         ? Text(
                             'Value : ${controller.selectedBrand.value?.name ?? ''}')
-                        : SizedBox.shrink(),
+                        : const SizedBox.shrink(),
                   ),
                   15.h.heightBox,
-                  Text('Gender Costume'),
+                  const Text('Gender Costume'),
                   Row(
                     children: [
-                      _widgetSize(
+                      _WidgetSize(
                         isChecked: controller.maleOnChecked,
                         tittle: 'Male',
                       ),
-                      _widgetSize(
+                      _WidgetSize(
                         isChecked: controller.femaleOnChecked,
                         tittle: 'Female',
                       ),
                     ],
                   ),
-                  Text('Rental Price'),
+                  const Text('Rental Price'),
                   10.h.heightBox,
                   TextField(
                     controller: controller.controllerPrice,
@@ -228,19 +256,19 @@ class _FormCreateCostume extends GetView<CreateCostumeController> {
                     inputFormatters: <TextInputFormatter>[
                       FilteringTextInputFormatter.digitsOnly,
                     ],
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Enter Price',
                       prefixText: 'Rp ',
                     ),
                   ),
                   20.h.heightBox,
-                  Text('Detail Costume'),
+                  const Text('Detail Costume'),
                   TextField(
                     maxLines: null,
                     minLines: 3,
                     controller: controller.controlelrDetail,
                     decoration:
-                        InputDecoration(hintText: 'Include wig, acc etc'),
+                        const InputDecoration(hintText: 'Include wig, acc etc'),
                   ),
                 ],
               ),
@@ -253,8 +281,9 @@ class _FormCreateCostume extends GetView<CreateCostumeController> {
   }
 }
 
-class _widgetSize extends StatelessWidget {
-  _widgetSize({super.key, required this.isChecked, required this.tittle});
+// ignore: camel_case_types, must_be_immutable
+class _WidgetSize extends StatelessWidget {
+  _WidgetSize({super.key, required this.isChecked, required this.tittle});
   RxBool isChecked = false.obs;
   final String tittle;
   @override
@@ -263,7 +292,7 @@ class _widgetSize extends StatelessWidget {
       children: [
         Text(
           tittle,
-          style: TextStyle(fontSize: 12),
+          style: const TextStyle(fontSize: 12),
         ),
         Obx(
           () => Checkbox(
@@ -305,12 +334,7 @@ class _FloatingButtonSubmit extends GetView<CreateCostumeController> {
             backgroundColor: bgRed,
           ),
           onPressed: () async {
-            // final isSuccess = await controller.onAssignAsset();
-            // if (isSuccess) {
-            //   controllerPrelist.allAsetsAssignListPagingController
-            //       .refresh();
-            //   controllerPrelist.selectedAllAssetsId.clear();
-            // }
+         await controller.createData();
           },
           child: Text(
             'Submit',
@@ -328,7 +352,7 @@ class PhotoListWidget extends GetView<CreateCostumeController> {
   Widget build(BuildContext context) {
     return Obx(() {
       if (controller.photoList.isEmpty) {
-        return SizedBox.shrink();
+        return const SizedBox.shrink();
       }
       return Container(
         height: 100,
@@ -337,7 +361,7 @@ class PhotoListWidget extends GetView<CreateCostumeController> {
           itemCount: controller.photoList.length,
           itemBuilder: (context, index) {
             return Padding(
-              padding: EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(8.0),
               child: Image.file(controller.photoList[index]),
             );
           },
