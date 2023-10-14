@@ -24,6 +24,8 @@ import '../module/prelogin/binding/prelogin_binding.dart';
 import '../module/prelogin/view/prelogin_view.dart';
 import '../module/profile_user/binding/profile_user_binding.dart';
 import '../module/profile_user/view/profile_user_view.dart';
+import '../module/reminder/binding/reminder_binding.dart';
+import '../module/reminder/view/reminder_view.dart';
 import '../module/signup/binding/sign_up_binding.dart';
 import '../navigation_bar.dart';
 
@@ -106,17 +108,26 @@ class AppPages {
         bindings: [
           HomeBinding(),
           CreateEventAdminBinding(),
-          FavoriteBinding()
+          FavoriteBinding(),
+          
+              ReminderBinding()
         ],
         children: [
           GetPage(
             name: Routes.HOME2,
             page: () => HomeView2(),
           ),
-          GetPage(
-              name: Routes.FAVORITE,
-              page: () => FavoriteView(),
-              binding: FavoriteBinding()),
+          // GetPage(
+          //     name: Routes.FAVORITE,
+          //     page: () => FavoriteView(),
+          //     binding: FavoriteBinding()),
+            GetPage(
+            name: Routes.REMINDER,
+            page: () => ReminderView(),
+            bindings: [
+              ReminderBinding()
+            ]
+          ),
           GetPage(
               name: Routes.HOME,
               page: () => HomeView(),
