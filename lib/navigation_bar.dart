@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:newtest/theme.dart';
 import 'package:remixicon/remixicon.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
@@ -14,6 +15,26 @@ class NavigationBar extends StatelessWidget {
   }
 
   final currentIndex = 0.obs;
+
+  SalomonBottomBarItem iconSolomon(
+      {required String title,
+      required IconData iconInactive,
+      required IconData iconActive}) {
+    return SalomonBottomBarItem(
+      icon: Icon(
+        iconInactive,
+        size: 24.sp,
+        color: Color(0xff080C2F).withOpacity(0.6),
+      ),
+      title: Text(
+        title,
+        style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold),
+      ),
+      activeIcon: Icon(iconActive, size: 24.sp),
+      unselectedColor: generalLabel,
+      selectedColor: bgRed,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,32 +56,19 @@ class NavigationBar extends StatelessWidget {
             currentIndex: _selectedIndex.value,
             onTap: (index) => _selectedIndex.value = index,
             items: [
-              SalomonBottomBarItem(
-                  icon: Icon(Remix.home_heart_line),
-                  title: Text('Home'),
-                  activeIcon: Icon(Remix.home_heart_fill),
-                  unselectedColor: generalLabel,
-                  selectedColor: bgRed),
-              SalomonBottomBarItem(
-                icon: Icon(Remix.heart_line),
-                activeIcon: Icon(Remix.heart_fill),
-                unselectedColor: generalLabel,
-                title: Text('Screen 1'),
-                selectedColor: Colors.red,
-              ),
-              SalomonBottomBarItem(
-                  icon: Icon(Remix.notification_2_line),
-                  title: Text('Screen 2'),
-                  activeIcon: Icon(Remix.notification_2_fill),
-                  unselectedColor: generalLabel,
-                  selectedColor: bgRed),
-              SalomonBottomBarItem(
-                icon: Icon(Remix.user_2_line),
-                title: Text('Screen 3'),
-                activeIcon: Icon(Remix.user_2_fill),
-                unselectedColor: generalLabel,
-                selectedColor: Colors.orange,
-              ),
+              iconSolomon(
+                  iconActive: Remix.home_4_fill,
+                  iconInactive: Remix.home_4_line,
+                  title: 'Home'), iconSolomon(
+                  iconActive: Remix.alarm_fill,
+                  iconInactive: Remix.alarm_line,
+                  title: 'Reminder'),iconSolomon(
+                  iconActive: Remix.question_answer_fill,
+                  iconInactive: Remix.question_answer_line,
+                  title: 'Chats'),iconSolomon(
+                  iconActive: Remix.user_fill,
+                  iconInactive: Remix.user_line,
+                  title: 'Profile'),
             ],
           ),
         ));

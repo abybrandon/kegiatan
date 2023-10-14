@@ -22,6 +22,8 @@ import '../module/home/view/home_view.dart';
 import '../module/login/view/login_view.dart';
 import '../module/prelogin/binding/prelogin_binding.dart';
 import '../module/prelogin/view/prelogin_view.dart';
+import '../module/profile_user/binding/profile_user_binding.dart';
+import '../module/profile_user/view/profile_user_view.dart';
 import '../module/signup/binding/sign_up_binding.dart';
 import '../navigation_bar.dart';
 
@@ -119,10 +121,14 @@ class AppPages {
               name: Routes.HOME,
               page: () => HomeView(),
               bindings: [HomeBinding()]),
-          GetPage(
-              name: Routes.MENU_ADMIN,
-              page: () => MenuAdmin(),
-              binding: CreateEventAdminBinding()),
+          // GetPage(
+          //     name: Routes.MENU_ADMIN,
+          //     page: () => MenuAdmin(),
+          //     binding: CreateEventAdminBinding()),
+              GetPage(
+              name: Routes.PROFILE,
+              page: () => ProfileUserView(),
+              binding: ProfileUserBinding()),
         ]),
   ];
 }

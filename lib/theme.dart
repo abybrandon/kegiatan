@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 Color bgRed = Color(0xffD64A57);
 Color basicBlack = Color(0xff424242);
 Color bgGeneral = Color(0xffECECEC);
+Color trueBlack = Color(0xff000000);
 
 Color bgBlue = const Color(0xff0063F7);
 Color buttonColor = const Color(0xFF0063F7);
@@ -12,6 +13,7 @@ Color bgGrey = const Color(0xff757575);
 Color bgWhite = const Color(0xffFFFFFF);
 Color bgAppbar = const Color(0xff0053CE);
 TextStyle regularStyle = const TextStyle();
+
 double iconSize = 24.sp;
 double textSmall = 10.sp;
 double textMedium = 12.sp;
