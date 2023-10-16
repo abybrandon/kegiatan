@@ -6,37 +6,41 @@ import 'package:remixicon/remixicon.dart';
 
 class ButtonProfileWidget extends StatelessWidget {
   const ButtonProfileWidget(
-      {super.key, required this.icon, required this.title});
+      {super.key, required this.icon, required this.title , this.fuction});
   final IconData icon;
   final String title;
+  final VoidCallback? fuction;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(bottom: 16.h),
-      child: Row(
-        children: [
-          Icon(
-            icon,
-            size: 20.sp,
-            color: basicBlack,
-          ),
-          10.w.widthBox,
-          Expanded(
-            child: Text(
-              title,
-              style: TextStyle(
-                  color: basicBlack,
-                  fontWeight: Config.medium,
-                  fontSize: textMedium),
+      child: InkWell(
+        onTap: fuction,
+        child: Row(
+          children: [
+            Icon(
+              icon,
+              size: 22.sp,
+              color: basicBlack,
             ),
-          ),
-          Icon(
-            Remix.arrow_right_s_line,
-            color: trueBlack,
-            size: 20.sp,
-          )
-        ],
+            10.w.widthBox,
+            Expanded(
+              child: Text(
+                title,
+                style: TextStyle(
+                    color: basicBlack,
+                    fontWeight: Config.medium,
+                    fontSize: textBig),
+              ),
+            ),
+            Icon(
+              Remix.arrow_right_s_line,
+              color: trueBlack,
+              size: 22.sp,
+            )
+          ],
+        ),
       ),
     );
   }

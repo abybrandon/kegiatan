@@ -23,7 +23,7 @@ class ReminderView extends GetView<ReminderController> {
             Text(
               'Event Reminder',
               style: TextStyle(
-                  fontSize: 16.sp, color: bgRed, fontWeight: FontWeight.bold),
+                  fontSize: 18.sp, color: bgRed, fontWeight: FontWeight.bold),
             ),
             16.h.heightBox,
             controller.reminderData.isEmpty ? _NoDataRemind() : _DataReminder()
@@ -117,13 +117,13 @@ class _DataReminder extends StatelessWidget {
                               size: 10.sp,
                             ),
                             2.w.widthBox,
-                             Text(
-                          'Jakarta',
-                          style: TextStyle(
-                              fontSize: 8.sp,
-                              fontWeight: Config.medium,
-                              color: basicBlack),
-                        ),
+                            Text(
+                              'Jakarta',
+                              style: TextStyle(
+                                  fontSize: 8.sp,
+                                  fontWeight: Config.medium,
+                                  color: basicBlack),
+                            ),
                           ],
                         )
                       ],

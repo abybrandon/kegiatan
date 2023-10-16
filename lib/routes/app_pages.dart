@@ -64,15 +64,12 @@ class AppPages {
         name: Routes.CREATE_EVENT_ADMIN,
         page: () => CreateEventAdmin(),
         binding: CreateEventAdminBinding()),
-        
+
     //create costume rent
-     GetPage(
+    GetPage(
         name: Routes.CREATE_COSTUME_RENT,
         page: () => CreateCostumeRentView(),
         binding: CreateCostumeBinding()),
-        
-    
-
 
     //create artist
     GetPage(
@@ -94,12 +91,10 @@ class AppPages {
 
     //costume
     //costume rent
-      GetPage(
+    GetPage(
         name: Routes.COSTUME_RENT,
         page: () => CostumeRentListView(),
         binding: CostumeRentBinding()),
-
-    
 
     //navigation home
     GetPage(
@@ -109,8 +104,8 @@ class AppPages {
           HomeBinding(),
           CreateEventAdminBinding(),
           FavoriteBinding(),
-          
-              ReminderBinding()
+          ReminderBinding(),
+          ProfileUserBinding()
         ],
         children: [
           GetPage(
@@ -121,13 +116,10 @@ class AppPages {
           //     name: Routes.FAVORITE,
           //     page: () => FavoriteView(),
           //     binding: FavoriteBinding()),
-            GetPage(
-            name: Routes.REMINDER,
-            page: () => ReminderView(),
-            bindings: [
-              ReminderBinding()
-            ]
-          ),
+          GetPage(
+              name: Routes.REMINDER,
+              page: () => ReminderView(),
+              bindings: [ReminderBinding()]),
           GetPage(
               name: Routes.HOME,
               page: () => HomeView(),
@@ -136,7 +128,7 @@ class AppPages {
           //     name: Routes.MENU_ADMIN,
           //     page: () => MenuAdmin(),
           //     binding: CreateEventAdminBinding()),
-              GetPage(
+          GetPage(
               name: Routes.PROFILE,
               page: () => ProfileUserView(),
               binding: ProfileUserBinding()),

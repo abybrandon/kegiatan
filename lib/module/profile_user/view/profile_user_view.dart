@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:newtest/theme.dart';
 import 'package:newtest/widget/sizedbox_extension.dart';
 import 'package:remixicon/remixicon.dart';
 
+import '../controller/profile_user_controller.dart';
 import '../widget/button_profile_widget.dart';
 
 class ProfileUserView extends StatelessWidget {
@@ -27,7 +29,7 @@ class ProfileUserView extends StatelessWidget {
   }
 }
 
-class _BodySection extends StatelessWidget {
+class _BodySection extends GetView<ProfileUserController> {
   const _BodySection({super.key});
 
   @override
@@ -98,6 +100,9 @@ class _BodySection extends StatelessWidget {
          ButtonProfileWidget(
           icon: Remix.information_line,
           title: 'Contact Us',
+          fuction: () {
+            controller.sendOTP();
+          },
         ),
       ],
     );
@@ -115,7 +120,7 @@ class _HeaderSection extends StatelessWidget {
         Text(
           'Profile',
           style: TextStyle(
-              fontSize: 16.sp, color: bgRed, fontWeight: FontWeight.bold),
+              fontSize: 18.sp, color: bgRed, fontWeight: FontWeight.bold),
         ),
         4.h.heightBox,
         Row(
