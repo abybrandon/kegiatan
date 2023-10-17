@@ -1,4 +1,4 @@
-import 'package:newtest/module/home/home_screen.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -82,7 +82,7 @@ class LoginController extends GetxController with StateMixin {
           return userCredential;
         });
       });
-      Get.to(EventListView());
+     Get.back();
     } on FirebaseException catch (e) {
       if (e.code == "weak-password") {
         print('password waek');

@@ -8,7 +8,8 @@ import 'package:newtest/routes/app_pages.dart';
 import 'package:newtest/theme.dart';
 import 'controller_universal/controller_universal.dart';
 import 'local_storage/local_storage_helper.dart';
-import 'module/home/trynotification.dart';
+import 'module/home/dummy/trynotification.dart';
+
 
 final GlobalKey<ScaffoldMessengerState> rootScaffoldMessengerKey =
     GlobalKey<ScaffoldMessengerState>();
@@ -60,6 +61,7 @@ class _MyAppState extends State<MyApp> {
     return ScreenUtilInit(
         minTextAdapt: true,
         splitScreenMode: true,
+        
         designSize: const Size(360, 800),
         builder: (_, __) => GetMaterialApp(
             theme: Config.getTheme(),

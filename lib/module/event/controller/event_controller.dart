@@ -11,7 +11,7 @@ import '../../../local_storage/local_storage_helper.dart';
 import '../../../theme.dart';
 import '../../../widget/multi_select/multi_select.dart';
 import '../../../widget/toast.dart';
-import '../../home/city.dart';
+
 import 'package:connectivity_plus/connectivity_plus.dart';
 
 import 'detail_event_controller.dart';
@@ -28,7 +28,7 @@ class EventController extends GetxController with StateMixin {
   @override
   void onInit() {
     fetchLikedEventsFromFirestore();
-    getLocation();
+    // getLocation();
     fetchData();
     super.onInit();
   }
@@ -280,34 +280,34 @@ class EventController extends GetxController with StateMixin {
   late DateTime firstDateSelected;
   late DateTime endDateSelected;
 
-  final RxList<LocationModel> allCity = <LocationModel>[].obs;
-  final RxList<LocationModel> selectedCity = <LocationModel>[].obs;
+  // final RxList<LocationModel> allCity = <LocationModel>[].obs;
+  // final RxList<LocationModel> selectedCity = <LocationModel>[].obs;
 
-  List<SelectItem<String>> get cityOption {
-    return allCity.map(
-      (city) {
-        return SelectItem(
-          label: city.province,
-          value: city.id,
-        );
-      },
-    ).toList();
-  }
+  // List<SelectItem<String>> get cityOption {
+  //   return allCity.map(
+  //     (city) {
+  //       return SelectItem(
+  //         label: city.province,
+  //         value: city.id,
+  //       );
+  //     },
+  //   ).toList();
+  // }
 
-  Future<void> getLocation() async {
-    change(null, status: RxStatus.loading());
-    try {
-      final QuerySnapshot snapshot = await locationColection.get();
-      final List<LocationModel> fethedLocation = snapshot.docs
-          .map((doc) =>
-              LocationModel.fromJson(doc.data() as Map<String, dynamic>))
-          .toList();
-      allCity.value = fethedLocation;
-    } catch (error) {
-      print(error.toString());
-    }
-    change(null, status: RxStatus.success());
-  }
+  // Future<void> getLocation() async {
+  //   change(null, status: RxStatus.loading());
+  //   try {
+  //     final QuerySnapshot snapshot = await locationColection.get();
+  //     final List<LocationModel> fethedLocation = snapshot.docs
+  //         .map((doc) =>
+  //             LocationModel.fromJson(doc.data() as Map<String, dynamic>))
+  //         .toList();
+  //     allCity.value = fethedLocation;
+  //   } catch (error) {
+  //     print(error.toString());
+  //   }
+  //   change(null, status: RxStatus.success());
+  // }
 
   //formatted date
   String getFormattedDate(Timestamp date) {

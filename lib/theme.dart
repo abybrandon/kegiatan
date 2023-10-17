@@ -6,6 +6,7 @@ Color bgRed = Color(0xffD64A57);
 Color basicBlack = Color(0xff424242);
 Color bgGeneral = Color(0xffECECEC);
 Color trueBlack = Color(0xff000000);
+Color semiGrey = Color(0xff877C7C);
 
 Color bgBlue = const Color(0xff0063F7);
 Color buttonColor = const Color(0xFF0063F7);

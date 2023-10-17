@@ -226,21 +226,21 @@ class FilterList extends GetView<EventController> {
                   )),
             ),
             8.w.widthBox,
-            CitySelectorMulti(
-              tittle: Obx(
-                () => Text(
-                  controller.filterCity.value,
-                  style: TextStyle(
-                      fontSize: 14.sp,
-                      overflow: TextOverflow.clip,
-                      color: bgWhite,
-                      fontWeight: FontWeight.w400),
-                ),
-              ),
-              label: 'System Role',
-              items: controller.cityOption,
-              onSelect: (selectedItems) {},
-            ),
+            // CitySelectorMulti(
+            //   tittle: Obx(
+            //     () => Text(
+            //       controller.filterCity.value,
+            //       style: TextStyle(
+            //           fontSize: 14.sp,
+            //           overflow: TextOverflow.clip,
+            //           color: bgWhite,
+            //           fontWeight: FontWeight.w400),
+            //     ),
+            //   ),
+            //   label: 'System Role',
+            //   items: controller.cityOption,
+            //   onSelect: (selectedItems) {},
+            // ),
             8.w.widthBox,
             InkWell(
               onTap: () async {
