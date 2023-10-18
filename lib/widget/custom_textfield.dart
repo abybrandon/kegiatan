@@ -20,6 +20,7 @@ class CustomTextField extends StatelessWidget {
   final VoidCallback? iconFunction;
   final double? maxWidth;
   final bool digitOnly;
+  final bool normalTextfield;
 
   const CustomTextField(
       {super.key,
@@ -37,7 +38,9 @@ class CustomTextField extends StatelessWidget {
       this.iconFunction,
       this.maxWidth,
       this.digitOnly = false,
-      this.icon});
+      this.icon,
+      this.normalTextfield = false,
+      });
 
   @override
   Widget build(BuildContext context) {
@@ -89,8 +92,8 @@ class CustomTextField extends StatelessWidget {
                   fontSize: 16.sp,
                   fontWeight: Config.medium,
                   color: Colors.grey[500]),
-              fillColor: Color(0xff8A8A8A).withOpacity(0.3),
-              filled: true,
+              fillColor: normalTextfield ? null : Color(0xff8A8A8A).withOpacity(0.3),
+              filled: normalTextfield ? false : true,
               enabledBorder: isError ? errorInputBorder : null,
               focusedBorder: isError ? errorInputBorder : null,
               contentPadding: padding ??

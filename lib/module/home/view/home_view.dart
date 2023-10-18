@@ -6,7 +6,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:newtest/module/home/controller/home_controller.dart';
+import 'package:newtest/module/home/view/search_view.dart';
 import 'package:newtest/theme.dart';
+import 'package:newtest/widget/custom_badge.dart';
 import 'package:newtest/widget/custom_textfield.dart';
 import 'package:newtest/widget/sizedbox_extension.dart';
 import 'package:remixicon/remixicon.dart';
@@ -24,6 +26,7 @@ class _HomeViewState extends State<HomeView> {
   final ScrollController _controller = ScrollController();
   final controller = Get.find<HomeController>();
   bool isScrolledPast130 = false;
+  final FocusNode _focusNode = FocusNode();
 
   @override
   void initState() {
@@ -39,6 +42,16 @@ class _HomeViewState extends State<HomeView> {
           controller.isAppBarVisible.value = false;
           isScrolledPast130 = false;
         }
+      }
+    });
+
+    _focusNode.addListener(() {
+      if (_focusNode.hasFocus) {
+        Get.dialog(SearchView());
+        _focusNode.unfocus();
+      } else {
+        print('TextField kehilangan fokus');
+        // Lakukan fungsi lain saat TextField kehilangan fokus di sini
       }
     });
   }
@@ -130,7 +143,7 @@ class _HomeViewState extends State<HomeView> {
                         ],
                       ),
                       Positioned(
-                          bottom: 0.h, // Set the bottom position to 0
+                          bottom: 0.h,
                           left: 0.w,
                           right: 0.w,
                           child: Padding(
@@ -146,8 +159,14 @@ class _HomeViewState extends State<HomeView> {
                                 child: SizedBox(
                                   height: 45.h,
                                   child: TextField(
+                                    // onChanged: (value) {
+                                    //   Get.dialog(SearchView());
+                                    // },
+                                    focusNode: _focusNode,
                                     decoration: InputDecoration(
                                         hintText: 'Search..',
+                                        contentPadding:
+                                            EdgeInsets.only(top: 4.h),
                                         prefixIcon: Icon(
                                           Remix.search_line,
                                           size: 22.sp,
@@ -167,10 +186,7 @@ class _HomeViewState extends State<HomeView> {
                           )),
                     ],
                   ),
-                  Column(
-                    children:
-                        List.generate(100, (index) => Text('hai ini $index')),
-                  )
+                  _ListRecord()
                 ],
               ),
             ),
@@ -183,7 +199,7 @@ class _HomeViewState extends State<HomeView> {
                 right: 0.w,
                 child: Padding(
                   padding: EdgeInsets.only(top: statusBarHeight.h - 1),
-                  child: _HomeAppBar(),
+                  child: _HomeAppBar(focusNode: _focusNode),
                 ))
             : SizedBox.shrink())
       ],
@@ -194,30 +210,46 @@ class _HomeViewState extends State<HomeView> {
 class _HomeAppBar extends GetView<HomeController>
     implements PreferredSizeWidget {
   @override
-  Size get preferredSize => Size.fromHeight(70.h);
+  Size get preferredSize => Size.fromHeight(60.h);
+  _HomeAppBar({required this.focusNode});
+  final FocusNode focusNode;
 
   @override
   Widget build(BuildContext context) {
     final Widget searchingTopBar = Row(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
-        Icon(
-          Remix.search_2_line,
-          size: 25.sp,
-          color: bgRed,
-        ),
-        SizedBox(width: 10.w),
-        Expanded(child: SizedBox(height: 43.h, child: TextField())),
-        SizedBox(width: 7.w),
-        IconButton(
-          onPressed: () {},
-          padding: EdgeInsets.zero,
-          splashRadius: 15.r,
-          constraints: const BoxConstraints(),
-          icon: Icon(
-            Remix.close_fill,
-            size: 20.sp,
-            color: bgRed,
+        Expanded(
+          child: Card(
+            elevation: 1.5,
+            child: Theme(
+              data: Theme.of(context).copyWith(
+                colorScheme: ThemeData().colorScheme.copyWith(
+                      primary: bgRed,
+                    ),
+              ),
+              child: SizedBox(
+                height: 38.h,
+                child: TextField(
+                  focusNode: focusNode,
+                  decoration: InputDecoration(
+                      hintText: 'Search..',
+                      contentPadding: EdgeInsets.only(bottom: 20.h),
+                      prefixIcon: Icon(
+                        Remix.search_line,
+                        size: 22.sp,
+                      ),
+                      hintStyle: TextStyle(
+                          fontSize: 14.sp,
+                          color: semiGrey,
+                          fontWeight: Config.medium),
+                      filled: true,
+                      enabledBorder: InputBorder.none,
+                      focusedBorder: InputBorder.none,
+                      fillColor: bgWhite),
+                ),
+              ),
+            ),
           ),
         ),
       ],
@@ -226,349 +258,469 @@ class _HomeAppBar extends GetView<HomeController>
     return PreferredSize(
         preferredSize: preferredSize,
         child: Container(
-          color: bgWhite,
-          child: Obx(() => controller.isAppBarVisible.value
-              ? Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 16.w,
-                        ),
-                        child: searchingTopBar),
-                    Divider(
-                      thickness: 1,
-                      color: bgRed,
-                    )
-                  ],
-                )
-              : SizedBox()),
+          decoration: BoxDecoration(
+              color: bgWhite, border: Border(bottom: BorderSide(color: bgRed))),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 20.w, vertical: 8.h),
+                  child: searchingTopBar),
+            ],
+          ),
         ));
   }
 }
 
-// class _AppBar extends StatelessWidget implements PreferredSizeWidget {
-//   @override
-//   Size get preferredSize => Size.fromHeight(140);
+class _ListRecord extends GetView<HomeController> {
+  const _ListRecord({super.key});
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return PreferredSize(
-//         preferredSize: preferredSize,
-//         child: Container(
-//           decoration: BoxDecoration(
-//               color: bgRed,
-//               borderRadius: BorderRadius.only(
-//                   bottomRight: Radius.circular(20),
-//                   bottomLeft: Radius.circular(20))),
-//           padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-//           child: Column(
-//             children: [
-//               50.heightBox,
-//               TextField(
-//                 decoration: InputDecoration(
-//                   filled: true,
-//                   suffixIcon: Icon(
-//                     Remix.search_2_line,
-//                     color: bgRed,
-//                   ),
-//                   fillColor: Colors.grey[200],
-//                   hintText: 'Enter text here ...',
-//                   border: OutlineInputBorder(
-//                     borderRadius: BorderRadius.circular(12.0),
-//                     borderSide: BorderSide.none,
-//                   ),
-//                 ),
-//               ),
-//             ],
-//           ),
-//         ));
-//   }
-// }
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        12.h.heightBox,
+        _HeaderTittle(
+          title: 'Feature',
+          hideTitle: true,
+        ),
+        8.h.heightBox,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            _FeatureButton(
+              imageName: 'assets/img/gate.png',
+              title: 'Event',
+              fuction: () {
+                Get.toNamed(Routes.EVENT_LIST);
+              },
+            ),
+            _FeatureButton(
+              imageName: 'assets/img/costume.png',
+              title: 'Costume',
+            ),
+            _FeatureButton(
+              imageName: 'assets/img/comunt.png',
+              title: 'Community',
+            )
+          ],
+        ),
+        20.h.heightBox,
+        _HeaderTittle(
+          title: 'Search Event by city',
+        ),
+        8.h.heightBox,
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Padding(
+            padding: EdgeInsets.only(left: 8.w),
+            child: Row(
+              children: List.generate(
+                  controller.dataCity.length,
+                  (index) => Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 8.w),
+                        child: Container(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 8.w, vertical: 6.h),
+                            decoration: BoxDecoration(
+                                color: bgRed,
+                                borderRadius: BorderRadius.circular(5.r)),
+                            child: Text(
+                              '${controller.dataCity[index]}',
+                              style: TextStyle(
+                                  fontSize: 12.sp,
+                                  color: bgWhite,
+                                  fontWeight: Config.medium),
+                            )),
+                      )),
+            ),
+          ),
+        ),
+        20.h.heightBox,
+        _HeaderTittle(
+          title: 'Event Near You',
+        ),
+        8.h.heightBox,
+        _EventRecord(),
+        16.h.heightBox,
+        _HeaderTittle(
+          title: 'Popular Costume',
+        ),
+        8.h.heightBox,
+        _CostumeRecord(),
+        16.h.heightBox,
+        _HeaderTittle(
+          title: 'Community Near You',
+          hideTitle: true,
+        ),
+        Column(
+          children: List.generate(
+              3,
+              (index) => Padding(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+                    child: Container(
+                        child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Image.asset(
+                          'assets/img/group.png',
+                          fit: BoxFit.cover,
+                        ),
+                        2.h.heightBox,
+                        Text(
+                          'Community Group Cosplay',
+                          style: TextStyle(
+                              fontWeight: Config.reguler,
+                              color: trueBlack,
+                              fontSize: 12.sp),
+                        )
+                      ],
+                    )),
+                  )),
+        )
+      ],
+    );
+  }
+}
 
-// class _FormHome extends StatelessWidget {
-//   _FormHome({super.key});
+class _FeatureButton extends StatelessWidget {
+  const _FeatureButton(
+      {super.key, required this.title, this.fuction, required this.imageName});
+  final String title;
+  final String imageName;
+  final VoidCallback? fuction;
 
-//   RxBool isOn = false.obs;
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        InkWell(
+          onTap: fuction,
+          child: Container(
+            height: 60.h,
+            width: 60.w,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(100.r),
+              color: Color(0xffF8F8F8),
+            ),
+            child: Center(
+              child: Image.asset(
+                imageName,
+                height: 45.h,
+                width: 45.w,
+                fit: BoxFit.contain,
+              ),
+            ),
+          ),
+        ),
+        2.h.heightBox,
+        Text(
+          title,
+          style: TextStyle(
+              fontSize: 14.sp, color: basicBlack, fontWeight: Config.semiBold),
+        ),
+      ],
+    );
+  }
+}
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return SingleChildScrollView(
-//       padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-//       child: Column(
-//         children: [
-//           20.heightBox,
-//           Row(
-//             mainAxisAlignment: MainAxisAlignment.spaceAround,
-//             children: [
-//               _HomeButton(
-//                   imagePath: 'assets/img/gate.png',
-//                   tittle: 'Event',
-//                   fuction: () {
-//                     Get.toNamed(Routes.EVENT_LIST);
-//                   }),
-//               _HomeButton(
-//                 imagePath: 'assets/img/costume.png',
-//                 tittle: 'Cosplay',
-//                 fuction: () {
-//                   Get.toNamed(Routes.COSTUME_RENT);
-//                 },
-//               ),
-//               _HomeButton(
-//                 imagePath: 'assets/img/comunt.png',
-//                 tittle: 'Commun',
-//                 fuction: () {},
-//               )
-//             ],
-//           ),
-//           Obx(() => InkWell(
-//               onTap: () {
-//                 isOn.value = !isOn.value;
-//               },
-//               child: Icon(
-//                 Remix.heart_2_fill,
-//                 color: isOn.value ? bgRed : bgGrey,
-//               )))
-//         ],
-//       ),
-//     );
-//   }
-// }
+class _HeaderTittle extends StatelessWidget {
+  const _HeaderTittle(
+      {super.key, required this.title, this.fuction, this.hideTitle = false});
+  final String title;
+  final VoidCallback? fuction;
+  final bool hideTitle;
 
-// class _HomeButton extends StatelessWidget {
-//   const _HomeButton(
-//       {super.key,
-//       required this.imagePath,
-//       required this.tittle,
-//       required this.fuction});
-//   final String imagePath;
-//   final String tittle;
-//   final VoidCallback fuction;
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 16.w),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            title,
+            style: TextStyle(
+                fontSize: 14.sp,
+                color: basicBlack,
+                fontWeight: Config.semiBold),
+          ),
+          hideTitle
+              ? SizedBox.shrink()
+              : InkWell(
+                  onTap: fuction,
+                  child: Text(
+                    'See All',
+                    style: TextStyle(
+                        fontSize: 14.sp, color: bgRed, fontWeight: Config.bold),
+                  ),
+                ),
+        ],
+      ),
+    );
+  }
+}
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return InkWell(
-//       onTap: fuction,
-//       child: ClipRRect(
-//         borderRadius: BorderRadius.circular(20),
-//         child: Card(
-//           elevation: 2,
-//           child: Container(
-//             decoration: BoxDecoration(borderRadius: BorderRadius.circular(300)),
-//             padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-//             height: 115,
-//             width: 70,
-//             child: Column(
-//               children: [
-//                 Image.asset(
-//                   imagePath,
-//                   height: 72,
-//                   width: 72,
-//                   fit: BoxFit.contain,
-//                 ),
-//                 Expanded(
-//                   child: Text(
-//                     tittle,
-//                     style: TextStyle(
-//                         fontSize: 12,
-//                         fontWeight: FontWeight.w500,
-//                         color: generalBody),
-//                   ),
-//                 )
-//               ],
-//             ),
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
+class _EventRecord extends GetView<HomeController> {
+  const _EventRecord({super.key});
 
-// class HomeView extends StatefulWidget {
-//   @override
-//   State<HomeView> createState() => _HomeViewState();
-// }
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Padding(
+        padding: EdgeInsets.only(left: 16.w),
+        child: Row(
+          children: List.generate(
+              controller.dataEvent.length,
+              (index) => Padding(
+                  padding: EdgeInsets.only(right: 18.w),
+                  child: Column(
+                    children: [
+                      Container(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 8.w, vertical: 8.h),
+                        width: 123.w,
+                        height: 209.h,
+                        decoration: ShapeDecoration(
+                          color: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            side:
+                                BorderSide(width: 1, color: Color(0xFFE6E6E6)),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          shadows: [
+                            BoxShadow(
+                              color: Color(0x3F000000),
+                              blurRadius: 4,
+                              offset: Offset(0, 4),
+                              spreadRadius: 0,
+                            )
+                          ],
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(8.r),
+                              child: Image.asset(
+                                'assets/img/${controller.dataEvent[index]['image']}',
+                                height: 150.h,
+                                width: double.infinity,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                            4.h.heightBox,
+                            Text(
+                              '${controller.dataEvent[index]['eventName']}',
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                  fontSize: 8.sp,
+                                  color: trueBlack,
+                                  fontWeight: Config.semiBold),
+                            ),
+                            Text(
+                              '${controller.dataEvent[index]['dateEvent']}',
+                              overflow: TextOverflow.clip,
+                              style: TextStyle(
+                                  fontSize: 8.sp,
+                                  color: bgGrey,
+                                  fontWeight: Config.medium),
+                            ),
+                            2.h.heightBox,
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  children: [
+                                    Icon(
+                                      Remix.map_pin_line,
+                                      size: 8.sp,
+                                      color: Color(0xffBFC300),
+                                    ),
+                                    2.w.widthBox,
+                                    Text(
+                                      'Kota ${controller.dataEvent[index]['city']}',
+                                      overflow: TextOverflow.clip,
+                                      style: TextStyle(
+                                          fontSize: 8.sp,
+                                          color: basicBlack,
+                                          fontWeight: Config.medium),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Icon(
+                                      Remix.heart_2_fill,
+                                      size: 8.sp,
+                                      color: trueLove,
+                                    ),
+                                    2.w.widthBox,
+                                    Text(
+                                      '13',
+                                      overflow: TextOverflow.clip,
+                                      style: TextStyle(
+                                          fontSize: 8.sp,
+                                          color: trueLove,
+                                          fontWeight: Config.medium),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10.h,
+                      )
+                    ],
+                  ))),
+        ),
+      ),
+    );
+  }
+}
 
-// class _HomeViewState extends State<HomeView> {
-//   final ScrollController _controller = ScrollController();
-//   final controller = Get.find<HomeController>();
-//   bool isScrolledPast130 = false;
+class _CostumeRecord extends GetView<HomeController> {
+  const _CostumeRecord({super.key});
 
-//   @override
-//   void initState() {
-//     super.initState();
-//     _controller.addListener(() {
-//       final pixelsScrolled = _controller.offset;
-
-//       // Cetak jumlah pixel yang telah di-scroll
-//       print('Pixels Scrolled: $pixelsScrolled');
-
-//       if (_controller.offset >= 130) {
-//         if (!isScrolledPast130) {
-//           controller.isAppBarVisible.value = true;
-//           isScrolledPast130 = true;
-//         }
-//       } else {
-//         if (isScrolledPast130) {
-//           controller.isAppBarVisible.value = false;
-//           isScrolledPast130 = false;
-//         }
-//       }
-//     });
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     double statusBarHeight = MediaQuery.of(context).padding.top;
-//     return Scaffold(
-      
-//       body: NotificationListener<ScrollUpdateNotification>(
-//         onNotification: (notification) {
-//           // Handle scroll notifications here
-//           return true;
-//         },
-//         child: Stack(
-//           children: [
-//             NestedScrollView(
-//               controller: _controller,
-//               headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-//                 return <Widget>[
-//                   Obx(
-//                     () => controller.isAppBarVisible.value
-//                         ? SliverPersistentHeader(
-//                             floating: false,
-//                             pinned: true,
-//                             delegate: MySliverPersistentHeaderDelegate(
-//                                 minHeight: 100.0,
-//                                 maxHeight: 100.0,
-//                                 child: Container(
-//                                   color: Colors.green,
-//                                   alignment: Alignment.center,
-//                                   child: Text('Sliver 32 32 32'),
-//                                 )),
-//                           )
-//                         : SliverPersistentHeader(
-//                             floating: false,
-//                             delegate: MySliverPersistentHeaderDelegate(
-//                               minHeight: 160.0,
-//                               maxHeight: 160.0,
-//                               child: Container(
-//                                 height: 160.0,
-//                                 padding: EdgeInsets.only(
-//                                     top: statusBarHeight.h, left: 16.w),
-//                                 color: bgRed,
-//                                 child: Column(
-//                                   crossAxisAlignment: CrossAxisAlignment.start,
-//                                   children: [
-//                                     Row(
-//                                       mainAxisAlignment:
-//                                           MainAxisAlignment.spaceBetween,
-//                                       crossAxisAlignment: CrossAxisAlignment.end,
-//                                       children: [
-//                                         Text(
-//                                           'Hii , Mazuya',
-//                                           style: TextStyle(
-//                                               fontSize: 24.sp,
-//                                               color: bgWhite,
-//                                               fontWeight: FontWeight.bold),
-//                                         ),
-//                                         Container(
-//                                           decoration: BoxDecoration(
-//                                               color: bgWhite,
-//                                               borderRadius: BorderRadius.only(
-//                                                   bottomLeft:
-//                                                       Radius.circular(8.r))),
-//                                           height: 45.h,
-//                                           width: 45.w,
-//                                           child: Center(
-//                                               child: Icon(
-//                                             Remix.notification_3_line,
-//                                             color: basicBlack,
-//                                             size: 24.sp,
-//                                           )),
-//                                         ),
-//                                       ],
-//                                     ),
-//                                     Text(
-//                                       'Discover Our World',
-//                                       style: TextStyle(
-//                                           fontSize: 24.sp,
-//                                           color: bgWhite,
-//                                           fontWeight: FontWeight.bold),
-//                                     ),
-//                                   ],
-//                                 ),
-//                               ),
-//                             ),
-//                           ),
-//                   )
-//                 ];
-//               },
-//               body: SingleChildScrollView(
-//                 child: Column(
-//                   children: [
-//                     Obx(() => controller.isAppBarVisible.value
-//                         ? SizedBox()
-//                         : TextField()),
-//                     Container(
-//                       color: bgWhite,
-//                       height: 200.0,
-//                       alignment: Alignment.center,
-//                       child: Text('Widget 1'),
-//                     ),
-//                     Column(
-//                       children:
-//                           List.generate(100, (index) => Text('hai ini $index')),
-//                     )
-//                   ],
-//                 ),
-//               ),
-//             ),
-//           Positioned(
-//               top: 0, // Adjust the top position as needed
-//               left: 0,
-//               right: 0,
-//               child: Container(
-//                 height: kToolbarHeight, // Set the height to match the AppBar's height
-//                 color: Colors.blue, // Color for the widget
-//                 child: Center(
-//                   child: Text('Widget Above AppBar Location'),
-//                 ),
-//               ),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
-
-// class MySliverPersistentHeaderDelegate extends SliverPersistentHeaderDelegate {
-//   final double minHeight;
-//   final double maxHeight;
-//   final Widget child;
-
-//   MySliverPersistentHeaderDelegate({
-//     required this.minHeight,
-//     required this.maxHeight,
-//     required this.child,
-//   });
-
-//   @override
-//   double get minExtent => minHeight;
-
-//   @override
-//   double get maxExtent => maxHeight;
-
-//   @override
-//   Widget build(
-//       BuildContext context, double shrinkOffset, bool overlapsContent) {
-//     return child;
-//   }
-
-//   @override
-//   bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) {
-//     return true;
-//   }
-// }
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Padding(
+        padding: EdgeInsets.only(left: 16.w),
+        child: Row(
+          children: List.generate(
+              controller.dataCostume.length,
+              (index) => Padding(
+                  padding: EdgeInsets.only(right: 18.w),
+                  child: Column(
+                    children: [
+                      Container(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 8.w, vertical: 8.h),
+                        width: 123.w,
+                        height: 239.h,
+                        decoration: ShapeDecoration(
+                          color: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            side:
+                                BorderSide(width: 1, color: Color(0xFFE6E6E6)),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          shadows: [
+                            BoxShadow(
+                              color: Color(0x3F000000),
+                              blurRadius: 4,
+                              offset: Offset(0, 4),
+                              spreadRadius: 0,
+                            )
+                          ],
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(8.r),
+                              child: Image.asset(
+                                'assets/img/${controller.dataCostume[index]['image']}',
+                                height: 150.h,
+                                width: double.infinity,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                            4.h.heightBox,
+                            Text(
+                              '${controller.dataCostume[index]['nameCostume']}',
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                  fontSize: 8.sp,
+                                  color: trueBlack,
+                                  fontWeight: Config.semiBold),
+                            ),
+                            Text(
+                              '${controller.dataCostume[index]['charackterOrigin']}',
+                              overflow: TextOverflow.clip,
+                              style: TextStyle(
+                                  fontSize: 8.sp,
+                                  color: bgRed,
+                                  fontWeight: Config.medium),
+                            ),
+                            Text(
+                              'Rp ${controller.dataCostume[index]['priceRent']['rentPrice']} / ${controller.dataCostume[index]['priceRent']['rentDay']} Day',
+                              overflow: TextOverflow.clip,
+                              style: TextStyle(
+                                  fontSize: 8.sp,
+                                  color: bgGrey,
+                                  fontWeight: Config.medium),
+                            ),
+                            2.h.heightBox,
+                            CustomBadge(
+                              title: 'Anime',
+                              backgroundColor: bgWhite,
+                              color: bgRed,
+                              padding: EdgeInsets.symmetric(horizontal: 2.w),
+                              minWidth: 0,
+                            ),
+                            4.h.heightBox,
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  children: [
+                                    Icon(
+                                      Remix.map_pin_line,
+                                      size: 8.sp,
+                                      color: Color(0xffBFC300),
+                                    ),
+                                    2.w.widthBox,
+                                    Text(
+                                      'Kota ${controller.dataCostume[index]['location']}',
+                                      overflow: TextOverflow.clip,
+                                      style: TextStyle(
+                                          fontSize: 8.sp,
+                                          color: basicBlack,
+                                          fontWeight: Config.medium),
+                                    ),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Icon(
+                                      Remix.heart_2_fill,
+                                      size: 8.sp,
+                                      color: trueLove,
+                                    ),
+                                    2.w.widthBox,
+                                    Text(
+                                      '13',
+                                      overflow: TextOverflow.clip,
+                                      style: TextStyle(
+                                          fontSize: 8.sp,
+                                          color: trueLove,
+                                          fontWeight: Config.medium),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10.h,
+                      )
+                    ],
+                  ))),
+        ),
+      ),
+    );
+  }
+}

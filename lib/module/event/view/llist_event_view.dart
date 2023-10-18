@@ -6,6 +6,7 @@ import 'package:newtest/module/event/controller/event_controller.dart';
 import 'package:newtest/module/event/widget/filter_date.dart';
 import 'package:newtest/routes/app_pages.dart';
 import 'package:newtest/theme.dart';
+import 'package:newtest/widget/custom_textfield.dart';
 import 'package:newtest/widget/sizedbox_extension.dart';
 import 'package:remixicon/remixicon.dart';
 import 'package:shimmer/shimmer.dart';
@@ -19,44 +20,10 @@ class ListEventView extends GetView<EventController> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: generalBgWeak,
-        appBar: AppBar(
-          title: Text(
-            'Event List',
-            style: TextStyle(color: bgRed),
-          ),
-          backgroundColor: bgWhite,
-          elevation: 0,
-          leading: Padding(
-            padding: EdgeInsets.symmetric(
-              vertical: 12.h,
-              horizontal: 16.w,
-            ),
-            child: IconButton(
-              onPressed: () {
-                Get.back();
-              },
-              padding: EdgeInsets.zero,
-              constraints: const BoxConstraints(),
-              splashRadius: 15.r,
-              icon: Icon(
-                Remix.arrow_left_line,
-                size: 20.sp,
-                color: bgRed,
-              ),
-            ),
-          ),
-        ),
+        appBar: _AppBar(),
         body: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextField(
-                onChanged: (value) {
-                  controller.searchQuery.value = value;
-                  controller.filterEventList();
-                },
-              ),
-            ),
+          
             FilterList(),
             10.heightBox,
             ListEventItem()
@@ -386,5 +353,139 @@ class _Loading extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class _AppBar extends GetView<EventController> implements PreferredSizeWidget {
+  @override
+  Size get preferredSize => Size.fromHeight(55.h);
+
+  @override
+  Widget build(BuildContext context) {
+    final Widget notSearchingTopBar = Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        IconButton(
+          onPressed: () {
+            Get.back();
+          },
+          padding: EdgeInsets.zero,
+          constraints: const BoxConstraints(),
+          splashRadius: 15.r,
+          icon: Icon(
+            Remix.arrow_left_line,
+            size: 20.sp,
+            color: bgRed,
+          ),
+        ),
+        SizedBox(width: 24.w),
+        const Expanded(child: SizedBox.shrink()),
+        IconButton(
+          onPressed: () => controller.isSearching.value = true,
+          padding: EdgeInsets.zero,
+          constraints: const BoxConstraints(),
+          splashRadius: 15.r,
+          icon: Icon(
+            Remix.search_line,
+            size: 20.sp,
+            color: bgRed,
+          ),
+        ),
+        20.w.widthBox,
+        IconButton(
+          onPressed: () => controller.isSearching.value = true,
+          padding: EdgeInsets.zero,
+          constraints: const BoxConstraints(),
+          splashRadius: 15.r,
+          icon: Icon(
+            Remix.equalizer_line,
+            size: 20.sp,
+            color: bgRed,
+          ),
+        ),
+        20.w.widthBox,
+        IconButton(
+          onPressed: () => controller.isSearching.value = true,
+          padding: EdgeInsets.zero,
+          constraints: const BoxConstraints(),
+          splashRadius: 15.r,
+          icon: Icon(
+            Remix.more_2_fill,
+            size: 20.sp,
+            color: bgRed,
+          ),
+        ),
+      ],
+    );
+
+    final Widget searchingTopBar = Row(
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        Icon(
+          Remix.search_line,
+          size: 25.sp,
+          color: bgRed,
+        ),
+        10.w.widthBox,
+        Expanded(
+          child: CustomTextField(
+            errorText: '',
+            normalTextfield: true,
+            borderStyle: const UnderlineInputBorder(),
+            padding: EdgeInsets.fromLTRB(10.w, 20.h, 10.w, 6.h),
+            hintText: 'Search...',
+            autoFocus: true,
+            controller: controller.searchController,
+            onSubmitted: (_) {
+                controller.searchQuery.value = controller.searchController.text;
+                  controller.filterEventList();
+            },
+          ),
+        ),
+        7.w.widthBox,
+        IconButton(
+          onPressed: () {
+            // controller.searchController.clear();
+            controller.isSearching.value = false;
+          },
+          padding: EdgeInsets.zero,
+          splashRadius: 15.r,
+          constraints: const BoxConstraints(),
+          icon: Icon(
+            Remix.close_fill,
+            size: 20.sp,
+            color: bgRed,
+          ),
+        ),
+      ],
+    );
+
+    return PreferredSize(
+        preferredSize: preferredSize,
+        child: Container(
+          decoration: BoxDecoration(
+              color: bgWhite, border: Border(bottom: BorderSide(color: bgRed))),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: EdgeInsets.symmetric(
+                  vertical: 12.h,
+                  horizontal: 16.w,
+                ),
+                child: Obx(
+                  () {
+                    if (controller.isSearching.value) {
+                      return searchingTopBar;
+                    } else {
+                      return notSearchingTopBar;
+                    }
+                  },
+                ),
+              ),
+            ],
+          ),
+        ));
   }
 }

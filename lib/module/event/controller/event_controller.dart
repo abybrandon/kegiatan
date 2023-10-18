@@ -385,4 +385,9 @@ class EventController extends GetxController with StateMixin {
       'totalLiked': FieldValue.increment(1),
     });
   }
+
+  //filter
+  
+  final RxBool isSearching = false.obs;
+  final searchController = TextEditingController();
 }
