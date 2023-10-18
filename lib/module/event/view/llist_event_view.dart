@@ -19,16 +19,7 @@ class ListEventView extends GetView<EventController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: generalBgWeak,
-        appBar: _AppBar(),
-        body: Column(
-          children: [
-          
-            FilterList(),
-            10.heightBox,
-            ListEventItem()
-          ],
-        ));
+        backgroundColor: bgWhite, appBar: _AppBar(), body: TryGrid());
   }
 }
 
@@ -72,8 +63,9 @@ class ListEventItem extends GetView<EventController> {
                 child: GridView.builder(
               itemCount: controller.filteredEventList.length,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2, // Jumlah kolom pada grid
-                crossAxisSpacing: 10.w, childAspectRatio: 0.7,
+                crossAxisCount: 2,
+                crossAxisSpacing: 10.w,
+                childAspectRatio: 0.7,
                 mainAxisSpacing: 10.h,
               ),
               shrinkWrap: true,
@@ -437,8 +429,8 @@ class _AppBar extends GetView<EventController> implements PreferredSizeWidget {
             autoFocus: true,
             controller: controller.searchController,
             onSubmitted: (_) {
-                controller.searchQuery.value = controller.searchController.text;
-                  controller.filterEventList();
+              controller.searchQuery.value = controller.searchController.text;
+              controller.filterEventList();
             },
           ),
         ),
@@ -464,7 +456,10 @@ class _AppBar extends GetView<EventController> implements PreferredSizeWidget {
         preferredSize: preferredSize,
         child: Container(
           decoration: BoxDecoration(
-              color: bgWhite, border: Border(bottom: BorderSide(color: bgRed))),
+              color: bgWhite,
+              border: Border(
+                bottom: BorderSide(color: bgRed, width: 2.h),
+              )),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -487,5 +482,119 @@ class _AppBar extends GetView<EventController> implements PreferredSizeWidget {
             ],
           ),
         ));
+  }
+}
+
+class TryGrid extends GetView<EventController> {
+  const TryGrid({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Padding(
+        padding: EdgeInsets.symmetric(vertical: 20.h),
+        child: Center(
+          child: Wrap(
+              spacing: 20.w,
+              runSpacing: 20.h,
+              children: List.generate(
+                controller.dataEvent.length,
+                (index) => Container(
+                  padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
+                  width: 150.w,
+                  height: 209.h,
+                  decoration: ShapeDecoration(
+                    color: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(width: 1, color: Color(0xFFE6E6E6)),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    shadows: [
+                      BoxShadow(
+                        color: Color(0x3F000000),
+                        blurRadius: 4,
+                        offset: Offset(0, 4),
+                        spreadRadius: 0,
+                      )
+                    ],
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(8.r),
+                        child: Image.asset(
+                          'assets/img/${controller.dataEvent[index]['image']}',
+                          height: 150.h,
+                          width: double.infinity,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      4.h.heightBox,
+                      Text(
+                        '${controller.dataEvent[index]['eventName']}',
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                            fontSize: 8.sp,
+                            color: trueBlack,
+                            fontWeight: Config.semiBold),
+                      ),
+                      Text(
+                        '${controller.dataEvent[index]['dateEvent']}',
+                        overflow: TextOverflow.clip,
+                        style: TextStyle(
+                            fontSize: 8.sp,
+                            color: bgGrey,
+                            fontWeight: Config.medium),
+                      ),
+                      2.h.heightBox,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              Icon(
+                                Remix.map_pin_line,
+                                size: 8.sp,
+                                color: Color(0xffBFC300),
+                              ),
+                              2.w.widthBox,
+                              Text(
+                                'Kota ${controller.dataEvent[index]['city']}',
+                                overflow: TextOverflow.clip,
+                                style: TextStyle(
+                                    fontSize: 8.sp,
+                                    color: basicBlack,
+                                    fontWeight: Config.medium),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Icon(
+                                Remix.heart_2_fill,
+                                size: 8.sp,
+                                color: trueLove,
+                              ),
+                              2.w.widthBox,
+                              Text(
+                                '13 Liked',
+                                overflow: TextOverflow.clip,
+                                style: TextStyle(
+                                    fontSize: 8.sp,
+                                    color: trueLove,
+                                    fontWeight: Config.medium),
+                              ),
+                            ],
+                          )
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+              )),
+        ),
+      ),
+    );
   }
 }

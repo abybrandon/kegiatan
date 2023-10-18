@@ -390,4 +390,57 @@ class EventController extends GetxController with StateMixin {
   
   final RxBool isSearching = false.obs;
   final searchController = TextEditingController();
+
+  
+  List<Map<String, dynamic>> dataEvent = [
+    {
+      'eventName': 'Impactnation Japanfest Indonesia',
+      'dateEvent': '23 September 2023',
+      'city': 'Jakarta',
+      'image': 'festImage.png',
+      'totalLiked': 20
+    },
+    {
+      'eventName': 'Momijigari Shirayuki',
+      'dateEvent': '13 Desember 2023',
+      'city': 'Jakarta',
+      'image': 'festImage2.png',
+      'totalLiked': 20
+    },
+    {
+      'eventName': 'Jakjapan Matsuri',
+      'dateEvent': '2 September 2023',
+      'city': 'Jakarta',
+      'image': 'festimage4.png',
+      'totalLiked': 20
+    },
+    {
+      'eventName': 'Jiyuu Matsuri 2023',
+      'dateEvent': '5 juli 2023',
+      'city': 'Bengkulu',
+      'image': 'festImage.png',
+      'totalLiked': 20
+    },
+    {
+      'eventName': 'Momijigari Shirayuki',
+      'dateEvent': '13 Desember 2023',
+      'city': 'Jakarta',
+      'image': 'festImage2.png',
+      'totalLiked': 20
+    },
+    {
+      'eventName': 'Jakjapan Matsuri',
+      'dateEvent': '2 September 2023',
+      'city': 'Jakarta',
+      'image': 'festimage4.png',
+      'totalLiked': 20
+    },
+    {
+      'eventName': 'Jiyuu Matsuri 2023',
+      'dateEvent': '5 juli 2023',
+      'city': 'Bengkulu',
+      'image': 'festImage.png',
+      'totalLiked': 20
+    },
+  ];
 }
