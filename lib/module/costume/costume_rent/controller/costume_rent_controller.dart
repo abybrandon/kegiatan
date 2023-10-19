@@ -29,8 +29,8 @@ class CostumeRentController extends GetxController with StateMixin {
     super.onClose();
   }
 
-  final PagingController<int, CostumeRentPagination> allAsetsListPagingController =
-      PagingController(firstPageKey: 1);
+  final PagingController<int, CostumeRentPagination>
+      allAsetsListPagingController = PagingController(firstPageKey: 1);
 
   bool get isFetchedAll => allAsetsListPagingController.nextPageKey == null;
 
@@ -54,14 +54,21 @@ class CostumeRentController extends GetxController with StateMixin {
       print('jalan');
     } else {
       try {
-        final QuerySnapshot snapshot = await cosRentCollection.startAfter([allAsetsListPagingController.itemList != null ? allAsetsListPagingController.itemList!.length : null]).limit(limit!).get();
+        final QuerySnapshot snapshot = await cosRentCollection
+            .startAfter([
+              allAsetsListPagingController.itemList != null
+                  ? allAsetsListPagingController.itemList!.length
+                  : null
+            ])
+            .limit(limit!)
+            .get();
         final List<CostumeRentPagination> fetchedList = snapshot.docs
             .map((doc) => CostumeRentPagination.fromJson(
                 doc.data() as Map<String, dynamic>))
             .toList();
 
         final isLastPage = limit == null ? true : fetchedList.length < limit;
-      
+
         if (isLastPage) {
           allAsetsListPagingController.appendLastPage(fetchedList);
         } else {
@@ -77,8 +84,6 @@ class CostumeRentController extends GetxController with StateMixin {
     }
     change(null, status: RxStatus.success());
   }
-
-   
 
   // try pagination
   // final CollectionReference tryPaginationCollection = FirebaseFirestore.instance

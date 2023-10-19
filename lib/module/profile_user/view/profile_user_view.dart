@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:newtest/local_storage/local_storage_helper.dart';
+import 'package:newtest/routes/app_pages.dart';
 import 'package:newtest/theme.dart';
 import 'package:newtest/widget/sizedbox_extension.dart';
 import 'package:remixicon/remixicon.dart';
@@ -42,7 +44,7 @@ class _BodySection extends GetView<ProfileUserController> {
           style: TextStyle(
               color: bgRed, fontWeight: Config.medium, fontSize: textMedium),
         ),
-        16.h.heightBox,
+        8.h.heightBox,
         ButtonProfileWidget(
           icon: Remix.user_3_line,
           title: 'Change Username',
@@ -58,6 +60,10 @@ class _BodySection extends GetView<ProfileUserController> {
         ButtonProfileWidget(
           icon: Remix.logout_box_line,
           title: 'Logout',
+          fuction: () async {
+                        await SharedPreferenceHelper.removeUserData();
+                Get.offAllNamed(Routes.LOGIN);
+          },
         ),
         4.h.heightBox,
         Text(
@@ -65,7 +71,7 @@ class _BodySection extends GetView<ProfileUserController> {
           style: TextStyle(
               color: bgRed, fontWeight: Config.medium, fontSize: textMedium),
         ),
-        16.h.heightBox,
+        8.h.heightBox,
         ButtonProfileWidget(
           icon: Remix.notification_3_line,
           title: 'Notification',
@@ -88,7 +94,7 @@ class _BodySection extends GetView<ProfileUserController> {
           style: TextStyle(
               color: bgRed, fontWeight: Config.medium, fontSize: textMedium),
         ),
-        16.h.heightBox,
+        8.h.heightBox,
          ButtonProfileWidget(
           icon: Remix.article_line,
           title: 'Terms of Service',

@@ -1,9 +1,36 @@
+import 'dart:convert';
+
+import 'package:newtest/local_storage/user_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPreferenceHelper {
   static const String _key = 'my_data';
   static const String _keyisPreLogin = 'prelogin_status';
   static const String _keyUidUser = 'userUid';
+   static const String _keyUserData = 'user_data';
+
+  //set user data
+  static Future<void> setUserData(UserData userData) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final userDataJson = userData.toJson();
+    await prefs.setString(_keyUserData, json.encode(userDataJson));
+  }
+  //get user data
+  static Future<UserData?> getUserData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final userDataJson = prefs.getString(_keyUserData);
+    if (userDataJson != null) {
+      return UserData.fromJson(json.decode(userDataJson));
+    } else {
+      return null;
+    }
+  }
+  //remove user data
+   static Future<void> removeUserData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove(_keyUserData);
+  }
+
 
   static Future<void> setData(String data) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();

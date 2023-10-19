@@ -8,14 +8,15 @@ import 'package:newtest/routes/app_pages.dart';
 import 'package:newtest/theme.dart';
 import 'controller_universal/controller_universal.dart';
 import 'local_storage/local_storage_helper.dart';
+import 'local_storage/user_model.dart';
 import 'module/home/dummy/trynotification.dart';
-
 
 final GlobalKey<ScaffoldMessengerState> rootScaffoldMessengerKey =
     GlobalKey<ScaffoldMessengerState>();
 
 bool _isLoggedIn = false;
 bool _preLoginStatus = false;
+bool _isAdmin = false;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,11 +25,16 @@ void main() async {
   await Firebase.initializeApp();
   Get.put(ControllerUniversal());
   NotificationService().initNotification();
-  
-  String? dataUser = await SharedPreferenceHelper.getUserUid();
+
+  UserData? dataUser = await SharedPreferenceHelper.getUserData();
+
   int? statusPrelogin = await SharedPreferenceHelper.getDataPrelogin();
+
   if (dataUser != null) {
     _isLoggedIn = true;
+    if (dataUser.role == 'admin') {
+      _isAdmin = true;
+    }
   }
   if (statusPrelogin == 1) {
     _preLoginStatus = true;
@@ -48,9 +54,13 @@ class _MyAppState extends State<MyApp> {
     String initialRoute = Routes.PRE_LOGIN;
 
     if (_isLoggedIn) {
-      initialRoute = Routes.NAVIGATION_BAR;
+      if (_isAdmin) {
+        initialRoute = Routes.MENU_ADMIN;
+      } else {
+        initialRoute = Routes.NAVIGATION_BAR;
+      }
     } else if (_preLoginStatus) {
-      initialRoute = Routes.PRE_LOGIN;
+      initialRoute = Routes.LOGIN;
     }
 
     return initialRoute;
@@ -61,7 +71,6 @@ class _MyAppState extends State<MyApp> {
     return ScreenUtilInit(
         minTextAdapt: true,
         splitScreenMode: true,
-        
         designSize: const Size(360, 800),
         builder: (_, __) => GetMaterialApp(
             theme: Config.getTheme(),

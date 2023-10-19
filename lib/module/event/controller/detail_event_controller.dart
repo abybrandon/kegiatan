@@ -230,4 +230,8 @@ class DetailEventController extends GetxController with StateMixin {
   //tabbar
 
   RxInt selectedButton = 0.obs;
+
+  //appbar
+  
+  final RxBool isSearching = false.obs;
 }

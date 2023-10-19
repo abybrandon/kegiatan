@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:newtest/local_storage/user_model.dart';
 import 'package:newtest/module/event/model/event_model.dart';
 
 import 'package:intl/date_symbol_data_local.dart';
@@ -328,7 +329,8 @@ class EventController extends GetxController with StateMixin {
     try {
       // Ambil data dari Firestore
 
-      String? userUid = await SharedPreferenceHelper.getUserUid();
+    UserData? userData = await SharedPreferenceHelper.getUserData();
+    String userUid = userData!.id;
       DocumentSnapshot snapshot = await FirebaseFirestore.instance
           .collection('users')
           .doc(userUid)
@@ -351,8 +353,8 @@ class EventController extends GetxController with StateMixin {
         .doc('events')
         .collection('eventList')
         .doc(documentId);
-    String? userUid = await SharedPreferenceHelper.getUserUid();
-
+    UserData? userData = await SharedPreferenceHelper.getUserData();
+    String userUid = userData!.id;
     DocumentReference userDoc =
         FirebaseFirestore.instance.collection('users').doc(userUid);
 
@@ -372,7 +374,8 @@ class EventController extends GetxController with StateMixin {
         .collection('eventList')
         .doc(documentId);
 
-    String? userUid = await SharedPreferenceHelper.getUserUid();
+    UserData? userData = await SharedPreferenceHelper.getUserData();
+    String userUid = userData!.id;
 
     DocumentReference userDoc =
         FirebaseFirestore.instance.collection('users').doc(userUid);
@@ -387,11 +390,10 @@ class EventController extends GetxController with StateMixin {
   }
 
   //filter
-  
+
   final RxBool isSearching = false.obs;
   final searchController = TextEditingController();
 
-  
   List<Map<String, dynamic>> dataEvent = [
     {
       'eventName': 'Impactnation Japanfest Indonesia',

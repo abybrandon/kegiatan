@@ -1,8 +1,22 @@
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:newtest/local_storage/local_storage_helper.dart';
+import 'package:newtest/local_storage/user_model.dart';
 
 class HomeController extends GetxController {
   final RxBool isAppBarVisible = false.obs;
+
+  @override
+  void onInit() {
+    getUserData();
+    super.onInit();
+  }
+
+  Future<void> getUserData() async {
+    UserData? dataUser = await SharedPreferenceHelper.getUserData();
+    userData.value = dataUser!.username;
+  }
+  RxString userData =''.obs;
 
   final searchController = TextEditingController();
   RxString searchText = ''.obs;

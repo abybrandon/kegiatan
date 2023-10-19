@@ -9,6 +9,7 @@ import 'package:newtest/module/event/controller/detail_event_controller.dart';
 import 'package:newtest/theme.dart';
 import 'package:newtest/widget/loader.dart';
 import 'package:newtest/widget/sizedbox_extension.dart';
+import 'package:newtest/widget/universal_appbar.dart';
 import 'package:remixicon/remixicon.dart';
 import 'package:flutter_map_tile_caching/flutter_map_tile_caching.dart';
 import '../../../routes/app_pages.dart';
@@ -24,45 +25,50 @@ class EventDetailView extends GetView<DetailEventController> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: bgWhite,
-        appBar: AppBar(
-          elevation: 0,
-          leading: Padding(
-            padding: EdgeInsets.symmetric(
-              vertical: 12.h,
-              horizontal: 16.w,
-            ),
-            child: IconButton(
-              onPressed: () {
-                Get.back();
-              },
-              padding: EdgeInsets.zero,
-              constraints: const BoxConstraints(),
-              splashRadius: 15.r,
-              icon: Icon(
-                Remix.arrow_left_line,
-                size: 20.sp,
-                color: bgRed,
-              ),
-            ),
-          ),
-          actions: [
-            IconButton(
-                onPressed: () async {
-                  if (controller.isEventSaved.value) {
-                    controller.deleteDetailEvent(controller.eventDetail.value);
-                  } else {
-                    controller.saveDetailEvent(controller.eventDetail.value);
-                  }
-                },
-                icon: Obx(() => Icon(
-                      Remix.heart_3_fill,
-                      color:
-                          controller.isEventSaved.value ? bgRed : Colors.grey,
-                    ))),
-            10.widthBox
-          ],
-          backgroundColor: bgWhite,
+        appBar: 
+        AppBarUniversal(
+        isSearching: controller.isSearching,
+        title: '',
         ),
+        // AppBar(
+        //   elevation: 0,
+        //   leading: Padding(
+        //     padding: EdgeInsets.symmetric(
+        //       vertical: 12.h,
+        //       horizontal: 16.w,
+        //     ),
+        //     child: IconButton(
+        //       onPressed: () {
+        //         Get.back();
+        //       },
+        //       padding: EdgeInsets.zero,
+        //       constraints: const BoxConstraints(),
+        //       splashRadius: 15.r,
+        //       icon: Icon(
+        //         Remix.arrow_left_line,
+        //         size: 20.sp,
+        //         color: bgRed,
+        //       ),
+        //     ),
+        //   ),
+        //   actions: [
+        //     IconButton(
+        //         onPressed: () async {
+        //           if (controller.isEventSaved.value) {
+        //             controller.deleteDetailEvent(controller.eventDetail.value);
+        //           } else {
+        //             controller.saveDetailEvent(controller.eventDetail.value);
+        //           }
+        //         },
+        //         icon: Obx(() => Icon(
+        //               Remix.heart_3_fill,
+        //               color:
+        //                   controller.isEventSaved.value ? bgRed : Colors.grey,
+        //             ))),
+        //     10.widthBox
+        //   ],
+        //   backgroundColor: bgWhite,
+        // ),
         body: controller.obx(
             (state) => Stack(
                   children: [

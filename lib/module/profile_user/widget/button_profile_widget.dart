@@ -13,10 +13,11 @@ class ButtonProfileWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(bottom: 16.h),
-      child: InkWell(
-        onTap: fuction,
+    return InkWell(
+      onTap: fuction,
+      
+      child: Padding(
+        padding: EdgeInsets.only(bottom: 8.h, top: 8.h),
         child: Row(
           children: [
             Icon(

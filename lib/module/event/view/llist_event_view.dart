@@ -4,9 +4,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:newtest/module/event/controller/event_controller.dart';
 import 'package:newtest/module/event/widget/filter_date.dart';
+import 'package:newtest/module/event/widget/filter_event_list.dart';
 import 'package:newtest/routes/app_pages.dart';
 import 'package:newtest/theme.dart';
 import 'package:newtest/widget/custom_textfield.dart';
+import 'package:newtest/widget/shimmer_effect.dart';
 import 'package:newtest/widget/sizedbox_extension.dart';
 import 'package:remixicon/remixicon.dart';
 import 'package:shimmer/shimmer.dart';
@@ -26,27 +28,56 @@ class ListEventView extends GetView<EventController> {
 class ShimmerGridView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: GridView.builder(
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2, // Jumlah kolom pada grid
-          crossAxisSpacing: 10.w, childAspectRatio: 0.7,
-          mainAxisSpacing: 10.h,
+    return SingleChildScrollView(
+      child: Padding(
+        padding: EdgeInsets.symmetric(vertical: 20.h),
+        child: Center(
+          child: Wrap(
+              spacing: 20.w,
+              runSpacing: 20.h,
+              children: List.generate(10, (index) {
+                return Container(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 10.w, vertical: 8.h),
+                  width: 150.w,
+                  height: 209.h,
+                  decoration: ShapeDecoration(
+                    color: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(width: 1, color: Color(0xFFE6E6E6)),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    shadows: [
+                      BoxShadow(
+                        color: Color(0x3F000000),
+                        blurRadius: 4,
+                        offset: Offset(0, 4),
+                        spreadRadius: 0,
+                      )
+                    ],
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ShimmerEffect(
+                        height: 150.h,
+                        width: double.infinity,
+                      ),
+                      4.h.heightBox,
+                      ShimmerEffect(
+                        height: 10.h,
+                        width: 100.w,
+                      ),
+                      4.h.heightBox,
+                      ShimmerEffect(
+                        height: 10.h,
+                        width: 50.w,
+                      ),
+                    ],
+                  ),
+                );
+              })),
         ),
-        itemCount: 6, // Ganti sesuai dengan jumlah item yang ingin ditampilkan
-        itemBuilder: (context, index) {
-          return Shimmer.fromColors(
-            baseColor: Colors.grey[300]!,
-            highlightColor: Colors.grey[100]!,
-            child: Container(
-              height: 170,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(8.0),
-              ),
-            ),
-          );
-        },
       ),
     );
   }
@@ -350,12 +381,12 @@ class _Loading extends StatelessWidget {
 
 class _AppBar extends GetView<EventController> implements PreferredSizeWidget {
   @override
-  Size get preferredSize => Size.fromHeight(55.h);
+  Size get preferredSize => Size.fromHeight(50.h);
 
   @override
   Widget build(BuildContext context) {
     final Widget notSearchingTopBar = Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         IconButton(
           onPressed: () {
@@ -371,6 +402,11 @@ class _AppBar extends GetView<EventController> implements PreferredSizeWidget {
           ),
         ),
         SizedBox(width: 24.w),
+        Text(
+          'Event List',
+          style: TextStyle(
+              fontSize: 16.sp, color: bgRed, fontWeight: Config.semiBold),
+        ),
         const Expanded(child: SizedBox.shrink()),
         IconButton(
           onPressed: () => controller.isSearching.value = true,
@@ -385,7 +421,22 @@ class _AppBar extends GetView<EventController> implements PreferredSizeWidget {
         ),
         20.w.widthBox,
         IconButton(
-          onPressed: () => controller.isSearching.value = true,
+          onPressed: () {
+            showModalBottomSheet(
+              context: Get.overlayContext!,
+              isScrollControlled: true,
+              builder: (context) {
+                return ConstrainedBox(
+                  constraints: BoxConstraints(
+                    maxHeight: Get.height * 0.7
+                  ),
+                  child: FilterAssignAsset(
+                           
+                  ),
+                );
+              },
+            );
+          },
           padding: EdgeInsets.zero,
           constraints: const BoxConstraints(),
           splashRadius: 15.r,
@@ -490,111 +541,166 @@ class TryGrid extends GetView<EventController> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 20.h),
-        child: Center(
-          child: Wrap(
-              spacing: 20.w,
-              runSpacing: 20.h,
-              children: List.generate(
-                controller.dataEvent.length,
-                (index) => Container(
-                  padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
-                  width: 150.w,
-                  height: 209.h,
-                  decoration: ShapeDecoration(
-                    color: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      side: BorderSide(width: 1, color: Color(0xFFE6E6E6)),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    shadows: [
-                      BoxShadow(
-                        color: Color(0x3F000000),
-                        blurRadius: 4,
-                        offset: Offset(0, 4),
-                        spreadRadius: 0,
-                      )
-                    ],
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(8.r),
-                        child: Image.asset(
-                          'assets/img/${controller.dataEvent[index]['image']}',
-                          height: 150.h,
-                          width: double.infinity,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                      4.h.heightBox,
-                      Text(
-                        '${controller.dataEvent[index]['eventName']}',
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                            fontSize: 8.sp,
-                            color: trueBlack,
-                            fontWeight: Config.semiBold),
-                      ),
-                      Text(
-                        '${controller.dataEvent[index]['dateEvent']}',
-                        overflow: TextOverflow.clip,
-                        style: TextStyle(
-                            fontSize: 8.sp,
-                            color: bgGrey,
-                            fontWeight: Config.medium),
-                      ),
-                      2.h.heightBox,
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              Icon(
-                                Remix.map_pin_line,
-                                size: 8.sp,
-                                color: Color(0xffBFC300),
+    return controller.obx(
+        onLoading: ShimmerGridView(),
+        (state) => SingleChildScrollView(
+              child: Padding(
+                padding: EdgeInsets.symmetric(vertical: 20.h),
+                child: Center(
+                  child: Wrap(
+                      spacing: 20.w,
+                      runSpacing: 20.h,
+                      children: List.generate(
+                          controller.filteredEventList.length, (index) {
+                        final event = controller.filteredEventList[index];
+                        return Stack(
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                Get.toNamed(Routes.EVENT_DETAIL,
+                                    parameters: {'id': event.id});
+                              },
+                              child: Container(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 10.w, vertical: 8.h),
+                                width: 150.w,
+                                height: 209.h,
+                                decoration: ShapeDecoration(
+                                  color: Colors.white,
+                                  shape: RoundedRectangleBorder(
+                                    side: BorderSide(
+                                        width: 1, color: Color(0xFFE6E6E6)),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  shadows: [
+                                    BoxShadow(
+                                      color: Color(0x3F000000),
+                                      blurRadius: 4,
+                                      offset: Offset(0, 4),
+                                      spreadRadius: 0,
+                                    )
+                                  ],
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(8.r),
+                                      child: CachedNetworkImage(
+                                        imageUrl: event.eventPict[0],
+                                        height: 150.h,
+                                        fit: BoxFit.cover,
+                                        width: double.infinity,
+                                        filterQuality: FilterQuality.low,
+                                      ),
+                                    ),
+                                    4.h.heightBox,
+                                    Text(
+                                      event.eventName,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                          fontSize: 8.sp,
+                                          color: trueBlack,
+                                          fontWeight: Config.semiBold),
+                                    ),
+                                    Text(
+                                      '20 Desember 2023',
+                                      overflow: TextOverflow.clip,
+                                      style: TextStyle(
+                                          fontSize: 8.sp,
+                                          color: bgGrey,
+                                          fontWeight: Config.medium),
+                                    ),
+                                    2.h.heightBox,
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Icon(
+                                              Remix.map_pin_line,
+                                              size: 8.sp,
+                                              color: Color(0xffBFC300),
+                                            ),
+                                            2.w.widthBox,
+                                            Text(
+                                              event.city,
+                                              overflow: TextOverflow.clip,
+                                              style: TextStyle(
+                                                  fontSize: 8.sp,
+                                                  color: basicBlack,
+                                                  fontWeight: Config.medium),
+                                            ),
+                                          ],
+                                        ),
+                                        Row(
+                                          children: [
+                                            Icon(
+                                              Remix.heart_2_fill,
+                                              size: 8.sp,
+                                              color: trueLove,
+                                            ),
+                                            2.w.widthBox,
+                                            Text(
+                                              '13 Liked',
+                                              overflow: TextOverflow.clip,
+                                              style: TextStyle(
+                                                  fontSize: 8.sp,
+                                                  color: trueLove,
+                                                  fontWeight: Config.medium),
+                                            ),
+                                          ],
+                                        )
+                                      ],
+                                    )
+                                  ],
+                                ),
                               ),
-                              2.w.widthBox,
-                              Text(
-                                'Kota ${controller.dataEvent[index]['city']}',
-                                overflow: TextOverflow.clip,
-                                style: TextStyle(
-                                    fontSize: 8.sp,
-                                    color: basicBlack,
-                                    fontWeight: Config.medium),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              Icon(
-                                Remix.heart_2_fill,
-                                size: 8.sp,
-                                color: trueLove,
-                              ),
-                              2.w.widthBox,
-                              Text(
-                                '13 Liked',
-                                overflow: TextOverflow.clip,
-                                style: TextStyle(
-                                    fontSize: 8.sp,
-                                    color: trueLove,
-                                    fontWeight: Config.medium),
-                              ),
-                            ],
-                          )
-                        ],
-                      )
-                    ],
-                  ),
+                            ),
+                            Positioned(
+                              right: 14.w,
+                              top: 12.h,
+                              child: Container(
+                                  width: 30.w,
+                                  height: 30.h,
+                                  decoration: ShapeDecoration(
+                                    color: Color(0x66C9C1C1),
+                                    shape: OvalBorder(),
+                                  ),
+                                  child: InkWell(
+                                      onTap: () {
+                                        bool alreadyLiked = controller
+                                            .likedEventList
+                                            .contains(event.id);
+                                        if (alreadyLiked) {
+                                          controller.likedEventList
+                                              .remove(event.id);
+                                          controller.dislikeEvent(event.id);
+                                        } else if (!alreadyLiked) {
+                                          controller.likedEventList
+                                              .add(event.id);
+                                          controller.likeEvent(event.id);
+                                        }
+                                      },
+                                      child: Obx(
+                                        () => Icon(
+                                          controller.likedEventList
+                                                  .contains(event.id)
+                                              ? Remix.heart_fill
+                                              : Remix.heart_line,
+                                          color: controller.likedEventList
+                                                  .contains(event.id)
+                                              ? bgRed
+                                              : bgWhite,
+                                        ),
+                                      ))),
+                            )
+                          ],
+                        );
+                      })),
                 ),
-              )),
-        ),
-      ),
-    );
+              ),
+            ));
   }
 }

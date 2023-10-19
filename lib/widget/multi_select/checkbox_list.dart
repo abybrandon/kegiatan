@@ -75,7 +75,7 @@ class _CheckboxListState<T extends Object> extends State<CheckboxList<T>> {
             suffixIcon: Icon(
               FeatherIcons.search,
               size: 25.sp,
-              color: primaryDefault,
+              color: bgRed,
             ),
           ),
         ),
@@ -108,6 +108,7 @@ class _CheckboxListState<T extends Object> extends State<CheckboxList<T>> {
                         Transform.scale(
                           scale: 1.2,
                           child: Checkbox(
+                            activeColor: bgRed,
                             value: getIsItemSelect(item.value),
                             onChanged: (value) {
                               setState(

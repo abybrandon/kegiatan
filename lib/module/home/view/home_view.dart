@@ -102,13 +102,13 @@ class _HomeViewState extends State<HomeView> {
                                       MainAxisAlignment.spaceBetween,
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
-                                    Text(
-                                      'Hii , Mazuya',
+                                  Obx(() =>   Text(
+                                      'Hii , ${controller.userData.value}',
                                       style: TextStyle(
                                           fontSize: 24.sp,
                                           color: bgWhite,
                                           fontWeight: FontWeight.bold),
-                                    ),
+                                    ),),
                                     Container(
                                       decoration: BoxDecoration(
                                           color: bgWhite,

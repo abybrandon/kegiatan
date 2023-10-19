@@ -1,8 +1,9 @@
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:newtest/local_storage/user_model.dart';
 import 'package:newtest/module/login/view/tes.dart';
 import '../../../local_storage/local_storage_helper.dart';
 import '../../../routes/app_pages.dart';
@@ -11,6 +12,9 @@ import '../../../widget/toast.dart';
 class LoginController extends GetxController with StateMixin {
   TextEditingController controllerEmail = TextEditingController();
   TextEditingController controllerPassword = TextEditingController();
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+  CollectionReference usersCollection =
+      FirebaseFirestore.instance.collection('users');
 
   //obsucre text
   RxBool isObscure = true.obs;
@@ -82,7 +86,7 @@ class LoginController extends GetxController with StateMixin {
           return userCredential;
         });
       });
-     Get.back();
+      Get.back();
     } on FirebaseException catch (e) {
       if (e.code == "weak-password") {
         print('password waek');
@@ -106,11 +110,30 @@ class LoginController extends GetxController with StateMixin {
         });
       });
 
-      Get.offAllNamed(Routes.NAVIGATION_BAR);
       Toast.showSuccessToastWithoutContext('Berhasil Login');
-      await SharedPreferenceHelper.setUserUid(userCredential.user!.uid);
-      String? data = await SharedPreferenceHelper.getUserUid();
-      print(data);
+
+      QuerySnapshot userDocs = await usersCollection
+          .where('_id', isEqualTo: userCredential.user!.uid)
+          .get();
+
+      DocumentSnapshot userDoc = userDocs.docs[0];
+      Map<String, dynamic> userData = userDoc.data() as Map<String, dynamic>;
+
+      UserData userDataToSave = UserData(
+          id: userData['_id'],
+          role: userData['role'],
+          username: userData['username']);
+
+      await SharedPreferenceHelper.setUserData(userDataToSave);
+      
+      if(userData['role']=='admin'){
+        
+      Get.offAllNamed(Routes.MENU_ADMIN);
+      }else{
+        
+      Get.offAllNamed(Routes.NAVIGATION_BAR);
+      }
+      print(userData['role']);
       clearController();
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {

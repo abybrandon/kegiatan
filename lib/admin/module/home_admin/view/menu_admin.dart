@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:newtest/local_storage/local_storage_helper.dart';
 import 'package:newtest/routes/app_pages.dart';
 import 'package:newtest/theme.dart';
 import 'package:newtest/widget/sizedbox_extension.dart';
@@ -47,6 +48,14 @@ class MenuAdmin extends StatelessWidget {
                 icon: Remix.wechat_pay_line,
                 function: () {
                   Get.toNamed(Routes.CREATE_COSTUME_RENT);
+                }),
+                      CustomCard(
+                title: 'Logout',
+                icon: Remix.logout_box_line,
+                function: ()async {
+                  
+                        await SharedPreferenceHelper.removeUserData();
+                Get.offAllNamed(Routes.LOGIN);
                 }),
           ],
         ),

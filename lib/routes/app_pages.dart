@@ -96,6 +96,12 @@ class AppPages {
         page: () => CostumeRentListView(),
         binding: CostumeRentBinding()),
 
+    //menu admin
+      GetPage(
+              name: Routes.MENU_ADMIN,
+              page: () => MenuAdmin(),
+              binding: CreateEventAdminBinding()),
+
     //navigation home
     GetPage(
         name: Routes.NAVIGATION_BAR,
