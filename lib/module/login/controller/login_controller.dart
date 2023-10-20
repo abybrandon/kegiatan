@@ -16,7 +16,6 @@ class LoginController extends GetxController with StateMixin {
   CollectionReference usersCollection =
       FirebaseFirestore.instance.collection('users');
 
-  //obsucre text
   RxBool isObscure = true.obs;
   FirebaseAuth _auth = FirebaseAuth.instance;
   GoogleSignIn _googleSignIn = GoogleSignIn();

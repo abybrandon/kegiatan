@@ -391,6 +391,21 @@ class EventController extends GetxController with StateMixin {
 
   //filter
 
+  String getWeekStatus(Timestamp timestamp) {
+  final currentTime = DateTime.now();
+  final weekStart = currentTime.subtract(Duration(days: currentTime.weekday - 1));
+  final weekEnd = weekStart.add(Duration(days: 6));
+
+  final timestampDate = timestamp.toDate();
+
+  if (timestampDate.isAfter(weekStart) && timestampDate.isBefore(weekEnd)) {
+    return 'Minggu Ini';
+  } else {
+    return 'Coming Soon';
+  }
+}
+
+
   final RxBool isSearching = false.obs;
   final searchController = TextEditingController();
 

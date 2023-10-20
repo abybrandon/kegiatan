@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:newtest/module/event/controller/event_controller.dart';
@@ -20,8 +21,12 @@ class ListEventView extends GetView<EventController> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: bgWhite, appBar: _AppBar(), body: TryGrid());
+    return AnnotatedRegion(
+      
+      value: SystemUiOverlayStyle(statusBarColor: bgWhite),
+      child: Scaffold(
+          backgroundColor: bgWhite, appBar: _AppBar(), body: TryGrid()),
+    );
   }
 }
 
@@ -427,12 +432,8 @@ class _AppBar extends GetView<EventController> implements PreferredSizeWidget {
               isScrollControlled: true,
               builder: (context) {
                 return ConstrainedBox(
-                  constraints: BoxConstraints(
-                    maxHeight: Get.height * 0.7
-                  ),
-                  child: FilterAssignAsset(
-                           
-                  ),
+                  constraints: BoxConstraints(maxHeight: Get.height * 0.7),
+                  child: FilterAssignAsset(),
                 );
               },
             );
@@ -658,6 +659,16 @@ class TryGrid extends GetView<EventController> {
                                 ),
                               ),
                             ),
+                            Container(
+                              color: bgRed,
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 2.w, vertical: 2.h),
+                              child: Text(
+                                controller.getWeekStatus(event.createdDate),
+                                style:
+                                    TextStyle(fontSize: 8.sp, color: bgWhite, fontWeight: Config.semiBold),
+                              ),
+                            ),
                             Positioned(
                               right: 14.w,
                               top: 12.h,
@@ -695,7 +706,7 @@ class TryGrid extends GetView<EventController> {
                                               : bgWhite,
                                         ),
                                       ))),
-                            )
+                            ),
                           ],
                         );
                       })),

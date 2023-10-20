@@ -30,6 +30,23 @@ class DetailEventController extends GetxController with StateMixin {
   double latitudeLoc = 0;
   double longitudeLoc = 0;
 
+  List<String> getImages() {
+    int desiredLength = 3;
+
+    String placeholderImage =
+        'https://firebasestorage.googleapis.com/v0/b/eventku-d1719.appspot.com/o/uploads%2FnoPhoto.png?alt=media&token=727f17d6-63c3-45e3-948f-d54d6c96b2eb&_gl=1*1nyzdex*_ga*MTc3MTE3Nzk4OS4xNjc1ODMyNjA1*_ga_CW55HF8NVT*MTY5Nzc2ODE3OC41MS4xLjE2OTc3Njg5MzguMzIuMC4w';
+
+    if (listPict.length < desiredLength) {
+      int additionalImagesCount = desiredLength - listPict.length;
+
+      for (int i = 0; i < additionalImagesCount; i++) {
+        listPict.add(placeholderImage);
+      }
+    }
+
+    return listPict;
+  }
+
   Future<void> fetchEventDetailById(String id) async {
     change(null, status: RxStatus.loading());
     var connectivityResult = await (Connectivity().checkConnectivity());
@@ -232,6 +249,6 @@ class DetailEventController extends GetxController with StateMixin {
   RxInt selectedButton = 0.obs;
 
   //appbar
-  
+
   final RxBool isSearching = false.obs;
 }

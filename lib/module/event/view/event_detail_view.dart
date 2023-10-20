@@ -26,76 +26,25 @@ class EventDetailView extends GetView<DetailEventController> {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
-    return Scaffold(
-        backgroundColor: bgWhite,
-        // appBar:
-        // AppBarUniversal(
-        // isSearching: controller.isSearching,
-        // title: '',
-        // isCustom: true,
-        // ),
-        // AppBar(
-        //   elevation: 0,
-        //   leading: Padding(
-        //     padding: EdgeInsets.symmetric(
-        //       vertical: 12.h,
-        //       horizontal: 16.w,
-        //     ),
-        //     child: IconButton(
-        //       onPressed: () {
-        //         Get.back();
-        //       },
-        //       padding: EdgeInsets.zero,
-        //       constraints: const BoxConstraints(),
-        //       splashRadius: 15.r,
-        //       icon: Icon(
-        //         Remix.arrow_left_line,
-        //         size: 20.sp,
-        //         color: bgRed,
-        //       ),
-        //     ),
-        //   ),
-        //   actions: [
-        //     IconButton(
-        //         onPressed: () async {
-        //           if (controller.isEventSaved.value) {
-        //             controller.deleteDetailEvent(controller.eventDetail.value);
-        //           } else {
-        //             controller.saveDetailEvent(controller.eventDetail.value);
-        //           }
-        //         },
-        //         icon: Obx(() => Icon(
-        //               Remix.heart_3_fill,
-        //               color:
-        //                   controller.isEventSaved.value ? bgRed : Colors.grey,
-        //             ))),
-        //     10.widthBox
-        //   ],
-        //   backgroundColor: bgWhite,
-        // ),
-        body: controller.obx(
-            (state) => Stack(
-                  children: [
-                    _BodyDetail(),
-                    Align(
-                        alignment: Alignment.bottomCenter,
-                        child: _FloatingButton())
-                  ],
-                ),
-            onLoading: Loader()));
+    return AnnotatedRegion(
+      value: SystemUiOverlayStyle(statusBarColor: bgWhite),
+      child: Scaffold(
+          backgroundColor: bgWhite,
+          body: controller.obx(
+              (state) => Stack(
+                    children: [
+                      _BodyDetail(),
+                      Align(
+                          alignment: Alignment.bottomCenter,
+                          child: _FloatingButton())
+                    ],
+                  ),
+              onLoading: Loader())),
+    );
   }
 }
 
 class _BodyDetail extends GetView<DetailEventController> {
-  
-  final List<String> imageList = [
-    'https://firebasestorage.googleapis.com/v0/b/eventku-d1719.appspot.com/o/event_images%2FScreenshot_7.png?alt=media&token=ee2f9bac-f45d-4058-b010-b4bd38f8a050&_gl=1*en66nn*_ga*MTc3MTE3Nzk4OS4xNjc1ODMyNjA1*_ga_CW55HF8NVT*MTY5NzcwNTIzNi40OS4xLjE2OTc3MDUyNDguNDguMC4w',
-    'https://firebasestorage.googleapis.com/v0/b/eventku-d1719.appspot.com/o/event_images%2FScreenshot_1.png?alt=media&token=ff16e608-4ba9-4fa3-beb7-b0e83e000a41&_gl=1*1tq85ck*_ga*MTc3MTE3Nzk4OS4xNjc1ODMyNjA1*_ga_CW55HF8NVT*MTY5NzcwNTIzNi40OS4xLjE2OTc3MDUyNTguMzguMC4w',
-    'https://firebasestorage.googleapis.com/v0/b/eventku-d1719.appspot.com/o/event_images%2FScreenshot_5.png?alt=media&token=c490e068-023f-438a-8b59-d7e90a90845c&_gl=1*dncxim*_ga*MTc3MTE3Nzk4OS4xNjc1ODMyNjA1*_ga_CW55HF8NVT*MTY5NzcwNTIzNi40OS4xLjE2OTc3MDUyNjYuMzAuMC4w',
-    'https://firebasestorage.googleapis.com/v0/b/eventku-d1719.appspot.com/o/event_images%2FScreenshot_2.png?alt=media&token=f30376f6-05dd-423c-9684-b21067c86dfa&_gl=1*240u9e*_ga*MTc3MTE3Nzk4OS4xNjc1ODMyNjA1*_ga_CW55HF8NVT*MTY5NzcwNTIzNi40OS4xLjE2OTc3MDUyNzQuMjIuMC4w',
-    // Tambahkan URL gambar lainnya sesuai kebutuhan Anda
-  ];
-
   final RxInt currentImageIndex = 0.obs;
   final PageController pageController = PageController();
 
@@ -107,208 +56,308 @@ class _BodyDetail extends GetView<DetailEventController> {
       curve: Curves.easeInOut,
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
         children: [
-          40.heightBox,
-              Row(
-              children: [
-                Expanded(
-                  flex: 2, // Mengambil 2/3 dari lebar
-                  child: Container(
-                    height: 300,
-                    child: AnimatedBuilder(
-                      animation: pageController,
-                      builder: (context, child) {
-                        return PageView.builder(
-                          controller: pageController,
-                          itemCount: imageList.length,
-                          onPageChanged: (index) {
-                            changeImage(index);
-                          },
-                          itemBuilder: (context, index) {
-                            return Image.network(imageList[index]);
-                          },
-                        );
-                      },
-                    ),
+          20.heightBox,
+          Row(
+            children: [
+              Expanded(
+                flex: 2,
+                child: Container(
+                  height: 300.h,
+                  child: AnimatedBuilder(
+                    animation: pageController,
+                    builder: (context, child) {
+                      return PageView.builder(
+                        controller: pageController,
+                        itemCount: controller.getImages().length,
+                        onPageChanged: (index) {
+                          currentImageIndex.value = index;
+                        },
+                        itemBuilder: (context, index) {
+                          return AssetPhoto(
+                            height: 100.h,
+                            image: controller.getImages()[index],
+                          );
+                        },
+                      );
+                    },
                   ),
                 ),
-                Expanded(
-                    flex: 1,
-                    child: Container(
-                      height: 300,
-                      child: SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            20.h.heightBox,
-                            Column(
-                              children: imageList.asMap().entries.map((entry) {
-                                int index = entry.key;
-                                String url = entry.value;
-                                return GestureDetector(
+              ),
+              Expanded(
+                  flex: 1,
+                  child: Container(
+                    height: 300.h,
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          20.h.heightBox,
+                          Column(
+                            children: controller
+                                .getImages()
+                                .asMap()
+                                .entries
+                                .map((entry) {
+                              int index = entry.key;
+                              String url = entry.value;
+                              return GestureDetector(
                                   onTap: () {
                                     changeImage(index);
                                     print(index);
                                   },
-                                  child: Container(
-                                    width: 75,
-                                    height: 75,
-                                    margin: EdgeInsets.all(8),
-                                    decoration: BoxDecoration(
-                                      border: Border.all(
-                                        color: currentImageIndex == index
-                                            ? Colors.blue
-                                            : Colors.grey,
+                                  child: Obx(
+                                    () => Container(
+                                      width: 75.w,
+                                      height: 75.w,
+                                      margin: EdgeInsets.symmetric(
+                                          horizontal: 8.w, vertical: 8.h),
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                          color:
+                                              currentImageIndex.value == index
+                                                  ? bgRed
+                                                  : Color(0xffE6E6E6),
+                                        ),
                                       ),
+                                      child: CachedNetworkImage(imageUrl: url),
                                     ),
-                                    child: Image.network(url),
-                                  ),
-                                );
-                              }).toList(),
-                            ),
-                          ],
-                        ),
+                                  ));
+                            }).toList(),
+                          ),
+                        ],
                       ),
-                    )),
-              ],
-            ),
-          20.heightBox,
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
-            width: double.infinity,
-            decoration: BoxDecoration(
-              color: bgWhite,
-            ),
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Text(
-                    controller.nameEvent,
-                    style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 20,
-                        color: bgRed),
-                  ),
-                  10.heightBox,
-                  Text(
-                    controller.organizerEvent,
-                    style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
-                  ),
-                  10.heightBox,
-                  Text(
-                    controller.city,
-                    style: TextStyle(fontWeight: FontWeight.w500),
-                  ),
-                  10.heightBox,
-                ]),
-          ),
-          Divider(height: 4, thickness: 4),
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
-            width: double.infinity,
-            decoration: BoxDecoration(
-              color: bgWhite,
-            ),
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Text(
-                    'Tanggal 17 Agustus - 20 Agustus',
-                    style: TextStyle(fontWeight: Config.semiBold),
-                  ),
-                  10.heightBox,
-                ]),
-          ),
-          Divider(height: 4, thickness: 4),
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
-            width: double.infinity,
-            decoration: BoxDecoration(
-              color: bgWhite,
-            ),
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Text('Detail Event',
-                      style:
-                          TextStyle(fontWeight: FontWeight.w600, fontSize: 14)),
-                  10.heightBox,
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: [
-                        Obx(
-                          () => ButtonTabbar(
-                              tittle: 'Deskripsi',
-                              function: () {
-                                controller.selectedButton.value = 0;
-                              },
-                              isSelected: controller.selectedButton.value == 0),
-                        ),
-                        Obx(
-                          () => ButtonTabbar(
-                              tittle: 'Guest Start',
-                              function: () {
-                                controller.selectedButton.value = 1;
-                              },
-                              isSelected: controller.selectedButton.value == 1),
-                        ),
-                        Obx(
-                          () => ButtonTabbar(
-                              tittle: 'Maps',
-                              function: () {
-                                controller.selectedButton.value = 2;
-                              },
-                              isSelected: controller.selectedButton.value == 2),
-                        ),
-                        Obx(
-                          () => ButtonTabbar(
-                              tittle: 'Rundown',
-                              function: () {
-                                controller.selectedButton.value = 3;
-                              },
-                              isSelected: controller.selectedButton.value == 3),
-                        ),
-                        Obx(
-                          () => ButtonTabbar(
-                              tittle: 'Rules',
-                              function: () {
-                                controller.selectedButton.value = 3;
-                              },
-                              isSelected: controller.selectedButton.value == 3),
-                        ),
-                      ],
                     ),
-                  ),
-                  20.heightBox,
-                  Obx(() {
-                    switch (controller.selectedButton.value) {
-                      case 0:
-                        //task
-                        return _DescriptionPage();
-                      case 1:
-                        return const _GuestStartPage();
-                      case 2:
-                        return const _MapsEvent();
-                      case 3:
-                        return const _MapsEvent();
-                      case 4:
-                        return const _DescriptionPage();
-                      default:
-                        return _MapsEvent();
-                    }
-                  }),
-                ]),
+                  )),
+            ],
           ),
-          80.heightBox,
+          16.heightBox,
+          _ContentBody()
         ],
       ),
+    );
+  }
+}
+
+class _ContentBody extends GetView<DetailEventController> {
+  _ContentBody({super.key});
+  String namePlace =
+      'Jl. Gerbang Pemuda No.3, RT.1/RW.3, Gelora, Kecamatan Tanah Abang, Kota Jakarta Pusat, Daerah Khusus Ibukota Jakarta 10270 ';
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Container(
+          padding: EdgeInsets.symmetric(horizontal: 16.w),
+          width: double.infinity,
+          decoration: BoxDecoration(
+            color: bgWhite,
+          ),
+          child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Text(
+                  controller.nameEvent,
+                  style: TextStyle(
+                      fontWeight: Config.semiBold,
+                      fontSize: 14.sp,
+                      color: bgRed),
+                ),
+                2.heightBox,
+                Row(
+                  children: [
+                    Text('Event Organizer : ',
+                        style: TextStyle(
+                            fontWeight: Config.medium,
+                            fontSize: 8.sp,
+                            color: bgGrey)),
+                    Text('Raf Creatif',
+                        style: TextStyle(
+                            fontWeight: Config.medium,
+                            fontSize: 8.sp,
+                            color: Color(0xff4AD6C9))),
+                  ],
+                ),
+                16.h.heightBox,
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(60.r),
+                      child: Container(
+                          padding: EdgeInsets.only(bottom: 1.h),
+                          width: 24.w,
+                          height: 24.h,
+                          color: basicBlack,
+                          child: Center(
+                            child: Icon(
+                              Remix.map_pin_line,
+                              color: bgWhite,
+                              size: 20.sp,
+                            ),
+                          )),
+                    ),
+                    4.w.widthBox,
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(
+                            'Mall Senayan Park',
+                            style: TextStyle(
+                                fontSize: 12.sp,
+                                color: basicBlack,
+                                fontWeight: Config.semiBold),
+                          ),
+                          2.h.heightBox,
+                          Text(
+                            namePlace,
+                            style: TextStyle(
+                                fontSize: 8.sp,
+                                color: bgGrey,
+                                fontWeight: Config.medium),
+                          ),
+                          2.h.heightBox,
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Text(
+                                'Get Direction',
+                                style: TextStyle(
+                                    fontSize: 8.sp,
+                                    color: bgRed,
+                                    fontWeight: Config.medium),
+                              ),
+                              2.w.widthBox,
+                              Image.asset(
+                                'assets/img/google-maps.png',
+                                height: 14.h,
+                                width: 14.w,
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+                8.h.heightBox,
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(60.r),
+                      child: Container(
+                          width: 24,
+                          height: 24,
+                          padding: EdgeInsets.only(bottom: 1.h),
+                          color: basicBlack,
+                          child: Center(
+                            child: Icon(
+                              Remix.time_line,
+                              color: bgWhite,
+                              size: 20.sp,
+                            ),
+                          )),
+                    ),
+                    4.w.widthBox,
+                    Text(
+                      '20 Oktober 2023 05-00 - 21-00 WIB',
+                      style: TextStyle(
+                          fontSize: 12.sp,
+                          color: basicBlack,
+                          fontWeight: Config.semiBold),
+                    ),
+                  ],
+                ),
+                4.h.heightBox,
+              ]),
+        ),
+        Container(
+          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+          width: double.infinity,
+          decoration: BoxDecoration(
+            color: bgWhite,
+          ),
+          child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: [
+                      Obx(
+                        () => ButtonTabbar(
+                            tittle: 'Overview',
+                            function: () {
+                              controller.selectedButton.value = 0;
+                            },
+                            isSelected: controller.selectedButton.value == 0),
+                      ),
+                      Obx(
+                        () => ButtonTabbar(
+                            tittle: 'Guest Start',
+                            function: () {
+                              controller.selectedButton.value = 1;
+                            },
+                            isSelected: controller.selectedButton.value == 1),
+                      ),
+                      Obx(
+                        () => ButtonTabbar(
+                            tittle: 'Content',
+                            function: () {
+                              controller.selectedButton.value = 2;
+                            },
+                            isSelected: controller.selectedButton.value == 2),
+                      ),
+                      Obx(
+                        () => ButtonTabbar(
+                            tittle: 'Rundown',
+                            function: () {
+                              controller.selectedButton.value = 3;
+                            },
+                            isSelected: controller.selectedButton.value == 3),
+                      ),
+                      Obx(
+                        () => ButtonTabbar(
+                            tittle: 'Rules',
+                            function: () {
+                              controller.selectedButton.value = 3;
+                            },
+                            isSelected: controller.selectedButton.value == 3),
+                      ),
+                    ],
+                  ),
+                ),
+                20.heightBox,
+                Obx(() {
+                  switch (controller.selectedButton.value) {
+                    case 0:
+                      //task
+                      return _DescriptionPage();
+                    case 1:
+                      return const _GuestStartPage();
+                    case 2:
+                      return const _MapsEvent();
+                    case 3:
+                      return const _MapsEvent();
+                    case 4:
+                      return const _DescriptionPage();
+                    default:
+                      return _MapsEvent();
+                  }
+                }),
+              ]),
+        ),
+        80.heightBox,
+      ],
     );
   }
 }
