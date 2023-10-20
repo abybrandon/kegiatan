@@ -166,7 +166,7 @@ class _HomeViewState extends State<HomeView> {
                                     decoration: InputDecoration(
                                         hintText: 'Search..',
                                         contentPadding:
-                                            EdgeInsets.only(top: 4.h),
+                                            EdgeInsets.only(top: 10.h),
                                         prefixIcon: Icon(
                                           Remix.search_line,
                                           size: 22.sp,
@@ -234,7 +234,7 @@ class _HomeAppBar extends GetView<HomeController>
                   focusNode: focusNode,
                   decoration: InputDecoration(
                       hintText: 'Search..',
-                      contentPadding: EdgeInsets.only(bottom: 20.h),
+                      contentPadding: EdgeInsets.only(bottom: 2.h, top: 2.h),
                       prefixIcon: Icon(
                         Remix.search_line,
                         size: 22.sp,

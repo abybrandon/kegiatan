@@ -1,6 +1,7 @@
 import 'package:newtest/admin/module/home_admin/view/create_event_admin.dart';
 import 'package:newtest/module/costume/costume_rent/binding/costume_rent_binding.dart';
 import 'package:newtest/module/event/bindings/event_binding.dart';
+import 'package:newtest/module/event/view/tryphoto.dart';
 import 'package:newtest/module/favorite/binding/favorite_binding.dart';
 import 'package:newtest/module/home/view/home_view.dart';
 import 'package:newtest/module/login/bindings/login_binding.dart';

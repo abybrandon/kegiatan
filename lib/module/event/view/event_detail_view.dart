@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_swiper_view/flutter_swiper_view.dart';
@@ -7,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:newtest/module/event/controller/detail_event_controller.dart';
 import 'package:newtest/theme.dart';
+import 'package:newtest/widget/asset_photo.dart';
 import 'package:newtest/widget/loader.dart';
 import 'package:newtest/widget/sizedbox_extension.dart';
 import 'package:newtest/widget/universal_appbar.dart';
@@ -23,13 +25,15 @@ part '../widget/tabbar_guest_start.dart';
 class EventDetailView extends GetView<DetailEventController> {
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
     return Scaffold(
         backgroundColor: bgWhite,
-        appBar: 
-        AppBarUniversal(
-        isSearching: controller.isSearching,
-        title: '',
-        ),
+        // appBar:
+        // AppBarUniversal(
+        // isSearching: controller.isSearching,
+        // title: '',
+        // isCustom: true,
+        // ),
         // AppBar(
         //   elevation: 0,
         //   leading: Padding(
@@ -83,31 +87,94 @@ class EventDetailView extends GetView<DetailEventController> {
 }
 
 class _BodyDetail extends GetView<DetailEventController> {
+  
+  final List<String> imageList = [
+    'https://firebasestorage.googleapis.com/v0/b/eventku-d1719.appspot.com/o/event_images%2FScreenshot_7.png?alt=media&token=ee2f9bac-f45d-4058-b010-b4bd38f8a050&_gl=1*en66nn*_ga*MTc3MTE3Nzk4OS4xNjc1ODMyNjA1*_ga_CW55HF8NVT*MTY5NzcwNTIzNi40OS4xLjE2OTc3MDUyNDguNDguMC4w',
+    'https://firebasestorage.googleapis.com/v0/b/eventku-d1719.appspot.com/o/event_images%2FScreenshot_1.png?alt=media&token=ff16e608-4ba9-4fa3-beb7-b0e83e000a41&_gl=1*1tq85ck*_ga*MTc3MTE3Nzk4OS4xNjc1ODMyNjA1*_ga_CW55HF8NVT*MTY5NzcwNTIzNi40OS4xLjE2OTc3MDUyNTguMzguMC4w',
+    'https://firebasestorage.googleapis.com/v0/b/eventku-d1719.appspot.com/o/event_images%2FScreenshot_5.png?alt=media&token=c490e068-023f-438a-8b59-d7e90a90845c&_gl=1*dncxim*_ga*MTc3MTE3Nzk4OS4xNjc1ODMyNjA1*_ga_CW55HF8NVT*MTY5NzcwNTIzNi40OS4xLjE2OTc3MDUyNjYuMzAuMC4w',
+    'https://firebasestorage.googleapis.com/v0/b/eventku-d1719.appspot.com/o/event_images%2FScreenshot_2.png?alt=media&token=f30376f6-05dd-423c-9684-b21067c86dfa&_gl=1*240u9e*_ga*MTc3MTE3Nzk4OS4xNjc1ODMyNjA1*_ga_CW55HF8NVT*MTY5NzcwNTIzNi40OS4xLjE2OTc3MDUyNzQuMjIuMC4w',
+    // Tambahkan URL gambar lainnya sesuai kebutuhan Anda
+  ];
+
+  final RxInt currentImageIndex = 0.obs;
+  final PageController pageController = PageController();
+
+  void changeImage(int index) {
+    currentImageIndex.value = index;
+    pageController.animateToPage(
+      index,
+      duration: Duration(milliseconds: 500),
+      curve: Curves.easeInOut,
+    );
+  }
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
         children: [
-          10.heightBox,
-          SizedBox(
-            height: 250,
-            child: Swiper(
-              loop: false,
-              viewportFraction: 0.8,
-              scale: 1,
-              itemBuilder: (context, index) {
-                return CachedNetworkImage(
-                  height: 100,
-                  imageUrl: controller.listPict[index],
-                  fit: BoxFit.contain,
-                );
-              },
-              itemCount: controller.listPict.length,
-              pagination:
-                  const SwiperPagination(builder: SwiperPagination.dots),
-              control: null,
+          40.heightBox,
+              Row(
+              children: [
+                Expanded(
+                  flex: 2, // Mengambil 2/3 dari lebar
+                  child: Container(
+                    height: 300,
+                    child: AnimatedBuilder(
+                      animation: pageController,
+                      builder: (context, child) {
+                        return PageView.builder(
+                          controller: pageController,
+                          itemCount: imageList.length,
+                          onPageChanged: (index) {
+                            changeImage(index);
+                          },
+                          itemBuilder: (context, index) {
+                            return Image.network(imageList[index]);
+                          },
+                        );
+                      },
+                    ),
+                  ),
+                ),
+                Expanded(
+                    flex: 1,
+                    child: Container(
+                      height: 300,
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            20.h.heightBox,
+                            Column(
+                              children: imageList.asMap().entries.map((entry) {
+                                int index = entry.key;
+                                String url = entry.value;
+                                return GestureDetector(
+                                  onTap: () {
+                                    changeImage(index);
+                                    print(index);
+                                  },
+                                  child: Container(
+                                    width: 75,
+                                    height: 75,
+                                    margin: EdgeInsets.all(8),
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                        color: currentImageIndex == index
+                                            ? Colors.blue
+                                            : Colors.grey,
+                                      ),
+                                    ),
+                                    child: Image.network(url),
+                                  ),
+                                );
+                              }).toList(),
+                            ),
+                          ],
+                        ),
+                      ),
+                    )),
+              ],
             ),
-          ),
           20.heightBox,
           Container(
             padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),

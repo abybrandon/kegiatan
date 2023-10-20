@@ -131,7 +131,21 @@ class AppBarUniversal extends StatelessWidget implements PreferredSizeWidget {
 
     final Widget customWidgetExtention = Row(
       crossAxisAlignment: CrossAxisAlignment.end,
-      children: [customWidget],
+      children: [
+        IconButton(
+          onPressed: () {
+            Get.back();
+          },
+          padding: EdgeInsets.zero,
+          constraints: const BoxConstraints(),
+          splashRadius: 15.r,
+          icon: Icon(
+            Remix.arrow_left_line,
+            size: 20.sp,
+            color: bgRed,
+          ),
+        ),
+        customWidget],
     );
 
     return PreferredSize(
@@ -156,7 +170,7 @@ class AppBarUniversal extends StatelessWidget implements PreferredSizeWidget {
                     if (isSearching.value) {
                       return searchingTopBar;
                     } else if (isCustom) {
-                      return customWidget;
+                      return customWidgetExtention;
                     } else {
                       return notSearchingTopBar;
                     }

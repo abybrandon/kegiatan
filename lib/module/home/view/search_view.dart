@@ -58,7 +58,7 @@ class SearchView extends GetView<HomeController> {
                                     Remix.close_line,
                                     size: 22.sp,
                                   )),
-                              contentPadding: EdgeInsets.only(top: 5.h),
+                              contentPadding: EdgeInsets.only(top: 10.h),
                               prefixIcon: Icon(
                                 Remix.search_line,
                                 size: 22.sp,
