@@ -23,10 +23,10 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  final ScrollController _controller = ScrollController();
+  
   final controller = Get.find<HomeController>();
+  final ScrollController _controller = ScrollController();
   bool isScrolledPast130 = false;
-  final FocusNode _focusNode = FocusNode();
 
   @override
   void initState() {
@@ -42,16 +42,6 @@ class _HomeViewState extends State<HomeView> {
           controller.isAppBarVisible.value = false;
           isScrolledPast130 = false;
         }
-      }
-    });
-
-    _focusNode.addListener(() {
-      if (_focusNode.hasFocus) {
-        Get.dialog(SearchView());
-        _focusNode.unfocus();
-      } else {
-        print('TextField kehilangan fokus');
-        // Lakukan fungsi lain saat TextField kehilangan fokus di sini
       }
     });
   }
@@ -102,13 +92,15 @@ class _HomeViewState extends State<HomeView> {
                                       MainAxisAlignment.spaceBetween,
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
-                                  Obx(() =>   Text(
-                                      'Hii , ${controller.userData.value}',
-                                      style: TextStyle(
-                                          fontSize: 24.sp,
-                                          color: bgWhite,
-                                          fontWeight: FontWeight.bold),
-                                    ),),
+                                    Obx(
+                                      () => Text(
+                                        'Hii , ${controller.userData.value}',
+                                        style: TextStyle(
+                                            fontSize: 24.sp,
+                                            color: bgWhite,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
                                     Container(
                                       decoration: BoxDecoration(
                                           color: bgWhite,
@@ -156,29 +148,32 @@ class _HomeViewState extends State<HomeView> {
                                         primary: bgRed,
                                       ),
                                 ),
-                                child: SizedBox(
-                                  height: 45.h,
-                                  child: TextField(
-                                    // onChanged: (value) {
-                                    //   Get.dialog(SearchView());
-                                    // },
-                                    focusNode: _focusNode,
-                                    decoration: InputDecoration(
-                                        hintText: 'Search..',
-                                        contentPadding:
-                                            EdgeInsets.only(top: 10.h),
-                                        prefixIcon: Icon(
-                                          Remix.search_line,
-                                          size: 22.sp,
-                                        ),
-                                        hintStyle: TextStyle(
-                                            fontSize: 14.sp,
-                                            color: semiGrey,
-                                            fontWeight: Config.medium),
-                                        filled: true,
-                                        enabledBorder: InputBorder.none,
-                                        focusedBorder: InputBorder.none,
-                                        fillColor: bgWhite),
+                                child: InkWell(
+                                  onTap: () {
+                                    Get.dialog(SearchView());
+                                  },
+                                  child: SizedBox(
+                                    height: 45.h,
+                                    child: TextField(
+                                      decoration: InputDecoration(
+                                          hintText: 'Search..',
+                                          enabled: false,
+                                          
+                                          contentPadding:
+                                              EdgeInsets.only(top: 10.h),
+                                          prefixIcon: Icon(
+                                            Remix.search_line,
+                                            size: 22.sp,
+                                          ),
+                                          hintStyle: TextStyle(
+                                              fontSize: 14.sp,
+                                              color: semiGrey,
+                                              fontWeight: Config.medium),
+                                          filled: false,
+                                          enabledBorder: InputBorder.none,
+                                          focusedBorder: InputBorder.none,
+                                          fillColor: Colors.transparent),
+                                    ),
                                   ),
                                 ),
                               ),
@@ -199,7 +194,7 @@ class _HomeViewState extends State<HomeView> {
                 right: 0.w,
                 child: Padding(
                   padding: EdgeInsets.only(top: statusBarHeight.h - 1),
-                  child: _HomeAppBar(focusNode: _focusNode),
+                  child: _HomeAppBar(),
                 ))
             : SizedBox.shrink())
       ],
@@ -211,8 +206,7 @@ class _HomeAppBar extends GetView<HomeController>
     implements PreferredSizeWidget {
   @override
   Size get preferredSize => Size.fromHeight(60.h);
-  _HomeAppBar({required this.focusNode});
-  final FocusNode focusNode;
+  _HomeAppBar({focusNode});
 
   @override
   Widget build(BuildContext context) {
@@ -228,25 +222,29 @@ class _HomeAppBar extends GetView<HomeController>
                       primary: bgRed,
                     ),
               ),
-              child: SizedBox(
-                height: 38.h,
-                child: TextField(
-                  focusNode: focusNode,
-                  decoration: InputDecoration(
-                      hintText: 'Search..',
-                      contentPadding: EdgeInsets.only(bottom: 2.h, top: 2.h),
-                      prefixIcon: Icon(
-                        Remix.search_line,
-                        size: 22.sp,
-                      ),
-                      hintStyle: TextStyle(
-                          fontSize: 14.sp,
-                          color: semiGrey,
-                          fontWeight: Config.medium),
-                      filled: true,
-                      enabledBorder: InputBorder.none,
-                      focusedBorder: InputBorder.none,
-                      fillColor: bgWhite),
+              child: InkWell(
+                onTap: () {
+                  Get.dialog(SearchView());
+                },
+                child: SizedBox(
+                  height: 38.h,
+                  child: TextField(
+                    decoration: InputDecoration(
+                        hintText: 'Search..',
+                        contentPadding: EdgeInsets.only(bottom: 2.h, top: 2.h),
+                        prefixIcon: Icon(
+                          Remix.search_line,
+                          size: 22.sp,
+                        ),
+                        hintStyle: TextStyle(
+                            fontSize: 14.sp,
+                            color: semiGrey,
+                            fontWeight: Config.medium),
+                        filled: true,
+                        enabledBorder: InputBorder.none,
+                        focusedBorder: InputBorder.none,
+                        fillColor: bgWhite),
+                  ),
                 ),
               ),
             ),

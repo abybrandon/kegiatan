@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_map_tile_caching/flutter_map_tile_caching.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -20,6 +21,7 @@ bool _isAdmin = false;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  
   await FlutterMapTileCaching.initialise();
   await FMTC.instance('mapStore').manage.createAsync();
   await Firebase.initializeApp();
@@ -68,6 +70,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
     return ScreenUtilInit(
         minTextAdapt: true,
         splitScreenMode: true,

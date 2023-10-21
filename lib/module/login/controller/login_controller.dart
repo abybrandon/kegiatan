@@ -80,6 +80,7 @@ class LoginController extends GetxController with StateMixin {
       UserCredential userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password)
           .then((UserCredential userCredential) {
+            
         return userCredential.user!.getIdToken().then((String token) {
           print(token);
           return userCredential;
@@ -124,13 +125,11 @@ class LoginController extends GetxController with StateMixin {
           username: userData['username']);
 
       await SharedPreferenceHelper.setUserData(userDataToSave);
-      
-      if(userData['role']=='admin'){
-        
-      Get.offAllNamed(Routes.MENU_ADMIN);
-      }else{
-        
-      Get.offAllNamed(Routes.NAVIGATION_BAR);
+
+      if (userData['role'] == 'admin') {
+        Get.offAllNamed(Routes.MENU_ADMIN);
+      } else {
+        Get.offAllNamed(Routes.NAVIGATION_BAR);
       }
       print(userData['role']);
       clearController();

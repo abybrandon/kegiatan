@@ -329,8 +329,8 @@ class EventController extends GetxController with StateMixin {
     try {
       // Ambil data dari Firestore
 
-    UserData? userData = await SharedPreferenceHelper.getUserData();
-    String userUid = userData!.id;
+      UserData? userData = await SharedPreferenceHelper.getUserData();
+      String userUid = userData!.id;
       DocumentSnapshot snapshot = await FirebaseFirestore.instance
           .collection('users')
           .doc(userUid)
@@ -392,19 +392,36 @@ class EventController extends GetxController with StateMixin {
   //filter
 
   String getWeekStatus(Timestamp timestamp) {
-  final currentTime = DateTime.now();
-  final weekStart = currentTime.subtract(Duration(days: currentTime.weekday - 1));
-  final weekEnd = weekStart.add(Duration(days: 6));
+    final currentTime = DateTime.now();
+    final weekStart =
+        currentTime.subtract(Duration(days: currentTime.weekday - 1));
+    final weekEnd = weekStart.add(Duration(days: 6));
 
-  final timestampDate = timestamp.toDate();
+    final tomorrow = currentTime.add(Duration(days: 1));
+    final timestampDate = timestamp.toDate();
 
-  if (timestampDate.isAfter(weekStart) && timestampDate.isBefore(weekEnd)) {
-    return 'Minggu Ini';
-  } else {
-    return 'Coming Soon';
+ if (
+        timestampDate.day == currentTime.day) {
+      return 'Today';
+    }  else if (
+        timestampDate.day == tomorrow.day) {
+      return 'Tomorrow';
+    } 
+   else if (timestampDate.isAfter(weekStart) && timestampDate.isBefore(weekEnd)) {
+      return 'This Week';
+    }else {
+      return 'Coming Soon';
+    }
   }
-}
 
+String formatTimestamp(Timestamp timestamp) {
+  final dateTime = timestamp.toDate();
+  initializeDateFormatting( 'id_ID');
+  final format = DateFormat('dd MMMM yyyy', 'id_ID'); 
+
+  final formattedDate = format.format(dateTime);
+  return formattedDate;
+}
 
   final RxBool isSearching = false.obs;
   final searchController = TextEditingController();

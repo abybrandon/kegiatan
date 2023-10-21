@@ -71,9 +71,11 @@ class SignUpController extends GetxController with StateMixin {
         });
 
         await _firestore.collection('users').doc(userCredential.user!.uid).set({
-          'uid': userCredential.user!.uid,
+          '_id': userCredential.user!.uid,
           'username': username,
           'email': email,
+          'role' : 'user'
+          
         });
 
         Get.back();

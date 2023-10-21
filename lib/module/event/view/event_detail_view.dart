@@ -11,12 +11,12 @@ import 'package:newtest/theme.dart';
 import 'package:newtest/widget/asset_photo.dart';
 import 'package:newtest/widget/loader.dart';
 import 'package:newtest/widget/sizedbox_extension.dart';
-import 'package:newtest/widget/universal_appbar.dart';
 import 'package:remixicon/remixicon.dart';
 import 'package:flutter_map_tile_caching/flutter_map_tile_caching.dart';
 import '../../../routes/app_pages.dart';
 import '../../../widget/button_tabbar.dart';
 import '../../../widget/confirm_dialog.dart';
+import '../widget/appbar_detail_event.dart';
 
 part '../widget/tabbar_map.dart';
 part '../widget/tabbar_deskripsi.dart';
@@ -25,7 +25,6 @@ part '../widget/tabbar_guest_start.dart';
 class EventDetailView extends GetView<DetailEventController> {
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
     return AnnotatedRegion(
       value: SystemUiOverlayStyle(statusBarColor: bgWhite),
       child: Scaffold(
@@ -36,7 +35,14 @@ class EventDetailView extends GetView<DetailEventController> {
                       _BodyDetail(),
                       Align(
                           alignment: Alignment.bottomCenter,
-                          child: _FloatingButton())
+                          child: _FloatingButton()),
+                      Align(
+                        alignment: Alignment.topCenter,
+                        child: AppBarDetail(
+                          isSearching: controller.isSearching,
+                          title: '',
+                        ),
+                      )
                     ],
                   ),
               onLoading: Loader())),
@@ -44,8 +50,14 @@ class EventDetailView extends GetView<DetailEventController> {
   }
 }
 
-class _BodyDetail extends GetView<DetailEventController> {
+class _BodyDetail extends StatefulWidget {
+  @override
+  State<_BodyDetail> createState() => _BodyDetailState();
+}
+
+class _BodyDetailState extends State<_BodyDetail> {
   final RxInt currentImageIndex = 0.obs;
+
   final PageController pageController = PageController();
 
   void changeImage(int index) {
@@ -57,12 +69,35 @@ class _BodyDetail extends GetView<DetailEventController> {
     );
   }
 
+  final controller = Get.find<DetailEventController>();
+
+  final ScrollController _controller = ScrollController();
+  bool isScrolledPast130 = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller.addListener(() {
+      if (_controller.offset >= 10.h) {
+        if (!isScrolledPast130) {
+          controller.isAppBarVisible.value = true;
+          isScrolledPast130 = true;
+        }
+      } else {
+        if (isScrolledPast130) {
+          controller.isAppBarVisible.value = false;
+          isScrolledPast130 = false;
+        }
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
+      controller: _controller,
       child: Column(
         children: [
-          20.heightBox,
           Row(
             children: [
               Expanded(
@@ -406,13 +441,13 @@ class _FloatingButton extends GetView<DetailEventController> {
             color: Colors.grey.withOpacity(0.5),
             spreadRadius: 2,
             blurRadius: 5,
-            offset: Offset(0, 3), // mengatur posisi bayangan (x, y)
+            offset: Offset(0, 3),
           ),
         ],
       ),
       child: Padding(
         padding:
-            EdgeInsets.only(left: 16.w, right: 16.w, bottom: 24.h, top: 16.h),
+            EdgeInsets.only(left: 16.w, right: 16.w, bottom: 16.h, top: 16.h),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -423,12 +458,14 @@ class _FloatingButton extends GetView<DetailEventController> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'HTM',
+                      'Ticket Price',
                       style: TextStyle(
-                          fontSize: 16, fontWeight: Config.bold, color: bgRed),
+                          fontSize: 14.sp,
+                          fontWeight: Config.bold,
+                          color: bgRed),
                     ),
                     Text(
-                      '70k - 140k',
+                      'RP 70.000 - 140.000',
                       style: TextStyle(
                           fontSize: 16,
                           fontWeight: Config.bold,
@@ -445,7 +482,13 @@ class _FloatingButton extends GetView<DetailEventController> {
                         backgroundColor: bgRed,
                       ),
                       onPressed: () {},
-                      child: const Text('Cek Ticket')),
+                      child: Text(
+                        'Check Ticket',
+                        style: TextStyle(
+                            fontWeight: Config.semiBold,
+                            color: bgWhite,
+                            fontSize: 16.sp),
+                      )),
                 ),
               ],
             ),

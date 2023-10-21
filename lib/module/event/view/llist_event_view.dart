@@ -22,8 +22,9 @@ class ListEventView extends GetView<EventController> {
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion(
-      
-      value: SystemUiOverlayStyle(statusBarColor: bgWhite),
+      value: SystemUiOverlayStyle(
+        statusBarColor: bgWhite,
+      ),
       child: Scaffold(
           backgroundColor: bgWhite, appBar: _AppBar(), body: TryGrid()),
     );
@@ -511,7 +512,8 @@ class _AppBar extends GetView<EventController> implements PreferredSizeWidget {
               color: bgWhite,
               border: Border(
                 bottom: BorderSide(color: bgRed, width: 2.h),
-              )),
+              )
+              ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -605,7 +607,7 @@ class TryGrid extends GetView<EventController> {
                                           fontWeight: Config.semiBold),
                                     ),
                                     Text(
-                                      '20 Desember 2023',
+                                      controller.formatTimestamp(event.createdDate),
                                       overflow: TextOverflow.clip,
                                       style: TextStyle(
                                           fontSize: 8.sp,
@@ -665,8 +667,10 @@ class TryGrid extends GetView<EventController> {
                                   horizontal: 2.w, vertical: 2.h),
                               child: Text(
                                 controller.getWeekStatus(event.createdDate),
-                                style:
-                                    TextStyle(fontSize: 8.sp, color: bgWhite, fontWeight: Config.semiBold),
+                                style: TextStyle(
+                                    fontSize: 8.sp,
+                                    color: bgWhite,
+                                    fontWeight: Config.semiBold),
                               ),
                             ),
                             Positioned(

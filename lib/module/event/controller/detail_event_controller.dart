@@ -12,6 +12,9 @@ import '../../../widget/toast.dart';
 import '../model/event_detail_model.dart';
 
 class DetailEventController extends GetxController with StateMixin {
+
+  final RxBool isAppBarVisible = false.obs;
+
   final CollectionReference eventCollection = FirebaseFirestore.instance
       .collection('events')
       .doc('events')
