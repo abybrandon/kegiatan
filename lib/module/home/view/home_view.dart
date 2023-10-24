@@ -299,6 +299,9 @@ class _ListRecord extends GetView<HomeController> {
             _FeatureButton(
               imageName: 'assets/img/costume.png',
               title: 'Costume',
+              fuction: () {
+                Get.toNamed(Routes.COSTUME_RENT);
+              },
             ),
             _FeatureButton(
               imageName: 'assets/img/comunt.png',

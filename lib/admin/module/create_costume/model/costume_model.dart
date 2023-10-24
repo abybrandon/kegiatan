@@ -13,7 +13,7 @@ class CreateEventModel {
   final Timestamp endDate;
   final List<String>? fotoKegiatanUrls;
   final List<String> guestStart;
-  final GeoPoint? location; // Tambahkan field GeoPoint
+  final GeoPoint? location; 
 
   CreateEventModel(
       {required this.id,
@@ -47,7 +47,6 @@ class CreateEventModel {
     };
   }
 }
-
 class ModelCostume {
   final String id;
   final String nameCostume;
@@ -83,7 +82,26 @@ class ModelCostume {
     required this.listPhotoCostume,
   });
 
-  Map<String, dynamic> toJson() {
+  factory ModelCostume.fromJson(Map<String, dynamic> json) {
+    return ModelCostume(
+      id: json['id'],
+      nameCostume: json['nameCostume'],
+      charackterOrigin: CategoryModel.fromJson(json['charackterOrigin']),
+      charackterName: CategoryModel.fromJson(json['charackterName']),
+      status: json['status'],
+      categoryCostume: List<String>.from(json['categoryCostume']),
+      createdDate: json['createdDate'], 
+      locationName: json['locationName'],
+      availSize: List<String>.from(json['availSize']),
+      brandCostume: CategoryModel.fromJson(json['brandCostume']),
+      detailCostume: json['detailCostume'],
+      owner: Map<String, dynamic>.from(json['owner']),
+      genderCostume: json['gender'],
+      priceRent: Map<String, dynamic>.from(json['priceRent']),
+      listPhotoCostume: List<String>.from(json['listPhotoCostume']),
+    );
+  }
+    Map<String, dynamic> toJson() {
     return {
       'id': id,
       'nameCostume': nameCostume,
@@ -103,3 +121,4 @@ class ModelCostume {
     };
   }
 }
+

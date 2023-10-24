@@ -41,6 +41,7 @@ class EventDetailView extends GetView<DetailEventController> {
                         child: AppBarDetail(
                           isSearching: controller.isSearching,
                           title: '',
+                          isAppBarVisible: controller.isAppBarVisible,
                         ),
                       )
                     ],
@@ -200,7 +201,7 @@ class _ContentBody extends GetView<DetailEventController> {
                   controller.nameEvent,
                   style: TextStyle(
                       fontWeight: Config.semiBold,
-                      fontSize: 14.sp,
+                      fontSize: 16.sp,
                       color: bgRed),
                 ),
                 2.heightBox,

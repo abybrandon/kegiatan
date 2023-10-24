@@ -8,12 +8,12 @@ class _DescriptionPage extends GetView<DetailEventController> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Deskripsi',
-            style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14)),
+        Text('Overview',
+            style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14.sp)),
         10.heightBox,
         Text(
           controller.deskripsi,
-          style: TextStyle(fontWeight: Config.reguler, fontSize: 12),
+          style: TextStyle(fontWeight: Config.reguler, fontSize: 12.sp, color: basicBlack),
         ),
       ],
     );

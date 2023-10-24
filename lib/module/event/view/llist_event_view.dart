@@ -11,6 +11,7 @@ import 'package:newtest/theme.dart';
 import 'package:newtest/widget/custom_textfield.dart';
 import 'package:newtest/widget/shimmer_effect.dart';
 import 'package:newtest/widget/sizedbox_extension.dart';
+import 'package:newtest/widget/universal_appbar.dart';
 import 'package:remixicon/remixicon.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -26,7 +27,29 @@ class ListEventView extends GetView<EventController> {
         statusBarColor: bgWhite,
       ),
       child: Scaffold(
-          backgroundColor: bgWhite, appBar: _AppBar(), body: TryGrid()),
+          backgroundColor: bgWhite,
+          appBar: AppBarUniversal(
+            isSearching: controller.isSearching,
+            title: 'Event',
+            controller: controller.searchController,
+            fuctionFilter: () {
+              showModalBottomSheet(
+                context: Get.overlayContext!,
+                isScrollControlled: true,
+                builder: (context) {
+                  return ConstrainedBox(
+                    constraints: BoxConstraints(maxHeight: Get.height * 0.7),
+                    child: FilterEventList(),
+                  );
+                },
+              );
+            },
+            fuctionSearch: (p0) {
+              controller.searchQuery.value = controller.searchController.text;
+              controller.filterEventList();
+            },
+          ),
+          body: _BodyContent()),
     );
   }
 }
@@ -287,260 +310,8 @@ class FilterList extends GetView<EventController> {
   }
 }
 
-class _Loading extends StatelessWidget {
-  const _Loading();
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: ListView.builder(
-        itemCount: 15,
-        itemBuilder: (context, index) => Container(
-          padding: EdgeInsets.symmetric(
-            vertical: 12.h,
-            horizontal: 16.w,
-          ),
-          decoration: BoxDecoration(
-            border: Border(
-              bottom: BorderSide(
-                width: 1.h,
-                color: generalLine,
-              ),
-            ),
-          ),
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  SizedBox(
-                    width: 40.w,
-                    height: 12.h,
-                    child: Shimmer.fromColors(
-                      baseColor: Colors.grey.shade300,
-                      highlightColor: Colors.grey.shade100,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(6.r),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 85.w,
-                    height: 12.h,
-                    child: Shimmer.fromColors(
-                      baseColor: Colors.grey.shade300,
-                      highlightColor: Colors.grey.shade100,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(4.r),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 12.h),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  SizedBox(
-                    width: 35.w,
-                    height: 12.h,
-                    child: Shimmer.fromColors(
-                      baseColor: Colors.grey.shade300,
-                      highlightColor: Colors.grey.shade100,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(6.r),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 100.w,
-                    height: 12.h,
-                    child: Shimmer.fromColors(
-                      baseColor: Colors.grey.shade300,
-                      highlightColor: Colors.grey.shade100,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(4.r),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _AppBar extends GetView<EventController> implements PreferredSizeWidget {
-  @override
-  Size get preferredSize => Size.fromHeight(50.h);
-
-  @override
-  Widget build(BuildContext context) {
-    final Widget notSearchingTopBar = Row(
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: [
-        IconButton(
-          onPressed: () {
-            Get.back();
-          },
-          padding: EdgeInsets.zero,
-          constraints: const BoxConstraints(),
-          splashRadius: 15.r,
-          icon: Icon(
-            Remix.arrow_left_line,
-            size: 20.sp,
-            color: bgRed,
-          ),
-        ),
-        SizedBox(width: 24.w),
-        Text(
-          'Event List',
-          style: TextStyle(
-              fontSize: 16.sp, color: bgRed, fontWeight: Config.semiBold),
-        ),
-        const Expanded(child: SizedBox.shrink()),
-        IconButton(
-          onPressed: () => controller.isSearching.value = true,
-          padding: EdgeInsets.zero,
-          constraints: const BoxConstraints(),
-          splashRadius: 15.r,
-          icon: Icon(
-            Remix.search_line,
-            size: 20.sp,
-            color: bgRed,
-          ),
-        ),
-        20.w.widthBox,
-        IconButton(
-          onPressed: () {
-            showModalBottomSheet(
-              context: Get.overlayContext!,
-              isScrollControlled: true,
-              builder: (context) {
-                return ConstrainedBox(
-                  constraints: BoxConstraints(maxHeight: Get.height * 0.7),
-                  child: FilterAssignAsset(),
-                );
-              },
-            );
-          },
-          padding: EdgeInsets.zero,
-          constraints: const BoxConstraints(),
-          splashRadius: 15.r,
-          icon: Icon(
-            Remix.equalizer_line,
-            size: 20.sp,
-            color: bgRed,
-          ),
-        ),
-        20.w.widthBox,
-        IconButton(
-          onPressed: () => controller.isSearching.value = true,
-          padding: EdgeInsets.zero,
-          constraints: const BoxConstraints(),
-          splashRadius: 15.r,
-          icon: Icon(
-            Remix.more_2_fill,
-            size: 20.sp,
-            color: bgRed,
-          ),
-        ),
-      ],
-    );
-
-    final Widget searchingTopBar = Row(
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: [
-        Icon(
-          Remix.search_line,
-          size: 25.sp,
-          color: bgRed,
-        ),
-        10.w.widthBox,
-        Expanded(
-          child: CustomTextField(
-            errorText: '',
-            normalTextfield: true,
-            borderStyle: const UnderlineInputBorder(),
-            padding: EdgeInsets.fromLTRB(10.w, 20.h, 10.w, 6.h),
-            hintText: 'Search...',
-            autoFocus: true,
-            controller: controller.searchController,
-            onSubmitted: (_) {
-              controller.searchQuery.value = controller.searchController.text;
-              controller.filterEventList();
-            },
-          ),
-        ),
-        7.w.widthBox,
-        IconButton(
-          onPressed: () {
-            // controller.searchController.clear();
-            controller.isSearching.value = false;
-          },
-          padding: EdgeInsets.zero,
-          splashRadius: 15.r,
-          constraints: const BoxConstraints(),
-          icon: Icon(
-            Remix.close_fill,
-            size: 20.sp,
-            color: bgRed,
-          ),
-        ),
-      ],
-    );
-
-    return PreferredSize(
-        preferredSize: preferredSize,
-        child: Container(
-          decoration: BoxDecoration(
-              color: bgWhite,
-              border: Border(
-                bottom: BorderSide(color: bgRed, width: 2.h),
-              )
-              ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: EdgeInsets.symmetric(
-                  vertical: 12.h,
-                  horizontal: 16.w,
-                ),
-                child: Obx(
-                  () {
-                    if (controller.isSearching.value) {
-                      return searchingTopBar;
-                    } else {
-                      return notSearchingTopBar;
-                    }
-                  },
-                ),
-              ),
-            ],
-          ),
-        ));
-  }
-}
-
-class TryGrid extends GetView<EventController> {
-  const TryGrid({super.key});
+class _BodyContent extends GetView<EventController> {
+  const _BodyContent({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -607,7 +378,8 @@ class TryGrid extends GetView<EventController> {
                                           fontWeight: Config.semiBold),
                                     ),
                                     Text(
-                                      controller.formatTimestamp(event.createdDate),
+                                      controller
+                                          .formatTimestamp(event.createdDate),
                                       overflow: TextOverflow.clip,
                                       style: TextStyle(
                                           fontSize: 8.sp,

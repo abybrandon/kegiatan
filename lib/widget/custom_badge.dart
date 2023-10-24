@@ -15,6 +15,7 @@ class CustomBadge extends StatelessWidget {
   final bool truncateText;
   final bool isUser;
   final double? radius;
+  final double? fontsize;
 
   const CustomBadge({
     super.key,
@@ -31,6 +32,7 @@ class CustomBadge extends StatelessWidget {
     this.truncateText = false,
     this.isUser = false,
     this.radius,
+    this.fontsize
   });
 
   int get lengthWidth {
@@ -51,7 +53,7 @@ class CustomBadge extends StatelessWidget {
           ),
       decoration: BoxDecoration(
         color: backgroundColor,
-        border: Border.all(color: color),
+        border: Border.all(color: color,),
         borderRadius: righSideBorder ?? false
             ? BorderRadius.horizontal(right: Radius.circular(radius ?? 30.r))
             : BorderRadius.circular(radius ?? 30.r),
@@ -62,7 +64,7 @@ class CustomBadge extends StatelessWidget {
         textAlign: TextAlign.center,
         style: style?.copyWith(color: textColor ?? color) ??
             TextStyle(
-              fontSize: 8.sp,
+              fontSize: fontsize?? 8.sp,
               fontWeight: FontWeight.w600,
               color: textColor ?? color,
             ),

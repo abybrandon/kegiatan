@@ -18,6 +18,7 @@ class AppBarDetail extends StatelessWidget {
       this.fuctionMore,
       this.fuctionSearch,
       this.isCustom = false,
+      required this.isAppBarVisible,
       this.customWidget = const SizedBox.shrink()});
   final TextEditingController? controller;
   final RxBool isSearching;
@@ -27,7 +28,7 @@ class AppBarDetail extends StatelessWidget {
   final dynamic Function(String)? fuctionSearch;
   final bool isCustom;
   final Widget customWidget;
-  final controllerEvent = Get.find<DetailEventController>();
+  final RxBool isAppBarVisible;
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +45,7 @@ class AppBarDetail extends StatelessWidget {
           icon: Icon(
             Remix.arrow_left_line,
             size: 20.sp,
-            color: controllerEvent.isAppBarVisible.value ? bgRed : bgWhite,
+            color: isAppBarVisible.value ? bgRed : bgWhite,
           ),
         ),
         SizedBox(width: 24.w),
@@ -62,7 +63,7 @@ class AppBarDetail extends StatelessWidget {
           icon: Icon(
             Remix.heart_line,
             size: 20.sp,
-            color: controllerEvent.isAppBarVisible.value ? bgRed : bgWhite,
+            color: isAppBarVisible.value ? bgRed : bgWhite,
           ),
         ),
         
@@ -75,7 +76,7 @@ class AppBarDetail extends StatelessWidget {
           icon: Icon(
             Remix.bookmark_line,
             size: 20.sp,
-            color: controllerEvent.isAppBarVisible.value ? bgRed : bgWhite,
+            color:isAppBarVisible.value ? bgRed : bgWhite,
           ),
         ),
         20.w.widthBox,
@@ -87,7 +88,7 @@ class AppBarDetail extends StatelessWidget {
           icon: Icon(
             Remix.more_2_fill,
             size: 20.sp,
-            color: controllerEvent.isAppBarVisible.value ? bgRed : bgWhite,
+            color: isAppBarVisible.value ? bgRed : bgWhite,
           ),
         ),
       ],
@@ -99,9 +100,9 @@ class AppBarDetail extends StatelessWidget {
       
       decoration: BoxDecoration(
         
-        color: controllerEvent.isAppBarVisible.value ? bgWhite : Colors.transparent,
+        color: isAppBarVisible.value ? bgWhite : Colors.transparent,
         border:  Border(
-                bottom: BorderSide(color: controllerEvent.isAppBarVisible.value ? bgRed : Colors.transparent, width: 2.h),
+                bottom: BorderSide(color: isAppBarVisible.value ? bgRed : Colors.transparent, width: 2.h),
               )
       ),
       child: Column(

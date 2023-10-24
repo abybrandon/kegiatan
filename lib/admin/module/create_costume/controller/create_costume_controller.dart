@@ -213,9 +213,9 @@ class CreateCostumeController extends GetxController with StateMixin {
           availSize: sizeAvail,
           createdDate: Timestamp.now(),
           detailCostume: controlelrDetail.text,
-          owner: {'try': 'gatau'},
+          owner: {'nameOwner': 'mazuyaShiro'},
           status: true,
-          locationName: 'disini',
+          locationName: 'Kota Jakarta',
           priceRent: {'rentPrice' : controllerPrice.text, 'rentDay' : 3 },
           listPhotoCostume: fotoKegiatanUrls
           );

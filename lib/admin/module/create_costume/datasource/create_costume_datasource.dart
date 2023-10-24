@@ -5,7 +5,6 @@ class FirestoreCollections {
   final CollectionReference listCategoryCollection;
   final CollectionReference listCharackterCollection;
   final CollectionReference listCharackterNameCollection;
-  final CollectionReference listCostumeCollection;
   final CollectionReference costumeListCollection;
 
   FirestoreCollections()
@@ -25,12 +24,8 @@ class FirestoreCollections {
             .collection('costume')
             .doc('charackter')
             .collection('charackter_name'),
-        listCostumeCollection = FirebaseFirestore.instance
-            .collection('costume')
-            .doc('costume')
-            .collection('list_costume'),
         costumeListCollection = FirebaseFirestore.instance
             .collection('costume')
             .doc('costume')
-            .collection('list_costume');
+            .collection('costume_rent');
 }

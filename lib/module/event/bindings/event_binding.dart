@@ -12,6 +12,6 @@ class EventBinding extends Bindings {
     Get.lazyPut(() => DetailEventController());
 
     //filter
-    Get.lazyPut(() => FilterAssignController());
+    Get.lazyPut(() => FilterEventController());
   }
 }

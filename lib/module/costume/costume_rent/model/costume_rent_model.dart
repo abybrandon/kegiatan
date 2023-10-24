@@ -1,50 +1,38 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:newtest/admin/module/create_costume/model/category_costume_model.dart';
 
-class CostumeRentModel {
+class ModelCostume {
   final String id;
   final String nameCostume;
-  final int priceRent;
-  final int dayRent;
-  final String brandCostume;
-  final List<dynamic> pictcostume;
-  CostumeRentModel(
-      {required this.nameCostume,
-      required this.priceRent,
-      required this.id,
-      required this.brandCostume,
-      required this.dayRent,
-      required this.pictcostume});
+  final CategoryModel charackterOrigin;
+  final bool status;
+  final List<String> categoryCostume;
+  final String locationName;
+  final Map<String, dynamic> priceRent;
+  final List<String> listPhotoCostume;
 
-  factory CostumeRentModel.fromJson(Map<String, dynamic> json) {
-    final id = json['id'];
-    final nameCostume = json['name_costume'] ?? '';
-    final priceRent = json['price_rent'] ?? '';
-    final dayRent = json['day_rent'] ?? '';
-    final brandCostume = json['brand_costume'] ?? '';
-    final pictCostume = json['pict_costume'] ?? '';
-
-    return CostumeRentModel(
-        id: id,
-        brandCostume: brandCostume,
-        dayRent: dayRent,
-        nameCostume: nameCostume,
-        pictcostume: pictCostume,
-        priceRent: priceRent);
-  }
-}
+  ModelCostume({
+    required this.id,
+    required this.nameCostume,
+    required this.charackterOrigin,
+    required this.status,
+    required this.categoryCostume,
+    required this.locationName,
+    required this.priceRent,
+    required this.listPhotoCostume,
+  });
 
 
-
-class CostumeRentPagination{
-  final String name;
-  final String id;
-  CostumeRentPagination({required this.name, required this.id});
-
-  
-  factory CostumeRentPagination.fromJson(Map<String, dynamic> json) {
-
-    return CostumeRentPagination(
-    name: json['name'] ,
-id: json['id']
+  factory ModelCostume.fromJson(Map<String, dynamic> json) {
+    return ModelCostume(
+      id: json['id'],
+      nameCostume: json['nameCostume'],
+      charackterOrigin: CategoryModel.fromJson(json['charackterOrigin']),
+      status: json['status'],
+      categoryCostume: List<String>.from(json['categoryCostume']),
+      locationName: json['locationName'],
+      priceRent: Map<String, dynamic>.from(json['priceRent']),
+      listPhotoCostume: List<String>.from(json['listPhotoCostume']),
     );
   }
 }
