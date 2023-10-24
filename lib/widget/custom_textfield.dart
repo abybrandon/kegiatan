@@ -21,26 +21,28 @@ class CustomTextField extends StatelessWidget {
   final double? maxWidth;
   final bool digitOnly;
   final bool normalTextfield;
+  final Function(String value)? onChanged;
 
-  const CustomTextField(
-      {super.key,
-      this.controller,
-      required this.errorText,
-      this.isError = false,
-      this.isObscure = false,
-      this.onSubmitted,
-      this.borderStyle,
-      this.style,
-      this.hintText,
-      this.hintStyle,
-      this.padding,
-      this.autoFocus = false,
-      this.iconFunction,
-      this.maxWidth,
-      this.digitOnly = false,
-      this.icon,
-      this.normalTextfield = false,
-      });
+  const CustomTextField({
+    super.key,
+    this.controller,
+    required this.errorText,
+    this.isError = false,
+    this.isObscure = false,
+    this.onSubmitted,
+    this.borderStyle,
+    this.style,
+    this.hintText,
+    this.hintStyle,
+    this.padding,
+    this.autoFocus = false,
+    this.iconFunction,
+    this.maxWidth,
+    this.digitOnly = false,
+    this.icon,
+    this.normalTextfield = false,
+    this.onChanged
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -64,10 +66,12 @@ class CustomTextField extends StatelessWidget {
       children: [
         SizedBox(
           height: 43.h,
-          width:  maxWidth,
+          width: maxWidth,
           child: TextField(
-            inputFormatters:  digitOnly? <TextInputFormatter>[
-          FilteringTextInputFormatter.digitsOnly         ] :null,
+            onChanged: onChanged,
+            inputFormatters: digitOnly
+                ? <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly]
+                : null,
             controller: controller,
             style: TextStyle(
               fontSize: 16.sp,
@@ -75,14 +79,15 @@ class CustomTextField extends StatelessWidget {
               fontWeight: Config.medium,
             ).merge(style),
             decoration: InputDecoration(
-              suffixIcon: icon != null ? 
-              InkWell(
-                onTap: iconFunction ,
-                child: Icon(
-                  icon,
-                  size: 24.sp,
-                ),
-              ) : null,
+              suffixIcon: icon != null
+                  ? InkWell(
+                      onTap: iconFunction,
+                      child: Icon(
+                        icon,
+                        size: 24.sp,
+                      ),
+                    )
+                  : null,
               border: borderStyle ??
                   OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8.r),
@@ -92,7 +97,8 @@ class CustomTextField extends StatelessWidget {
                   fontSize: 16.sp,
                   fontWeight: Config.medium,
                   color: Colors.grey[500]),
-              fillColor: normalTextfield ? null : Color(0xff8A8A8A).withOpacity(0.3),
+              fillColor:
+                  normalTextfield ? null : Color(0xff8A8A8A).withOpacity(0.3),
               filled: normalTextfield ? false : true,
               enabledBorder: isError ? errorInputBorder : null,
               focusedBorder: isError ? errorInputBorder : null,

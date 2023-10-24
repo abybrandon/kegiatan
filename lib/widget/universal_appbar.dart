@@ -150,12 +150,9 @@ class AppBarUniversal extends StatelessWidget implements PreferredSizeWidget {
 
     return PreferredSize(
         preferredSize: preferredSize,
-        child: Container(
-          decoration: BoxDecoration(
-              color: bgWhite,
-              border: Border(
-                bottom: BorderSide(color: bgRed, width: 2.h),
-              )),
+        child: Material(
+    color: bgWhite,
+    elevation: 2,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
             crossAxisAlignment: CrossAxisAlignment.start,

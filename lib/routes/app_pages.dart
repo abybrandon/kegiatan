@@ -7,6 +7,8 @@ import 'package:newtest/module/login/bindings/login_binding.dart';
 import 'package:get/get.dart';
 import 'package:newtest/module/signup/view/sign_up_view.dart';
 
+import '../admin/module/create_community/bindings/create_commun_admin_binding.dart';
+import '../admin/module/create_community/view/create_commun_admin_view.dart';
 import '../admin/module/create_costume/binding/create_costume_binding.dart';
 import '../admin/module/create_costume/view/create_costume_rent_view.dart';
 import '../admin/module/home_admin/bindings/create_event_admin_binding.dart';
@@ -79,6 +81,18 @@ class AppPages {
         page: () => CreateArtistAdminView(),
         binding: CreateEventAdminBinding()),
 
+    //menu admin
+    GetPage(
+        name: Routes.MENU_ADMIN,
+        page: () => MenuAdmin(),
+        binding: CreateEventAdminBinding()),
+
+    //create commun
+    GetPage(
+        name: Routes.CREATE_COMMUNITY,
+        page: () => CreateCommunAdminView(),
+        binding: CreateCommunAdminBinding()),
+
     //favorite user
     GetPage(
         name: Routes.FAVORITE,
@@ -99,18 +113,10 @@ class AppPages {
         binding: CostumeBinding()),
     //costume detail rent
 
-      GetPage(
+    GetPage(
         name: Routes.COSTUME_RENT_DETAIL,
         page: () => CostumeRentDetailView(),
         binding: CostumeBinding()),
-
-
-
-    //menu admin
-      GetPage(
-              name: Routes.MENU_ADMIN,
-              page: () => MenuAdmin(),
-              binding: CreateEventAdminBinding()),
 
     //navigation home
     GetPage(
@@ -118,7 +124,6 @@ class AppPages {
         page: () => NavigationBar(),
         bindings: [
           HomeBinding(),
-          CreateEventAdminBinding(),
           FavoriteBinding(),
           ReminderBinding(),
           ProfileUserBinding()

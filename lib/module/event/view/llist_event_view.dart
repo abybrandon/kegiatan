@@ -425,6 +425,12 @@ class _BodyContent extends GetView<EventController> {
                                                   color: trueLove,
                                                   fontWeight: Config.medium),
                                             ),
+                                            2.w.widthBox,
+                                              Icon(
+                                              Remix.more_2_fill,
+                                              size: 8.sp,
+                                              color: trueBlack,
+                                            ),
                                           ],
                                         )
                                       ],

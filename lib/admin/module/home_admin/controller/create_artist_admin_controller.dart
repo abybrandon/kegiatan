@@ -34,4 +34,10 @@ class CreateArtistAdminController extends GetxController with StateMixin {
     change(null, status: RxStatus.success());
     super.onInit();
   }
+  
+  @override
+  void onClose() {
+    Get.delete<CreateArtistAdminController>();
+    super.onClose();
+  }
 }

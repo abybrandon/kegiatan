@@ -28,6 +28,7 @@ class Config {
 
   static ThemeData getTheme() {
     return ThemeData(
+      
       fontFamily: 'Poppins',
       inputDecorationTheme: InputDecorationTheme(
         hintStyle: const TextStyle(

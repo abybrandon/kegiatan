@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:newtest/theme.dart';
 import 'package:remixicon/remixicon.dart';
@@ -38,39 +39,45 @@ class NavigationBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: Obx(
-          () {
-            final children = AppPages.routes.last.children;
-            final widgetList =
-                children.map<Widget>((page) => page.page()).toList();
-            return IndexedStack(
-              index: _selectedIndex.value,
-              children: widgetList,
-            );
-          },
-        ),
-        bottomNavigationBar: Obx(
-          () => SalomonBottomBar(
-            backgroundColor: Colors.white,
-            currentIndex: _selectedIndex.value,
-            onTap: (index) => _selectedIndex.value = index,
-            items: [
-              iconSolomon(
-                  iconActive: Remix.home_4_fill,
-                  iconInactive: Remix.home_4_line,
-                  title: 'Home'), iconSolomon(
-                  iconActive: Remix.alarm_fill,
-                  iconInactive: Remix.alarm_line,
-                  title: 'Reminder'),iconSolomon(
-                  iconActive: Remix.question_answer_fill,
-                  iconInactive: Remix.question_answer_line,
-                  title: 'Chats'),iconSolomon(
-                  iconActive: Remix.user_fill,
-                  iconInactive: Remix.user_line,
-                  title: 'Profile'),
-            ],
+    return AnnotatedRegion(
+      value: SystemUiOverlayStyle(statusBarColor: bgWhite),
+      child: Scaffold(
+          body: Obx(
+            () {
+              final children = AppPages.routes.last.children;
+              final widgetList =
+                  children.map<Widget>((page) => page.page()).toList();
+              return IndexedStack(
+                index: _selectedIndex.value,
+                children: widgetList,
+              );
+            },
           ),
-        ));
+          bottomNavigationBar: Obx(
+            () => SalomonBottomBar(
+              backgroundColor: Colors.white,
+              currentIndex: _selectedIndex.value,
+              onTap: (index) => _selectedIndex.value = index,
+              items: [
+                iconSolomon(
+                    iconActive: Remix.home_4_fill,
+                    iconInactive: Remix.home_4_line,
+                    title: 'Home'),
+                iconSolomon(
+                    iconActive: Remix.alarm_fill,
+                    iconInactive: Remix.alarm_line,
+                    title: 'Reminder'),
+                iconSolomon(
+                    iconActive: Remix.question_answer_fill,
+                    iconInactive: Remix.question_answer_line,
+                    title: 'Chats'),
+                iconSolomon(
+                    iconActive: Remix.user_fill,
+                    iconInactive: Remix.user_line,
+                    title: 'Profile'),
+              ],
+            ),
+          )),
+    );
   }
 }

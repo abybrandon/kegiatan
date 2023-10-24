@@ -45,8 +45,8 @@ class RulesRent extends GetView<CostumeRentDetailController> {
                 onTap: () async {
                   await launchUrl(
                       Uri.parse(
-                          'https://www.facebook.com/aby.brandon?mibextid=ZbWKwL',
-                          ),
+                        'https://www.facebook.com/aby.brandon?mibextid=ZbWKwL',
+                      ),
                       mode: LaunchMode.externalApplication);
                 },
                 child: Image.asset(

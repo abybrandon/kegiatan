@@ -13,6 +13,21 @@ import '../model/create_event_model.dart';
 import '../model/location_event_model.dart';
 
 class CreateEventAdminController extends GetxController with StateMixin {
+
+  @override
+  void onInit() {
+    getLocationEvent();
+    getArtistEventModel();
+    super.onInit();
+  }
+  
+  
+  @override
+  void onClose() {
+    Get.delete<CreateEventAdminController>();
+    super.onClose();
+  }
+  
   final CollectionReference eventCollection = FirebaseFirestore.instance
       .collection('events')
       .doc('events')
@@ -222,12 +237,5 @@ class CreateEventAdminController extends GetxController with StateMixin {
       print(error.toString());
     }
     change(null, status: RxStatus.success());
-  }
-
-  @override
-  void onInit() {
-    getLocationEvent();
-    getArtistEventModel();
-    super.onInit();
   }
 }

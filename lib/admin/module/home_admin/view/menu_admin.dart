@@ -15,49 +15,59 @@ class MenuAdmin extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: bgRed,
-        title: Text('Admin Menu'),
+        backgroundColor: bgWhite,
+        elevation: 2,
+        title: Text('Admin Menu', style: TextStyle(color: bgRed),),
       ),
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 20.h),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            CustomCard(
-                title: 'Create Event',
-                icon: Remix.pencil_fill,
-                function: () {
-                  Get.toNamed(Routes.CREATE_EVENT_ADMIN);
-                }),
-            10.h.heightBox,
-            CustomCard(
-                title: 'Create Artist',
-                icon: Remix.shield_user_line,
-                function: () {
-                  Get.toNamed(Routes.CREATE_ARTIST_ADMIN);
-                }),
-            10.h.heightBox,
-            CustomCard(
-                title: 'Create Location',
-                icon: Remix.user_location_line,
-                function: () {}),
-                   10.h.heightBox,
-            CustomCard(
-                title: 'Post Costume Rent',
-                icon: Remix.wechat_pay_line,
-                function: () {
-                  Get.toNamed(Routes.CREATE_COSTUME_RENT);
-                }),
-                      CustomCard(
-                title: 'Logout',
-                icon: Remix.logout_box_line,
-                function: ()async {
-                  
-                        await SharedPreferenceHelper.removeUserData();
-                Get.offAllNamed(Routes.LOGIN);
-                }),
-          ],
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 20.h),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              CustomCard(
+                  title: 'Create Event',
+                  icon: Remix.pencil_fill,
+                  function: () {
+                    Get.toNamed(Routes.CREATE_EVENT_ADMIN);
+                  }),
+              10.h.heightBox,
+              CustomCard(
+                  title: 'Create Artist',
+                  icon: Remix.shield_user_line,
+                  function: () {
+                    Get.toNamed(Routes.CREATE_ARTIST_ADMIN);
+                  }),
+              10.h.heightBox,
+              CustomCard(
+                  title: 'Create Location',
+                  icon: Remix.user_location_line,
+                  function: () {}),
+              10.h.heightBox,
+              CustomCard(
+                  title: 'Post Costume Rent',
+                  icon: Remix.shirt_line,
+                  function: () {
+                    Get.toNamed(Routes.CREATE_COSTUME_RENT);
+                  }),
+              10.h.heightBox,
+                 CustomCard(
+                  title: 'Create Community',
+                  icon: Remix.group_2_fill,
+                  function: () {
+                    Get.toNamed(Routes.CREATE_COMMUNITY);
+                  }),
+              10.h.heightBox,
+              CustomCard(
+                  title: 'Logout',
+                  icon: Remix.logout_box_line,
+                  function: () async {
+                    await SharedPreferenceHelper.removeUserData();
+                    Get.offAllNamed(Routes.LOGIN);
+                  }),
+            ],
+          ),
         ),
       ),
     );

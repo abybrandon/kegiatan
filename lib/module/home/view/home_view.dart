@@ -9,10 +9,8 @@ import 'package:newtest/module/home/controller/home_controller.dart';
 import 'package:newtest/module/home/view/search_view.dart';
 import 'package:newtest/theme.dart';
 import 'package:newtest/widget/custom_badge.dart';
-import 'package:newtest/widget/custom_textfield.dart';
 import 'package:newtest/widget/sizedbox_extension.dart';
 import 'package:remixicon/remixicon.dart';
-import 'package:extended_sliver/extended_sliver.dart';
 import '../../../routes/app_pages.dart';
 
 class HomeView extends StatefulWidget {

@@ -288,7 +288,7 @@ class _ContentBody extends GetView<CostumeRentDetailController> {
                         Remix.heart_fill,
                         size: 14.sp,
                         color: bgRed,
-                      )
+                      ),
                     ],
                   ),
                 ],
