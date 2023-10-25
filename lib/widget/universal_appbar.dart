@@ -43,14 +43,14 @@ class AppBarUniversal extends StatelessWidget implements PreferredSizeWidget {
           icon: Icon(
             Remix.arrow_left_line,
             size: 20.sp,
-            color: bgRed,
+            color: basicBlack,
           ),
         ),
         SizedBox(width: 24.w),
         Text(
           title,
           style: TextStyle(
-              fontSize: 16.sp, color: bgRed, fontWeight: Config.semiBold),
+              fontSize: 16.sp, color: basicBlack, fontWeight: Config.semiBold),
         ),
         const Expanded(child: SizedBox.shrink()),
         IconButton(
@@ -61,7 +61,7 @@ class AppBarUniversal extends StatelessWidget implements PreferredSizeWidget {
           icon: Icon(
             Remix.search_line,
             size: 20.sp,
-            color: bgRed,
+            color: basicBlack,
           ),
         ),
         20.w.widthBox,
@@ -73,7 +73,7 @@ class AppBarUniversal extends StatelessWidget implements PreferredSizeWidget {
           icon: Icon(
             Remix.equalizer_line,
             size: 20.sp,
-            color: bgRed,
+            color: basicBlack,
           ),
         ),
         20.w.widthBox,
@@ -85,7 +85,7 @@ class AppBarUniversal extends StatelessWidget implements PreferredSizeWidget {
           icon: Icon(
             Remix.more_2_fill,
             size: 20.sp,
-            color: bgRed,
+            color: basicBlack,
           ),
         ),
       ],
@@ -97,7 +97,7 @@ class AppBarUniversal extends StatelessWidget implements PreferredSizeWidget {
         Icon(
           Remix.search_line,
           size: 25.sp,
-          color: bgRed,
+          color: basicBlack,
         ),
         10.w.widthBox,
         Expanded(
@@ -123,7 +123,7 @@ class AppBarUniversal extends StatelessWidget implements PreferredSizeWidget {
           icon: Icon(
             Remix.close_fill,
             size: 20.sp,
-            color: bgRed,
+            color: basicBlack,
           ),
         ),
       ],
@@ -142,7 +142,7 @@ class AppBarUniversal extends StatelessWidget implements PreferredSizeWidget {
           icon: Icon(
             Remix.arrow_left_line,
             size: 20.sp,
-            color: bgRed,
+            color: basicBlack,
           ),
         ),
         customWidget],

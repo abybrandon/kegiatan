@@ -34,6 +34,13 @@ abstract class Routes {
   //costume
   //costume rent
   static const COSTUME_RENT = '/costume/rent';
+
   //costume rent detail
   static const COSTUME_RENT_DETAIL = '/costume/rent/detail';
+
+  //community
+  static const COMMUNITY_LIST = '/community/list';
+  //community detail
+  static const COMMUNITY_DETAIL = '/community/detail';
+
 }

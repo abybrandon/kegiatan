@@ -21,7 +21,6 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  
   final controller = Get.find<HomeController>();
   final ScrollController _controller = ScrollController();
   bool isScrolledPast130 = false;
@@ -94,7 +93,7 @@ class _HomeViewState extends State<HomeView> {
                                       () => Text(
                                         'Hii , ${controller.userData.value}',
                                         style: TextStyle(
-                                            fontSize: 24.sp,
+                                            fontSize: 20.sp,
                                             color: bgWhite,
                                             fontWeight: FontWeight.bold),
                                       ),
@@ -117,9 +116,9 @@ class _HomeViewState extends State<HomeView> {
                                   ],
                                 ),
                                 Text(
-                                  'Discover Our World',
+                                  "Otaku Dreamers, Changing Realities",
                                   style: TextStyle(
-                                      fontSize: 24.sp,
+                                      fontSize: 20.sp,
                                       color: bgWhite,
                                       fontWeight: FontWeight.bold),
                                 ),
@@ -156,7 +155,6 @@ class _HomeViewState extends State<HomeView> {
                                       decoration: InputDecoration(
                                           hintText: 'Search..',
                                           enabled: false,
-                                          
                                           contentPadding:
                                               EdgeInsets.only(top: 10.h),
                                           prefixIcon: Icon(
@@ -255,7 +253,7 @@ class _HomeAppBar extends GetView<HomeController>
         preferredSize: preferredSize,
         child: Container(
           decoration: BoxDecoration(
-              color: bgWhite, border: Border(bottom: BorderSide(color: bgRed))),
+              color: bgRed, border: Border(bottom: BorderSide(color: bgRed))),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -304,6 +302,9 @@ class _ListRecord extends GetView<HomeController> {
             _FeatureButton(
               imageName: 'assets/img/comunt.png',
               title: 'Community',
+              fuction: () {
+                Get.toNamed(Routes.COMMUNITY_LIST);
+              },
             )
           ],
         ),

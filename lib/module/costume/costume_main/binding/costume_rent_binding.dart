@@ -12,13 +12,9 @@ class CostumeBinding extends Bindings {
     Get.lazyPut(() => CostumeRentController());
     Get.lazyPut(() => CostumeMainController());
 
-  Get.lazyPut(() => CostumeRentDetailController());
-
-
+    Get.lazyPut(() => CostumeRentDetailController());
 
     //filter
-        Get.lazyPut(() => FilterCostumeRentController());
-
-    
+    Get.lazyPut(() => FilterCostumeRentController());
   }
 }

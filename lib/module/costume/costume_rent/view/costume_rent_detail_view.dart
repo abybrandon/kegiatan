@@ -32,7 +32,7 @@ class CostumeRentDetailView extends GetView<CostumeRentDetailController> {
                   alignment: Alignment.topCenter,
                   child: AppBarDetail(
                     isSearching: controller.isSearching,
-                    title: '',
+                    title: controller.nameCostume,
                     isAppBarVisible: controller.isAppBarVisible,
                   ),
                 ),
@@ -66,7 +66,9 @@ class _BodyDetailState extends State<_BodyDetail>
   final controller = Get.find<CostumeRentDetailController>();
 
   final ScrollController _controller = ScrollController();
+
   bool isScrolledPast130 = false;
+
   static const List<Tab> _tabs = [
     Tab(
       child: Text('Detail Costume'),
@@ -75,6 +77,7 @@ class _BodyDetailState extends State<_BodyDetail>
       child: Text('Rules Rent'),
     ),
   ];
+
   @override
   void initState() {
     super.initState();

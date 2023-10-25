@@ -53,7 +53,7 @@
 //   Future<void> fetchData() async {
 //     var connectivityResult = await (Connectivity().checkConnectivity());
 //     if (connectivityResult == ConnectivityResult.none) {
-//       Toast.showErrorToastWithoutContext('Tidak ada koneksi internet');
+//       Toast.showErrorToastWithoutContext('No Internet Connection');
 //     }
 //     try {
 //       final QuerySnapshot snapshot = await eventCollection.get();

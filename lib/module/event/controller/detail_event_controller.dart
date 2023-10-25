@@ -54,7 +54,7 @@ class DetailEventController extends GetxController with StateMixin {
     change(null, status: RxStatus.loading());
     var connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.none) {
-      Toast.showErrorToastWithoutContext('Tidak ada koneksi internet');
+      Toast.showErrorToastWithoutContext('No Internet Connection');
     } else {
       try {
         final DocumentSnapshot<Map<String, dynamic>> snapshot = await _firestore

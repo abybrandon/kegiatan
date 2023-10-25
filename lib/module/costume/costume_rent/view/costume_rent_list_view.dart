@@ -1,20 +1,15 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:newtest/routes/app_pages.dart';
 import 'package:newtest/theme.dart';
 import 'package:newtest/widget/custom_badge.dart';
-import 'package:newtest/widget/empty_state.dart';
 import 'package:newtest/widget/sizedbox_extension.dart';
-import 'package:newtest/widget/universal_appbar.dart';
 import 'package:remixicon/remixicon.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:shimmer/shimmer.dart';
 
 import '../../../event/view/llist_event_view.dart';
 import '../controller/costume_rent_controller.dart';
-import '../model/costume_rent_model.dart';
 
 class CostumeRentListView extends GetView<CostumeRentController> {
   const CostumeRentListView({super.key});

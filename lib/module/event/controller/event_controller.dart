@@ -211,7 +211,7 @@ class EventController extends GetxController with StateMixin {
   Future<void> queryList() async {
     var connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.none) {
-      Toast.showErrorToastWithoutContext('Tidak ada koneksi internet');
+      Toast.showErrorToastWithoutContext('No Internet Connection');
     } else {
       try {
         Query query = FirebaseFirestore.instance.collection('event');

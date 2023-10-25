@@ -40,7 +40,7 @@ class EventDetailView extends GetView<DetailEventController> {
                         alignment: Alignment.topCenter,
                         child: AppBarDetail(
                           isSearching: controller.isSearching,
-                          title: '',
+                          title: controller.nameEvent,
                           isAppBarVisible: controller.isAppBarVisible,
                         ),
                       )

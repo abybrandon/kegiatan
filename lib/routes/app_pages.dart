@@ -1,4 +1,5 @@
 import 'package:newtest/admin/module/home_admin/view/create_event_admin.dart';
+import 'package:newtest/module/community/view/community_detail_view.dart';
 import 'package:newtest/module/costume/costume_main/binding/costume_rent_binding.dart';
 import 'package:newtest/module/event/bindings/event_binding.dart';
 import 'package:newtest/module/favorite/binding/favorite_binding.dart';
@@ -14,6 +15,8 @@ import '../admin/module/create_costume/view/create_costume_rent_view.dart';
 import '../admin/module/home_admin/bindings/create_event_admin_binding.dart';
 import '../admin/module/home_admin/view/create_artist_admin_view.dart';
 import '../admin/module/home_admin/view/menu_admin.dart';
+import '../module/community/binding/community_binding.dart';
+import '../module/community/view/community_list_view.dart';
 import '../module/costume/costume_main/view/costume_main_view.dart';
 import '../module/costume/costume_rent/view/costume_rent_detail_view.dart';
 import '../module/costume/costume_rent/view/costume_rent_list_view.dart';
@@ -111,12 +114,27 @@ class AppPages {
         name: Routes.COSTUME_RENT,
         page: () => CostumeMainView(),
         binding: CostumeBinding()),
+   
     //costume detail rent
-
     GetPage(
         name: Routes.COSTUME_RENT_DETAIL,
         page: () => CostumeRentDetailView(),
         binding: CostumeBinding()),
+
+    //community
+     GetPage(
+        name: Routes.COMMUNITY_LIST,
+        page: () => CommunityListView(),
+        binding: CommunityBinding()),
+    
+    //community detail
+         GetPage(
+        name: Routes.COMMUNITY_DETAIL,
+        page: () => CommunityDetailView(),
+        binding: CommunityBinding()),
+    
+      
+
 
     //navigation home
     GetPage(

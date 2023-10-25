@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:newtest/theme.dart';
 
 class Loader extends StatelessWidget {
   final bool withOverlay;
+  final bool zeroOpacity;
 
   const Loader({
     super.key,
+    this.zeroOpacity = false,
     this.withOverlay = true,
   });
 
@@ -14,25 +17,22 @@ class Loader extends StatelessWidget {
     return Stack(
       children: withOverlay
           ? [
-              const Opacity(
-                opacity: 0.5,
+               Opacity(
+                opacity: zeroOpacity ? 0 : 0.3,
                 child: ModalBarrier(dismissible: false, color: Colors.black),
               ),
               Align(
                 alignment: Alignment.center,
-                child: CircularProgressIndicator(
-                  backgroundColor: bgRed,
-                  color: bgWhite,
-                ),
+                child: Lottie.asset('assets/animation/loader.json'),
               ),
             ]
           : [
               Container(
                 color: Colors.white,
               ),
-              const Align(
+               Align(
                 alignment: Alignment.center,
-                child: CircularProgressIndicator(),
+                child:  Lottie.asset('assets/animation/loader.json'),
               ),
             ],
     );

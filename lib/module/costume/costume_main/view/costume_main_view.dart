@@ -19,6 +19,7 @@ class CostumeMainView extends GetView<CostumeMainController> {
         statusBarColor: bgWhite,
       ),
       child: Scaffold(
+        backgroundColor: bgWhite,
         appBar: AppBarUniversal(
             isSearching: controller.isSearching, title: 'Costume',
             fuctionFilter: () {

@@ -10,6 +10,7 @@ class AssetPhoto extends StatefulWidget {
   final double? width;
   final double? height;
   final double? radius;
+  final BoxFit? fit;
 
   const AssetPhoto({
     super.key,
@@ -17,6 +18,7 @@ class AssetPhoto extends StatefulWidget {
     this.width,
     this.height,
     this.radius,
+    this.fit
   });
 
   @override
@@ -47,7 +49,7 @@ class _AssetPhotoState extends State<AssetPhoto> {
                     'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Placeholder_view_vector.svg/2560px-Placeholder_view_vector.svg.png',
                 height: Get.width * 0.9,
                 width: Get.width * 0.9,
-                fit: BoxFit.contain,
+                fit: widget.fit ?? BoxFit.contain,
               ),
             ),
           ),
@@ -61,7 +63,8 @@ class _AssetPhotoState extends State<AssetPhoto> {
               'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Placeholder_view_vector.svg/2560px-Placeholder_view_vector.svg.png',
           height: widget.height ?? 60.h,
           width: widget.width ?? 60.w,
-          fit: BoxFit.contain,
+
+                fit: widget.fit ?? BoxFit.contain,
           placeholder: (_, __) => ShimmerEffect(
             width: 60.w,
             height: 60.h,

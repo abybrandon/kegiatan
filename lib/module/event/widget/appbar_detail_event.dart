@@ -33,90 +33,89 @@ class AppBarDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Widget notSearchingTopBar = Obx(() => Row(
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: [
-        IconButton(
-          onPressed: () {
-            Get.back();
-          },
-          padding: EdgeInsets.zero,
-          constraints: const BoxConstraints(),
-          splashRadius: 15.r,
-          icon: Icon(
-            Remix.arrow_left_line,
-            size: 20.sp,
-            color: isAppBarVisible.value ? bgRed : bgWhite,
-          ),
-        ),
-        SizedBox(width: 24.w),
-        Text(
-          title,
-          style: TextStyle(
-              fontSize: 16.sp, color: bgWhite, fontWeight: Config.semiBold),
-        ),
-        const Expanded(child: SizedBox.shrink()),
-        IconButton(
-          onPressed: fuctionFilter,
-          padding: EdgeInsets.zero,
-          constraints: const BoxConstraints(),
-          splashRadius: 15.r,
-          icon: Icon(
-            Remix.heart_line,
-            size: 20.sp,
-            color: isAppBarVisible.value ? bgRed : bgWhite,
-          ),
-        ),
-        
-        20.w.widthBox,
-         IconButton(
-          onPressed: fuctionFilter,
-          padding: EdgeInsets.zero,
-          constraints: const BoxConstraints(),
-          splashRadius: 15.r,
-          icon: Icon(
-            Remix.bookmark_line,
-            size: 20.sp,
-            color:isAppBarVisible.value ? bgRed : bgWhite,
-          ),
-        ),
-        20.w.widthBox,
-        IconButton(
-          onPressed: fuctionMore,
-          padding: EdgeInsets.zero,
-          constraints: const BoxConstraints(),
-          splashRadius: 15.r,
-          icon: Icon(
-            Remix.more_2_fill,
-            size: 20.sp,
-            color: isAppBarVisible.value ? bgRed : bgWhite,
-          ),
-        ),
-      ],
-    ));
-
-
-    return Obx(() => Container(
-      height: 70.h,
-      
-      decoration: BoxDecoration(
-        
-        color: isAppBarVisible.value ? bgWhite : Colors.transparent,
-        border:  Border(
-                bottom: BorderSide(color: isAppBarVisible.value ? bgRed : Colors.transparent, width: 2.h),
-              )
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-              padding: EdgeInsets.symmetric(
-                vertical: 12.h,
-                horizontal: 16.w,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            IconButton(
+              onPressed: () {
+                Get.back();
+              },
+              padding: EdgeInsets.zero,
+              constraints: const BoxConstraints(),
+              splashRadius: 15.r,
+              icon: Icon(
+                Remix.arrow_left_line,
+                size: 20.sp,
+                color: isAppBarVisible.value ? basicBlack : bgWhite,
               ),
-              child: notSearchingTopBar),
-        ],
-      ),
-    ));
+            ),
+            SizedBox(width: 24.w),
+            Expanded(
+              child: Text(
+                isAppBarVisible.value ? title : '',
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                    fontSize: 14.sp,
+                    color: basicBlack,
+                    fontWeight: Config.semiBold),
+              ),
+            ),
+            24.w.widthBox,
+            IconButton(
+              onPressed: fuctionFilter,
+              padding: EdgeInsets.zero,
+              constraints: const BoxConstraints(),
+              splashRadius: 15.r,
+              icon: Icon(
+                Remix.heart_line,
+                size: 20.sp,
+                color: isAppBarVisible.value ? basicBlack : bgWhite,
+              ),
+            ),
+            20.w.widthBox,
+            IconButton(
+              onPressed: fuctionFilter,
+              padding: EdgeInsets.zero,
+              constraints: const BoxConstraints(),
+              splashRadius: 15.r,
+              icon: Icon(
+                Remix.bookmark_line,
+                size: 20.sp,
+                color: isAppBarVisible.value ? basicBlack : bgWhite,
+              ),
+            ),
+            20.w.widthBox,
+            IconButton(
+              onPressed: fuctionMore,
+              padding: EdgeInsets.zero,
+              constraints: const BoxConstraints(),
+              splashRadius: 15.r,
+              icon: Icon(
+                Remix.more_2_fill,
+                size: 20.sp,
+                color: isAppBarVisible.value ? basicBlack : bgWhite,
+              ),
+            ),
+          ],
+        ));
+
+    return Obx(() => Material(
+          color: isAppBarVisible.value ? bgWhite : Colors.transparent,
+       
+          child: SizedBox(
+            height: 70.h,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                    padding: EdgeInsets.symmetric(
+                      vertical: 12.h,
+                      horizontal: 16.w,
+                    ),
+                    child: notSearchingTopBar),
+              ],
+            ),
+          ),
+        ));
   }
 }

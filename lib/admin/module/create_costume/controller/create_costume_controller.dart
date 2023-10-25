@@ -20,6 +20,14 @@ class CreateCostumeController extends GetxController with StateMixin {
     fetchAll();
     super.onInit();
   }
+
+
+  @override
+  void onClose() {
+    Get.delete<CreateCostumeController>();
+    super.onClose();
+  }
+
   //data
   //list brand
 
@@ -270,7 +278,7 @@ class CreateCostumeController extends GetxController with StateMixin {
     try {
       for (var imageFile in imageFiles) {
         final fileName =
-            DateTime.now().millisecondsSinceEpoch.toString() + '_.jpg';
+            '${DateTime.now().millisecondsSinceEpoch}_.jpg';
         final destination = 'costume_rent_images/$fileName';
         firebase_storage.Reference ref =
             firebase_storage.FirebaseStorage.instance.ref().child(destination);
