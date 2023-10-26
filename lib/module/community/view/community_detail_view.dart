@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:newtest/module/event/widget/appbar_detail_event.dart';
 import 'package:newtest/theme.dart';
 import 'package:newtest/widget/asset_photo.dart';
+import 'package:newtest/widget/custom_badge.dart';
 import 'package:newtest/widget/loader.dart';
 import 'package:newtest/widget/sizedbox_extension.dart';
 import 'package:remixicon/remixicon.dart';
@@ -16,6 +17,7 @@ class CommunityDetailView extends GetView<CommunityDetailController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: bgWhite,
       body: Stack(
         children: [
           controller.obx(
@@ -202,12 +204,74 @@ class _ContentCommun extends GetView<CommunityDetailController> {
           BioTextWidget(
             bio: controller.bio,
           ),
+          Divider(
+            thickness: 1,
+          ),
+          6.h.heightBox,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  8.w.widthBox,
+                  Column(
+                    children: [
+                      Text(
+                        '10',
+                        style: TextStyle(
+                            fontSize: 14.sp,
+                            color: trueBlack,
+                            fontWeight: Config.semiBold),
+                      ),
+                      Text(
+                        'Post',
+                        style: TextStyle(
+                            fontSize: 14.sp,
+                            color: bgRed,
+                            fontWeight: Config.semiBold),
+                      ),
+                    ],
+                  ),
+                  20.w.widthBox,
+                  Column(
+                    children: [
+                      Text(
+                        '100',
+                        style: TextStyle(
+                            fontSize: 14.sp,
+                            color: trueBlack,
+                            fontWeight: Config.semiBold),
+                      ),
+                      Text(
+                        'Followers',
+                        style: TextStyle(
+                            fontSize: 14.sp,
+                            color: bgRed,
+                            fontWeight: Config.semiBold),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              CustomBadge(
+                title: 'Follow',
+                color: bgWhite,
+                backgroundColor: bgRed,
+                radius: 8.r,
+                style: TextStyle(fontSize: 12.sp, fontWeight: Config.semiBold),
+                padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 20.h),
+              )
+            ],
+          ),
+          6.h.heightBox,
+          Divider(
+            thickness: 1,
+          ),
         ],
       ),
     );
   }
 }
-
 
 class BioTextWidget extends StatelessWidget {
   final String bio;
@@ -218,27 +282,29 @@ class BioTextWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool isExpanded = false;
-    final truncatedBio = bio.length <= maxCharsToShow ? bio : bio.substring(0, maxCharsToShow);
+    final truncatedBio =
+        bio.length <= maxCharsToShow ? bio : bio.substring(0, maxCharsToShow);
 
     return Column(
       children: [
         Text(
           isExpanded ? bio : truncatedBio,
-          style: TextStyle(fontSize: 10, color: Colors.black, fontWeight: FontWeight.normal),
+          style: TextStyle(
+              fontSize: 10, color: Colors.black, fontWeight: FontWeight.normal),
         ),
-        if (bio.length > maxCharsToShow)
-          GestureDetector(
-            child: Text(
-              isExpanded ? 'Less' : '... More',
-              style: TextStyle(color: Colors.blue),
-            ),
-            onTap: () {
-              // Toggle the "isExpanded" state when the "More" button is pressed
-              // to expand or collapse the text.
-              // This will trigger the widget to rebuild and update the view.
-              isExpanded = !isExpanded;
-            },
-          ),
+        // if (bio.length > maxCharsToShow)
+        //   GestureDetector(
+        //     child: Text(
+        //       isExpanded ? 'Less' : '... More',
+        //       style: TextStyle(color: Colors.blue),
+        //     ),
+        //     onTap: () {
+        //       // Toggle the "isExpanded" state when the "More" button is pressed
+        //       // to expand or collapse the text.
+        //       // This will trigger the widget to rebuild and update the view.
+        //       isExpanded = !isExpanded;
+        //     },
+        //   ),
       ],
     );
   }
