@@ -98,6 +98,50 @@ class AppBarDetail extends StatelessWidget {
           ],
         ));
 
+  final Widget customBar = Obx(() => Row(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            IconButton(
+              onPressed: () {
+                Get.back();
+              },
+              padding: EdgeInsets.zero,
+              constraints: const BoxConstraints(),
+              splashRadius: 15.r,
+              icon: Icon(
+                Remix.arrow_left_line,
+                size: 20.sp,
+                color: isAppBarVisible.value ? basicBlack : bgWhite,
+              ),
+            ),
+            SizedBox(width: 24.w),
+            Expanded(
+              child: Text(
+                isAppBarVisible.value ? title : '',
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                    fontSize: 14.sp,
+                    color: basicBlack,
+                    fontWeight: Config.semiBold),
+              ),
+            ),
+           
+            20.w.widthBox,
+            IconButton(
+              onPressed: fuctionMore,
+              padding: EdgeInsets.zero,
+              constraints: const BoxConstraints(),
+              splashRadius: 15.r,
+              icon: Icon(
+                Remix.more_2_fill,
+                size: 20.sp,
+                color: isAppBarVisible.value ? basicBlack : bgWhite,
+              ),
+            ),
+          ],
+        
+        ));
+
     return Obx(() => Material(
           color: isAppBarVisible.value ? bgWhite : Colors.transparent,
        
@@ -112,7 +156,7 @@ class AppBarDetail extends StatelessWidget {
                       vertical: 12.h,
                       horizontal: 16.w,
                     ),
-                    child: notSearchingTopBar),
+                    child: isCustom ? customBar : notSearchingTopBar),
               ],
             ),
           ),

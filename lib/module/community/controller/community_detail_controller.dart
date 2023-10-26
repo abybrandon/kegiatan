@@ -1,19 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:get/get.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:newtest/widget/toast.dart';
-
+import 'package:image_picker/image_picker.dart';
 import '../../../admin/module/create_community/model/community_model.dart';
 import '../datasource/community_datasource.dart';
 
 class CommunityDetailController extends GetxController with StateMixin {
   CommunityCollections firestoreCollections = CommunityCollections();
-
-  @override
-  void onClose() {
-    Get.delete<CommunityDetailController>();
-    super.onClose();
-  }
 
   @override
   void onInit() {
@@ -72,4 +67,28 @@ class CommunityDetailController extends GetxController with StateMixin {
 
   final RxBool isAppBarVisible = false.obs;
   final RxBool isSearching = false.obs;
+
+  var selectedImagePath = ''.obs;
+  var croppedImagePath = ''.obs;
+
+  Future<void> pickImage() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      selectedImagePath.value = pickedFile.path;
+    }
+  }
+
+  Future<void> cropImage() async {
+    final croppedImage = await ImageCropper().cropImage(
+      sourcePath: selectedImagePath.value,
+      compressFormat: ImageCompressFormat.jpg,
+      compressQuality: 100,
+      aspectRatio: CropAspectRatio(ratioX: 360, ratioY: 200),
+    );
+
+    if (croppedImage != null) {
+      croppedImagePath.value = croppedImage.path;
+    }
+  }
 }

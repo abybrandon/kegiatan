@@ -55,12 +55,11 @@ class _HomeViewState extends State<HomeView> {
     return Stack(
       children: [
         AnnotatedRegion(
-          value: SystemUiOverlayStyle(statusBarColor: bgRed),
+          value: SystemUiOverlayStyle(statusBarColor: bgWhite),
           child: Scaffold(
             backgroundColor: bgWhite,
             body: NotificationListener<ScrollUpdateNotification>(
               onNotification: (notification) {
-                // Handle scroll notifications here
                 return true;
               },
               child: ListView(
@@ -71,14 +70,14 @@ class _HomeViewState extends State<HomeView> {
                       Column(
                         children: [
                           Container(
-                            height: 130.0,
+                            height: 130.h,
                             padding: EdgeInsets.only(left: 16.w),
                             decoration: BoxDecoration(
                               gradient: LinearGradient(
-                                begin: Alignment.topCenter,
-                                end: Alignment.bottomCenter,
+                                begin: Alignment.topRight,
+                                end: Alignment.topLeft,
                                 colors:
-                                    duplicateColor(bgRed, 11) + [Colors.white],
+                                    duplicateColor(bgWhite, 11) + [Colors.white],
                               ),
                             ),
                             child: Column(
@@ -94,13 +93,13 @@ class _HomeViewState extends State<HomeView> {
                                         'Hii , ${controller.userData.value}',
                                         style: TextStyle(
                                             fontSize: 20.sp,
-                                            color: bgWhite,
+                                            color: bgRed,
                                             fontWeight: FontWeight.bold),
                                       ),
                                     ),
                                     Container(
                                       decoration: BoxDecoration(
-                                          color: bgWhite,
+                                          color: bgRed,
                                           borderRadius: BorderRadius.only(
                                               bottomLeft:
                                                   Radius.circular(8.r))),
@@ -109,7 +108,7 @@ class _HomeViewState extends State<HomeView> {
                                       child: Center(
                                           child: Icon(
                                         Remix.notification_3_line,
-                                        color: basicBlack,
+                                        color: bgWhite,
                                         size: 24.sp,
                                       )),
                                     ),
@@ -119,7 +118,7 @@ class _HomeViewState extends State<HomeView> {
                                   "Otaku Dreamers, Changing Realities",
                                   style: TextStyle(
                                       fontSize: 20.sp,
-                                      color: bgWhite,
+                                      color: bgRed,
                                       fontWeight: FontWeight.bold),
                                 ),
                               ],
