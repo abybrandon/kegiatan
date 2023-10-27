@@ -72,7 +72,7 @@ class _FormSignUp extends GetView<SignUpController> {
             ),
             CustomTextField(
               errorText: 'errorText',
-              hintText: 'Masukan Username',
+              hintText: 'Insert Username',
               controller: controller.controllerUsername,
               icon: FeatherIcons.user,
             ),
@@ -106,7 +106,7 @@ class _FormSignUp extends GetView<SignUpController> {
             ),
             CustomTextField(
               errorText: 'errorText',
-              hintText: 'Masukan Password',
+              hintText: 'Insert Password',
               icon: FeatherIcons.eyeOff,
               controller: controller.controllerPassword,
             ),

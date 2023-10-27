@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:newtest/theme.dart';
+import 'package:newtest/widget/sizedbox_extension.dart';
+import 'package:remixicon/remixicon.dart';
 
 class BottomSheetAction extends StatelessWidget {
   final String title;
+  final String imagePath;
   final Color titleColor;
   final IconData icon;
   final Color iconColor;
@@ -14,6 +18,7 @@ class BottomSheetAction extends StatelessWidget {
     this.titleColor = Colors.black,
     required this.icon,
     this.iconColor = Colors.black,
+    required this.imagePath,
     this.onTap,
   });
 
@@ -25,27 +30,28 @@ class BottomSheetAction extends StatelessWidget {
         onTap: onTap ?? () {},
         child: Column(
           children: [
-            Row(children: [
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+              Row(
+                children: [
+                  Image.asset( imagePath,height: 20.h,width: 20.w,),
+                  8.w.widthBox,
+                  Text(
+                    title,
+                    style: TextStyle(
+                      fontSize: textBig,
+                      fontWeight: Config.medium,
+                      color: titleColor,
+                    ),
+                  ),
+                ],
+              ),
               Icon(
-                icon,
-                size: 24.sp,
-                color: iconColor,
-              ),
-              SizedBox(
-                width: 15.w,
-              ),
-              Text(
-                title,
-                style: TextStyle(
-                  fontSize: 12.sp,
-                  fontWeight: FontWeight.w600,
-                  color: titleColor,
-                ),
-              ),
+                Remix.arrow_right_s_line,
+                color: trueBlack,
+                size: 22.sp,
+              )
             ]),
-            Divider(
-              thickness: 1.h,
-            ),
+            12.h.heightBox,
           ],
         ),
       ),

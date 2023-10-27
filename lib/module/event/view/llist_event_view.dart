@@ -112,107 +112,6 @@ class ShimmerGridView extends StatelessWidget {
   }
 }
 
-class ListEventItem extends GetView<EventController> {
-  const ListEventItem({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return controller.obx(
-        onLoading: ShimmerGridView(),
-        (state) => Expanded(
-                child: GridView.builder(
-              itemCount: controller.filteredEventList.length,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 10.w,
-                childAspectRatio: 0.7,
-                mainAxisSpacing: 10.h,
-              ),
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-                final event = controller.filteredEventList[index];
-                return InkWell(
-                  onDoubleTap: () {
-                    bool alreadyLiked =
-                        controller.likedEventList.contains(event.id);
-                    if (alreadyLiked) {
-                      controller.likedEventList.remove(event.id);
-                      controller.dislikeEvent(event.id);
-                    } else if (!alreadyLiked) {
-                      controller.likedEventList.add(event.id);
-                      controller.likeEvent(event.id);
-                    }
-                  },
-                  onTap: () {
-                    Get.toNamed(Routes.EVENT_DETAIL,
-                        parameters: {'id': event.id});
-                  },
-                  child: Stack(
-                    children: [
-                      Card(
-                        child: Column(
-                          children: [
-                            CachedNetworkImage(
-                              imageUrl: event.eventPict[0],
-                              height: 170,
-                              fit: BoxFit.cover,
-                              filterQuality: FilterQuality.low,
-                            ),
-                            4.h.heightBox,
-                            Padding(
-                              padding: EdgeInsets.only(left: 20.w),
-                              child: Align(
-                                alignment: Alignment.centerLeft,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(event.eventName),
-                                    Text(
-                                      controller
-                                          .getFormattedDate(event.createdDate),
-                                      style: TextStyle(fontSize: 12),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 10.w, vertical: 10.w),
-                        child: Align(
-                            alignment: Alignment.topRight,
-                            child: InkWell(
-                                onTap: () {
-                                  bool alreadyLiked = controller.likedEventList
-                                      .contains(event.id);
-                                  if (alreadyLiked) {
-                                    controller.likedEventList.remove(event.id);
-                                    controller.dislikeEvent(event.id);
-                                  } else if (!alreadyLiked) {
-                                    controller.likedEventList.add(event.id);
-                                    controller.likeEvent(event.id);
-                                  }
-                                },
-                                child: Obx(
-                                  () => Icon(
-                                    Remix.heart_fill,
-                                    color: controller.likedEventList
-                                            .contains(event.id)
-                                        ? bgRed
-                                        : generalGrey,
-                                  ),
-                                ))),
-                      )
-                    ],
-                  ),
-                );
-              },
-            )));
-  }
-}
 
 class FilterList extends GetView<EventController> {
   const FilterList({super.key});
@@ -338,7 +237,7 @@ class _BodyContent extends GetView<EventController> {
                                 padding: EdgeInsets.symmetric(
                                     horizontal: 10.w, vertical: 8.h),
                                 width: 150.w,
-                                height: 209.h,
+                                height: 212.h,
                                 decoration: ShapeDecoration(
                                   color: Colors.white,
                                   shape: RoundedRectangleBorder(
@@ -373,7 +272,7 @@ class _BodyContent extends GetView<EventController> {
                                       event.eventName,
                                       overflow: TextOverflow.ellipsis,
                                       style: TextStyle(
-                                          fontSize: 8.sp,
+                                          fontSize: 10.sp,
                                           color: trueBlack,
                                           fontWeight: Config.semiBold),
                                     ),

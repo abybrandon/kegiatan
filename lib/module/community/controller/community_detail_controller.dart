@@ -9,10 +9,13 @@ import '../datasource/community_datasource.dart';
 
 class CommunityDetailController extends GetxController with StateMixin {
   CommunityCollections firestoreCollections = CommunityCollections();
+  @override
+
+
 
   @override
   void onInit() {
-    change(null, status: RxStatus.success());
+    change(null, status: RxStatus.loading());
 
     fetchDetailById(Get.parameters["id"]!);
     super.onInit();
@@ -31,6 +34,7 @@ class CommunityDetailController extends GetxController with StateMixin {
 
   Future<void> fetchDetailById(String id) async {
     change(null, status: RxStatus.loading());
+       await Future.delayed(Duration(seconds: 1));
     var connectivityResult = await (Connectivity().checkConnectivity());
     if (connectivityResult == ConnectivityResult.none) {
       Toast.showErrorToastWithoutContext('No Internet Connection');

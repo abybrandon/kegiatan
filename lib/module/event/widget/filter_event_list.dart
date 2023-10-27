@@ -6,10 +6,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:newtest/admin/module/home_admin/model/artist_event_model.dart';
 import 'package:newtest/theme.dart';
+import 'package:newtest/widget/date_picker/date_picker.dart';
 import 'package:newtest/widget/empty_state.dart';
 import 'package:newtest/widget/multi_select/multi_select.dart';
 import 'package:newtest/widget/shimmer_effect.dart';
 import 'package:newtest/widget/sizedbox_extension.dart';
+import 'package:intl/intl.dart';
+import 'package:remixicon/remixicon.dart';
 
 class FilterEventController extends GetxController with StateMixin {
   //city option
@@ -78,18 +81,34 @@ class FilterEventController extends GetxController with StateMixin {
     super.onClose();
   }
 
-final List<SelectItem<String>> cityOption = [
-  SelectItem(label: 'Jakarta', value: 'Jakarta'),
-  SelectItem(label: 'Surabaya', value: 'Surabaya'),
-  SelectItem(label: 'Bandung', value: 'Bandung'),
-  SelectItem(label: 'Bekasi', value: 'Bekasi'),
-  SelectItem(label: 'Medan', value: 'Medan'),
-  SelectItem(label: 'Semarang', value: 'Semarang'),
-  SelectItem(label: 'Makassar', value: 'Makassar'),
-];
+  final List<SelectItem<String>> cityOption = [
+    SelectItem(label: 'Jakarta', value: 'Jakarta'),
+    SelectItem(label: 'Surabaya', value: 'Surabaya'),
+    SelectItem(label: 'Bandung', value: 'Bandung'),
+    SelectItem(label: 'Bekasi', value: 'Bekasi'),
+    SelectItem(label: 'Medan', value: 'Medan'),
+    SelectItem(label: 'Semarang', value: 'Semarang'),
+    SelectItem(label: 'Makassar', value: 'Makassar'),
+  ];
 
+  final List<SelectItem<String>> locationOption = [
+    SelectItem(label: 'Nearest', value: 'Nearest'),
+    SelectItem(label: 'Random', value: 'Random'),
+    SelectItem(label: 'Hype', value: 'Hype'),
+  ];
 
   final RxList<String> selectedTag = RxList();
+
+  final List<SelectItem<String>> eventOrganizer = [
+     SelectItem(label: 'Raf Creatif', value: 'Raf Creatif'),
+    SelectItem(label: 'Momiji Gari', value: 'Momiji Gari'),
+      SelectItem(label: 'Mukashi', value: 'Momiji Gari'),
+  ];
+
+  //date filter
+
+  final RxString selectedDateOption = 'all'.obs;
+  final RxList<DateTime> selectedDateRange = RxList();
 
   void onResetFilter() {
     selectedTag.clear();
@@ -121,14 +140,46 @@ class FilterEventListState extends State<FilterEventList> {
     // curSelectedBrand.value = [...controller.selectedBrands];
     // curSelectedModel.value = [...controller.selectedModelTypes];
     // curSelectedStatus.value = [...controller.selectedTag];
+
+    curSelectedDate.value = [...controller.selectedDateRange];
     super.initState();
+  }
+
+  void showDateSelector() {
+    Get.bottomSheet(
+      DateSelector(
+        selectedRange: controller.selectedDateOption.value,
+        customDateSelected: curSelectedDate.isEmpty ? null : curSelectedDate,
+        onApply: (selectedOption, date) {
+          controller.selectedDateOption.value = selectedOption;
+          curSelectedDate.value = [...(date ?? [])];
+          Get.back();
+        },
+      ),
+      backgroundColor: Colors.white,
+    );
+  }
+
+  RxList<DateTime> curSelectedDate = <DateTime>[].obs;
+
+  String get formattedDate {
+    if (controller.selectedDateOption.value == 'all') {
+      return '-';
+    }
+
+    final dateFormat = DateFormat('dd/MM/y');
+
+    return '${dateFormat.format(
+      curSelectedDate[0],
+    )} - ${dateFormat.format(
+      curSelectedDate[1],
+    )}';
   }
 
   RxList<int> curSelectedAssetname = <int>[].obs;
   RxList<int> curSelectedBrand = <int>[].obs;
   RxList<int> curSelectedModel = <int>[].obs;
   RxList<String> curSelectedStatus = <String>[].obs;
-
   FilterEventController controller = Get.find();
 
   @override
@@ -138,6 +189,29 @@ class FilterEventListState extends State<FilterEventList> {
       padding: EdgeInsets.symmetric(horizontal: 24.w),
       child: ListView(
         children: [
+          Obx(
+            () => BadgeSelectorField(
+              label: 'Short By',
+              items: controller.locationOption,
+              selectedItems: curSelectedAssetname,
+              onSelect: (selectedItems) {
+                // curSelectedAssetname.value = [...selectedItems];
+              },
+            ),
+          ),
+          12.h.heightBox,
+              Obx(
+              () => BadgeSelectorField(
+                label: 'Event Organizer',
+                items: controller.eventOrganizer,
+                selectedItems: curSelectedStatus,
+                onSelect: (selectedItems) {
+                  curSelectedStatus.value = [...selectedItems];
+                },
+              ),
+            ),
+            
+          SizedBox(height: 12.h),
           Obx(
             () => BadgeSelectorField(
               label: 'Artist',
@@ -151,7 +225,7 @@ class FilterEventListState extends State<FilterEventList> {
           12.h.heightBox,
           Obx(
             () => BadgeSelectorField(
-              label: 'Status',
+              label: 'City',
               items: controller.cityOption,
               selectedItems: curSelectedStatus,
               onSelect: (selectedItems) {
@@ -160,6 +234,54 @@ class FilterEventListState extends State<FilterEventList> {
             ),
           ),
           12.h.heightBox,
+          Text(
+            'Date',
+            style: TextStyle(
+              fontSize: 14.sp,
+              color: headerWeak,
+            ),
+          ),
+          SizedBox(height: 12.h),
+          InkWell(
+            onTap: showDateSelector,
+            child: Container(
+              decoration: BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(
+                    width: 1.sp,
+                    color: generalPlaceholder,
+                  ),
+                ),
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Obx(
+                      () => Text(
+                        formattedDate,
+                        style: TextStyle(
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w500,
+                          color: generalBody,
+                        ),
+                      ),
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: showDateSelector,
+                    padding: EdgeInsets.zero,
+                    constraints: const BoxConstraints(),
+                    splashRadius: 15.r,
+                    icon: Icon(
+                      Remix.calendar_event_fill,
+                      color: bgRed,
+                      size: 20.sp,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
         ],
       ),
     ));

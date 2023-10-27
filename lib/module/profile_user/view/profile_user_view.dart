@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:newtest/local_storage/local_storage_helper.dart';
 import 'package:newtest/routes/app_pages.dart';
 import 'package:newtest/theme.dart';
+import 'package:newtest/widget/bottom_sheet_action.dart';
 import 'package:newtest/widget/sizedbox_extension.dart';
 import 'package:remixicon/remixicon.dart';
 
@@ -48,6 +49,11 @@ class _BodySection extends GetView<ProfileUserController> {
         ButtonProfileWidget(
           icon: Remix.user_3_line,
           title: 'Change Username',
+          fuction: () {
+            Get.toNamed(
+              Routes.CHANGE_USERNAME,
+            );
+          },
         ),
         ButtonProfileWidget(
           icon: Remix.mail_line,
@@ -56,13 +62,18 @@ class _BodySection extends GetView<ProfileUserController> {
         ButtonProfileWidget(
           icon: Remix.lock_password_line,
           title: 'Change Pasword',
+          fuction: () {
+            Get.toNamed(
+              Routes.CHANGE_PASSWORD,
+            );
+          },
         ),
         ButtonProfileWidget(
           icon: Remix.logout_box_line,
           title: 'Logout',
           fuction: () async {
-                        await SharedPreferenceHelper.removeUserData();
-                Get.offAllNamed(Routes.LOGIN);
+            await SharedPreferenceHelper.removeUserData();
+            Get.offAllNamed(Routes.LOGIN);
           },
         ),
         4.h.heightBox,
@@ -87,6 +98,14 @@ class _BodySection extends GetView<ProfileUserController> {
         ButtonProfileWidget(
           icon: Remix.heart_2_line,
           title: 'Liked Content',
+          fuction: () {
+            showModalBottomSheet(
+              context: Get.overlayContext!,
+              builder: (context) {
+                return _SingleActionLikedContent();
+              },
+            );
+          },
         ),
         4.h.heightBox,
         Text(
@@ -95,15 +114,15 @@ class _BodySection extends GetView<ProfileUserController> {
               color: bgRed, fontWeight: Config.medium, fontSize: textMedium),
         ),
         8.h.heightBox,
-         ButtonProfileWidget(
+        ButtonProfileWidget(
           icon: Remix.article_line,
           title: 'Terms of Service',
         ),
-         ButtonProfileWidget(
+        ButtonProfileWidget(
           icon: Remix.shield_keyhole_line,
           title: 'Data Policy',
         ),
-         ButtonProfileWidget(
+        ButtonProfileWidget(
           icon: Remix.information_line,
           title: 'Contact Us',
           fuction: () {
@@ -163,6 +182,64 @@ class _HeaderSection extends StatelessWidget {
           ],
         ),
       ],
+    );
+  }
+}
+
+class _SingleActionLikedContent extends StatelessWidget {
+  const _SingleActionLikedContent({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(
+        vertical: 12.h,
+        horizontal: 20.w,
+      ),
+      child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Icon(Remix.heart_2_fill, color: bgRed, size: 20.sp,),
+                12.w.widthBox,
+                Text(
+                  'Liked Content',
+                  style: TextStyle(
+                      color: bgRed, fontWeight: Config.semiBold, fontSize: 16.sp),
+                ),
+              ],
+            ),
+            20.h.heightBox,
+            BottomSheetAction(
+              title: 'Liked Event',
+              icon: Remix.file_info_line,
+              iconColor: bgRed,
+              imagePath: 'assets/img/gate.png',
+              onTap: () {
+                Get.back();
+              },
+            ),
+            BottomSheetAction(
+              title: 'Liked Costume',
+              icon: Remix.shirt_line,
+              imagePath: 'assets/img/costume.png',
+              iconColor: bgRed,
+              onTap: () {
+                Get.back();
+              },
+            ),
+            BottomSheetAction(
+              title: 'Liked Community',
+              imagePath: 'assets/img/comunt.png',
+              icon: Remix.file_info_line,
+              iconColor: bgRed,
+              onTap: () {
+                Get.back();
+              },
+            ),
+          ]),
     );
   }
 }

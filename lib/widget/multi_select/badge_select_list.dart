@@ -110,7 +110,7 @@ class _SelectBadge extends StatelessWidget {
       customBorder: const StadiumBorder(),
       child: CustomBadge(
         title: label,
-        color: isSelected ? bgRed : generalGrey,
+        color: isSelected ? bgRed : bgGreyLite,
         backgroundColor: Colors.transparent,
         style: TextStyle(fontSize: 14.sp),
         padding: EdgeInsets.symmetric(

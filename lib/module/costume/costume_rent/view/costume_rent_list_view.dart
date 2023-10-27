@@ -39,7 +39,7 @@ class CostumeRentListView extends GetView<CostumeRentController> {
                                 padding: EdgeInsets.symmetric(
                                     horizontal: 10.w, vertical: 8.h),
                                 width: 150.w,
-                                height: 240.h,
+                                height: 241.h,
                                 decoration: ShapeDecoration(
                                   color: Colors.white,
                                   shape: RoundedRectangleBorder(
@@ -74,7 +74,7 @@ class CostumeRentListView extends GetView<CostumeRentController> {
                                       data.nameCostume,
                                       overflow: TextOverflow.ellipsis,
                                       style: TextStyle(
-                                          fontSize: 8.sp,
+                                          fontSize: 10.sp,
                                           color: trueBlack,
                                           fontWeight: Config.semiBold),
                                     ),

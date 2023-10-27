@@ -19,6 +19,10 @@ abstract class Routes {
 
   //profile
   static const PROFILE = '/profile';
+  //change username
+  static const CHANGE_USERNAME = '/profile/change-username';
+  //change password
+  static const CHANGE_PASSWORD = '/profile/change-password';
 
   //reminder
   static const REMINDER = '/reminder';

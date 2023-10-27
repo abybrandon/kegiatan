@@ -91,7 +91,7 @@ class _FormLogin extends GetView<LoginController> {
             Obx(
               () => CustomTextField(
                 errorText: 'errorText',
-                hintText: 'Masukan Password',
+                hintText: 'Insert Password',
                 icon: controller.isObscure.value
                     ? FeatherIcons.eye
                     : FeatherIcons.eyeOff,

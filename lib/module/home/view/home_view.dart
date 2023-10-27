@@ -76,8 +76,8 @@ class _HomeViewState extends State<HomeView> {
                               gradient: LinearGradient(
                                 begin: Alignment.topRight,
                                 end: Alignment.topLeft,
-                                colors:
-                                    duplicateColor(bgWhite, 11) + [Colors.white],
+                                colors: duplicateColor(bgWhite, 11) +
+                                    [Colors.white],
                               ),
                             ),
                             child: Column(
@@ -92,8 +92,9 @@ class _HomeViewState extends State<HomeView> {
                                       () => Text(
                                         'Hii , ${controller.userData.value}',
                                         style: TextStyle(
-                                            fontSize: 20.sp,
-                                            color: bgRed,
+                                            fontSize: 24.sp,
+                                            color: basicBlack,
+                                            fontFamily: 'ZeroGothic',
                                             fontWeight: FontWeight.bold),
                                       ),
                                     ),
@@ -114,11 +115,13 @@ class _HomeViewState extends State<HomeView> {
                                     ),
                                   ],
                                 ),
+                                12.h.heightBox,
                                 Text(
                                   "Otaku Dreamers, Changing Realities",
                                   style: TextStyle(
                                       fontSize: 20.sp,
-                                      color: bgRed,
+                                      color: basicBlack,
+                                      fontFamily: 'ZeroGothic',
                                       fontWeight: FontWeight.bold),
                                 ),
                               ],

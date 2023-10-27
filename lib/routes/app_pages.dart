@@ -30,6 +30,8 @@ import '../module/login/view/login_view.dart';
 import '../module/prelogin/binding/prelogin_binding.dart';
 import '../module/prelogin/view/prelogin_view.dart';
 import '../module/profile_user/binding/profile_user_binding.dart';
+import '../module/profile_user/change_password/view/change_password_view.dart';
+import '../module/profile_user/change_username/view/change_username_view.dart';
 import '../module/profile_user/view/profile_user_view.dart';
 import '../module/reminder/binding/reminder_binding.dart';
 import '../module/reminder/view/reminder_view.dart';
@@ -133,7 +135,18 @@ class AppPages {
         page: () => CommunityDetailView(),
         binding: CommunityBinding()),
     
-      
+
+    //profile user
+    //change username
+      GetPage(
+              name: Routes.CHANGE_USERNAME,
+              page: () => ChangeUsernameView(),
+              binding: ProfileUserBinding()),
+    //change password
+     GetPage(
+              name: Routes.CHANGE_PASSWORD,
+              page: () => ChangePasswordView(),
+              binding: ProfileUserBinding()),
 
 
     //navigation home
