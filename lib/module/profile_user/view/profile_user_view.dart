@@ -7,6 +7,7 @@ import 'package:newtest/theme.dart';
 import 'package:newtest/widget/bottom_sheet_action.dart';
 import 'package:newtest/widget/confirm_dialog.dart';
 import 'package:newtest/widget/sizedbox_extension.dart';
+import 'package:newtest/widget/toast.dart';
 import 'package:remixicon/remixicon.dart';
 import '../controller/profile_user_controller.dart';
 import '../widget/button_profile_widget.dart';
@@ -129,6 +130,9 @@ class _BodySection extends GetView<ProfileUserController> {
         ButtonProfileWidget(
           icon: Remix.notification_3_line,
           title: 'Notification',
+          fuction: () {
+            Toast.showErrorToastWithoutContext('Error you cant login');
+          },
         ),
         ButtonProfileWidget(
           icon: Remix.global_line,
