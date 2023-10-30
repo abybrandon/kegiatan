@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:newtest/widget/sizedbox_extension.dart';
 
 import '../theme.dart';
 
@@ -37,25 +38,34 @@ class ConfirmDialog extends StatelessWidget {
       ),
       children: [
         Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Icon(
               headerIcon,
-              size: 16.sp,
-              color: headerIconColor ?? primaryDefault,
+              size: 20.sp,
+              color: headerIconColor ?? bgRed,
             ),
             SizedBox(width: 9.34.sp),
-            Text(
-              headerText,
-              style: TextStyle(
-                fontSize: 16.sp,
-                fontWeight: FontWeight.w600,
-                color: headerWeak,
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    headerText,
+                    style: TextStyle(
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w600,
+                      color: bgRed,
+                    ),
+                  ),
+                  6.h.heightBox,
+                  body ?? const SizedBox(),
+                  12.h.heightBox,
+                ],
               ),
             )
           ],
         ),
-        body ?? const SizedBox(),
         Row(
           children: [
             Expanded(
@@ -68,10 +78,7 @@ class ConfirmDialog extends StatelessWidget {
                 },
                 style: ButtonStyle(
                   side: MaterialStatePropertyAll(
-                    BorderSide(
-                      color: const Color(0xFFD9DBE9),
-                      width: 1.sp,
-                    ),
+                    BorderSide.none
                   ),
                   shape: MaterialStatePropertyAll(
                     RoundedRectangleBorder(
@@ -106,12 +113,13 @@ class ConfirmDialog extends StatelessWidget {
                 },
                 style: applyStyle?.merge(
                       ElevatedButton.styleFrom(
-                        elevation: 0,
+                        elevation: 0, backgroundColor: bgRed,
                         minimumSize: Size.fromHeight(41.sp),
                       ),
                     ) ??
                     ElevatedButton.styleFrom(
                       elevation: 0,
+                      backgroundColor: bgRed,
                       minimumSize: Size.fromHeight(41.sp),
                     ),
                 child: Text(applyLabel ?? 'Yes'),

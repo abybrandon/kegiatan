@@ -11,8 +11,9 @@ class CostumeRentDetailController extends GetxController with StateMixin {
   @override
   void onInit() {
     change(null, status: RxStatus.loading());
-
+    WidgetsBinding.instance.addPostFrameCallback((_) {
     fetchCostumeRentDetailById(Get.parameters["id"]!);
+    });
     super.onInit();
   }
 
@@ -82,7 +83,6 @@ class CostumeRentDetailController extends GetxController with StateMixin {
           sizeAvail = dataCostume.availSize;
           brandName = dataCostume.brandCostume.name;
           detailCostume = dataCostume.detailCostume;
-          print(dataCostume.detailCostume);
         } else {
           print('Dokumen tidak ditemukan');
         }

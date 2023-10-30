@@ -9,7 +9,7 @@ class EventBinding extends Bindings {
   void dependencies() {
     Get.lazyPut(() => EventController());
 
-    Get.lazyPut(() => DetailEventController());
+    Get.lazyPut(() => DetailEventController(),fenix: true);
 
     //filter
     Get.lazyPut(() => FilterEventController());

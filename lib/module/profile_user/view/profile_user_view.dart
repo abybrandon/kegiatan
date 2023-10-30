@@ -5,11 +5,14 @@ import 'package:newtest/local_storage/local_storage_helper.dart';
 import 'package:newtest/routes/app_pages.dart';
 import 'package:newtest/theme.dart';
 import 'package:newtest/widget/bottom_sheet_action.dart';
+import 'package:newtest/widget/confirm_dialog.dart';
 import 'package:newtest/widget/sizedbox_extension.dart';
 import 'package:remixicon/remixicon.dart';
-
 import '../controller/profile_user_controller.dart';
 import '../widget/button_profile_widget.dart';
+
+part '../widget/single_action_liked_content.dart';
+part '../widget/single_action_delete_account.dart';
 
 class ProfileUserView extends StatelessWidget {
   const ProfileUserView({super.key});
@@ -56,12 +59,8 @@ class _BodySection extends GetView<ProfileUserController> {
           },
         ),
         ButtonProfileWidget(
-          icon: Remix.mail_line,
-          title: 'Change Email',
-        ),
-        ButtonProfileWidget(
           icon: Remix.lock_password_line,
-          title: 'Change Pasword',
+          title: 'Change Password',
           fuction: () {
             Get.toNamed(
               Routes.CHANGE_PASSWORD,
@@ -69,11 +68,55 @@ class _BodySection extends GetView<ProfileUserController> {
           },
         ),
         ButtonProfileWidget(
+          icon: Remix.delete_bin_5_line,
+          title: 'Delete Account',
+          fuction: () {
+            showDialog(
+              context: context,
+              builder: (context) {
+                return ConfirmDialog(
+                  headerIcon: Remix.information_line,
+                  headerText: 'Delete Account',
+                  body: Text(
+                    'Are you sure want to delete your account? By doing this you will lose all of your saved data and will not be able to retrive it.',
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      fontSize: 10.sp,
+                      fontWeight: Config.medium,
+                    ),
+                  ),
+                  onApply: () async {},
+                );
+              },
+            );
+          },
+        ),
+        ButtonProfileWidget(
           icon: Remix.logout_box_line,
           title: 'Logout',
           fuction: () async {
+            showDialog(
+              context: context,
+              builder: (context) {
+                return ConfirmDialog(
+                  headerIcon: Remix.information_line,
+                  headerText: 'Logout',
+                  body: Text(
+                    'Are you sure want to Logout',
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      fontSize: 10.sp,
+                      fontWeight: Config.medium,
+                    ),
+                  ),
+                  onApply: () async {
+                    
             await SharedPreferenceHelper.removeUserData();
             Get.offAllNamed(Routes.LOGIN);
+                  },
+                );
+              },
+            );
           },
         ),
         4.h.heightBox,
@@ -182,64 +225,6 @@ class _HeaderSection extends StatelessWidget {
           ],
         ),
       ],
-    );
-  }
-}
-
-class _SingleActionLikedContent extends StatelessWidget {
-  const _SingleActionLikedContent({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(
-        vertical: 12.h,
-        horizontal: 20.w,
-      ),
-      child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Icon(Remix.heart_2_fill, color: bgRed, size: 20.sp,),
-                12.w.widthBox,
-                Text(
-                  'Liked Content',
-                  style: TextStyle(
-                      color: bgRed, fontWeight: Config.semiBold, fontSize: 16.sp),
-                ),
-              ],
-            ),
-            20.h.heightBox,
-            BottomSheetAction(
-              title: 'Liked Event',
-              icon: Remix.file_info_line,
-              iconColor: bgRed,
-              imagePath: 'assets/img/gate.png',
-              onTap: () {
-                Get.back();
-              },
-            ),
-            BottomSheetAction(
-              title: 'Liked Costume',
-              icon: Remix.shirt_line,
-              imagePath: 'assets/img/costume.png',
-              iconColor: bgRed,
-              onTap: () {
-                Get.back();
-              },
-            ),
-            BottomSheetAction(
-              title: 'Liked Community',
-              imagePath: 'assets/img/comunt.png',
-              icon: Remix.file_info_line,
-              iconColor: bgRed,
-              onTap: () {
-                Get.back();
-              },
-            ),
-          ]),
     );
   }
 }
