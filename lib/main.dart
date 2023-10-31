@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_map_tile_caching/flutter_map_tile_caching.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:newtest/module/notification/pages/home_page.dart';
@@ -20,8 +21,8 @@ bool _preLoginStatus = false;
 bool _isAdmin = false;
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+
   await FlutterMapTileCaching.initialise();
   await FMTC.instance('mapStore').manage.createAsync();
   await Firebase.initializeApp();
@@ -41,7 +42,12 @@ void main() async {
   if (statusPrelogin == 1) {
     _preLoginStatus = true;
   }
+
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+
   runApp(MyApp());
+  await Future.delayed(const Duration(milliseconds: 1));
+  FlutterNativeSplash.remove();
 }
 
 class MyApp extends StatefulWidget {

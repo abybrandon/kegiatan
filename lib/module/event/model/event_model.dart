@@ -6,12 +6,15 @@ class EventModel {
   final String id;
   final List<dynamic> eventPict;
   final Timestamp createdDate;
+  final EventDate eventDate;
+
   EventModel(
       {required this.eventName,
       required this.city,
       required this.id,
       required this.createdDate,
-      required this.eventPict});
+      required this.eventPict,
+      required this.eventDate});
 
   factory EventModel.fromJson(Map<String, dynamic> json) {
     final id = json['id'];
@@ -19,11 +22,23 @@ class EventModel {
     final city = json['city'] ?? '';
     final createdDate = json['createdDate'] ?? '';
     final eventPict = json['eventPict'] ?? '';
+    final eventDate = EventDate.fromJson(json['eventDate']);
     return EventModel(
         eventName: eventName,
         city: city,
         id: id,
         createdDate: createdDate,
-        eventPict: eventPict);
+        eventPict: eventPict,
+        eventDate: eventDate);
+  }
+}
+
+class EventDate {
+  final Timestamp? endDate;
+  final Timestamp startDate;
+
+  EventDate({this.endDate, required this.startDate});
+  factory EventDate.fromJson(Map<String, dynamic> json) {
+    return EventDate(endDate: json['endDate'], startDate: json['startDate']);
   }
 }

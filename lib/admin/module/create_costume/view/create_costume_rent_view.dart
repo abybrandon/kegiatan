@@ -172,8 +172,8 @@ class _FormCreateCostume extends GetView<CreateCostumeController> {
                       items: controller.categoryOption,
                       bodyWidget: Container(
                           width: double.infinity,
-                          padding:
-                              const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 8),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(8.r),
                             color: bgRed,
@@ -196,7 +196,8 @@ class _FormCreateCostume extends GetView<CreateCostumeController> {
                               padding: const EdgeInsets.only(top: 10),
                               child: Container(
                                 padding: const EdgeInsets.all(8.0),
-                                margin: const EdgeInsets.symmetric(horizontal: 4.0),
+                                margin:
+                                    const EdgeInsets.symmetric(horizontal: 4.0),
                                 decoration: BoxDecoration(
                                   border: Border.all(color: generalGrey),
                                   borderRadius: BorderRadius.circular(8.0),
@@ -296,6 +297,7 @@ class _WidgetSize extends StatelessWidget {
         ),
         Obx(
           () => Checkbox(
+            fillColor: null,
             value: isChecked.value,
             onChanged: (value) {
               isChecked.value = value!;
@@ -334,7 +336,7 @@ class _FloatingButtonSubmit extends GetView<CreateCostumeController> {
             backgroundColor: bgRed,
           ),
           onPressed: () async {
-         await controller.createData();
+            await controller.createData();
           },
           child: Text(
             'Submit',

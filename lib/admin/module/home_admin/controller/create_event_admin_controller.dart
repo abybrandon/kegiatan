@@ -13,21 +13,19 @@ import '../model/create_event_model.dart';
 import '../model/location_event_model.dart';
 
 class CreateEventAdminController extends GetxController with StateMixin {
-
   @override
   void onInit() {
     getLocationEvent();
     getArtistEventModel();
     super.onInit();
   }
-  
-  
+
   @override
   void onClose() {
     Get.delete<CreateEventAdminController>();
     super.onClose();
   }
-  
+
   final CollectionReference eventCollection = FirebaseFirestore.instance
       .collection('events')
       .doc('events')
@@ -35,7 +33,7 @@ class CreateEventAdminController extends GetxController with StateMixin {
 
   final CollectionReference locationEventCollection = FirebaseFirestore.instance
       .collection('events')
-      .doc('events')
+      .doc('location')
       .collection('locationEvent');
 
   final CollectionReference artistEventCollection = FirebaseFirestore.instance
@@ -103,6 +101,7 @@ class CreateEventAdminController extends GetxController with StateMixin {
   double eventLatitude = 0;
   double eventLongitude = 0;
 
+  String locationCity = '';
   Future<void> createEventWithPict(
       {required String nameEevent,
       required String organizerEvent,
@@ -232,7 +231,6 @@ class CreateEventAdminController extends GetxController with StateMixin {
               LocationEventModel.fromJson(doc.data() as Map<String, dynamic>))
           .toList();
       allLocationEvent.value = fethedLocation;
-      
     } catch (error) {
       print(error.toString());
     }

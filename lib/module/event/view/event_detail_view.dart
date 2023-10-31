@@ -22,7 +22,22 @@ part '../widget/tabbar_map.dart';
 part '../widget/tabbar_deskripsi.dart';
 part '../widget/tabbar_guest_start.dart';
 
-class EventDetailView extends GetView<DetailEventController> {
+class EventDetailView extends StatefulWidget {
+  @override
+  State<EventDetailView> createState() => _EventDetailViewState();
+}
+
+class _EventDetailViewState extends State<EventDetailView> {
+  final controller = Get.find<DetailEventController>();
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      controller.getSavedEventList();
+      controller.fetchEventDetailById(Get.parameters["id"]!);
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion(

@@ -3,8 +3,22 @@ import 'package:get/get.dart';
 
 import '../controller/try_data_detail_controller.dart';
 
-class TryDataDetail extends GetView<TryDataDetailController> {
-  const TryDataDetail({super.key});
+class TryDataDetail extends StatefulWidget {
+  TryDataDetail({super.key});
+
+  @override
+  State<TryDataDetail> createState() => _TryDataDetailState();
+}
+
+class _TryDataDetailState extends State<TryDataDetail> {
+  final controller = Get.find<TryDataDetailController>();
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      controller.getDetailData(Get.parameters["id"]!);
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

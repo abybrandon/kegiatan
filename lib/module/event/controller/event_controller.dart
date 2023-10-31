@@ -400,28 +400,46 @@ class EventController extends GetxController with StateMixin {
     final tomorrow = currentTime.add(Duration(days: 1));
     final timestampDate = timestamp.toDate();
 
- if (
-        timestampDate.day == currentTime.day) {
+    if (timestampDate.day == currentTime.day) {
       return 'Today';
-    }  else if (
-        timestampDate.day == tomorrow.day) {
+    } else if (timestampDate.day == tomorrow.day) {
       return 'Tomorrow';
-    } 
-   else if (timestampDate.isAfter(weekStart) && timestampDate.isBefore(weekEnd)) {
+    } else if (timestampDate.isAfter(weekStart) &&
+        timestampDate.isBefore(weekEnd)) {
       return 'This Week';
-    }else {
+    } else {
       return 'Coming Soon';
     }
   }
 
-String formatTimestamp(Timestamp timestamp) {
-  final dateTime = timestamp.toDate();
-  initializeDateFormatting( 'id_ID');
-  final format = DateFormat('dd MMMM yyyy', 'id_ID'); 
+  String formatTimestamps(Timestamp? startDate, Timestamp? endDate) {
+    if (startDate != null) {
+      try {
+        final startDateTime = startDate.toDate();
+        final endDateTime = endDate?.toDate();
+        initializeDateFormatting('id_ID');
+        final format = DateFormat('dd MMMM yyyy', 'id_ID');
 
-  final formattedDate = format.format(dateTime);
-  return formattedDate;
-}
+        if (endDateTime != null) {
+          final formattedStartDate = format.format(startDateTime);
+          final formattedEndDate = format.format(endDateTime);
+
+          // Mendapatkan hanya tanggal dari tanggal mulai dan selesai
+          final startDateDay = startDateTime.day;
+          final endDateDay = endDateTime.day;
+
+          return '$startDateDay - $endDateDay ${formattedStartDate.substring(3)}';
+        } else {
+          final formattedStartDate = format.format(startDateTime);
+          return formattedStartDate;
+        }
+      } catch (e) {
+        return 'Fail Convert';
+      }
+    } else {
+      return 'null';
+    }
+  }
 
   final RxBool isSearching = false.obs;
   final searchController = TextEditingController();

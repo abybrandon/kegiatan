@@ -5,12 +5,14 @@ class LocationEventModel {
   final String id;
   final double latitude;
   final double longitude;
+  final String locationCity;
 
   LocationEventModel(
     this.locationName,
     this.id,
     this.latitude,
     this.longitude,
+    this.locationCity,
   );
 
   factory LocationEventModel.fromJson(Map<String, dynamic> json) {
@@ -19,11 +21,8 @@ class LocationEventModel {
     final GeoPoint geoPoint = json['coordinateLocation'];
     final latitude = geoPoint.latitude;
     final longitude = geoPoint.longitude;
+    final locationCity = json['locationCity'];
     return LocationEventModel(
-      locationName,
-      id,
-      latitude,
-      longitude,
-    );
+        locationName, id, latitude, longitude, locationCity);
   }
 }

@@ -16,10 +16,7 @@ import '../admin/module/home_admin/bindings/create_event_admin_binding.dart';
 import '../admin/module/home_admin/view/create_artist_admin_view.dart';
 import '../admin/module/home_admin/view/menu_admin.dart';
 import '../module/community/binding/community_binding.dart';
-import '../module/community/binding/trydata_binding.dart';
 import '../module/community/view/community_list_view.dart';
-import '../module/community/view/try_data_detail.dart';
-import '../module/community/view/try_data_list.dart';
 import '../module/costume/costume_main/view/costume_main_view.dart';
 import '../module/costume/costume_rent/view/costume_rent_detail_view.dart';
 import '../module/event/view/event_detail_view.dart';
@@ -116,38 +113,40 @@ class AppPages {
     //costume rent
     GetPage(
         name: Routes.COSTUME_RENT,
-        page: () => TryDataList(),
-        bindings: [TryDatBinding(), CostumeBinding()]),
-
+        page: () => CostumeMainView(),
+        binding: CostumeBinding()),
+   
     //costume detail rent
     GetPage(
         name: Routes.COSTUME_RENT_DETAIL,
-        page: () => TryDataDetail(),
-        bindings: [TryDatBinding(), CostumeBinding()]),
+        page: () => CostumeRentDetailView(),
+        binding: CostumeBinding()),
 
     //community
-    GetPage(
+     GetPage(
         name: Routes.COMMUNITY_LIST,
         page: () => CommunityListView(),
         binding: CommunityBinding()),
-
+    
     //community detail
-    GetPage(
+         GetPage(
         name: Routes.COMMUNITY_DETAIL,
         page: () => CommunityDetailView(),
         binding: CommunityBinding()),
+    
 
     //profile user
     //change username
-    GetPage(
-        name: Routes.CHANGE_USERNAME,
-        page: () => ChangeUsernameView(),
-        binding: ProfileUserBinding()),
+      GetPage(
+              name: Routes.CHANGE_USERNAME,
+              page: () => ChangeUsernameView(),
+              binding: ProfileUserBinding()),
     //change password
-    GetPage(
-        name: Routes.CHANGE_PASSWORD,
-        page: () => ChangePasswordView(),
-        binding: ProfileUserBinding()),
+     GetPage(
+              name: Routes.CHANGE_PASSWORD,
+              page: () => ChangePasswordView(),
+              binding: ProfileUserBinding()),
+
 
     //navigation home
     GetPage(

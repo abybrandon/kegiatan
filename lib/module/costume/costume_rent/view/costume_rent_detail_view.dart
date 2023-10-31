@@ -16,8 +16,22 @@ import '../controller/costume_rent_detail_controller.dart';
 part 'costume_rent_detail_costume_view.dart';
 part 'costume_rent_rules_view.dart';
 
-class CostumeRentDetailView extends GetView<CostumeRentDetailController> {
-  const CostumeRentDetailView({super.key});
+class CostumeRentDetailView extends StatefulWidget {
+  CostumeRentDetailView({super.key});
+
+  @override
+  State<CostumeRentDetailView> createState() => _CostumeRentDetailViewState();
+}
+
+class _CostumeRentDetailViewState extends State<CostumeRentDetailView> {
+  final controller = Get.find<CostumeRentDetailController>();
+  @override
+  void initState() {
+  WidgetsBinding.instance.addPostFrameCallback((_) {
+    controller.fetchCostumeRentDetailById(Get.parameters["id"]!);
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

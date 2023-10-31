@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:newtest/theme.dart';
 import '../multi_select/multi_select.dart';
 
 class SingleSelect<T extends Object> extends StatefulWidget {
@@ -55,19 +56,22 @@ class _SingleSelectState<T extends Object> extends State<SingleSelect<T>> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        TextField(
-          controller: searchController,
-          style: TextStyle(fontSize: 12.sp),
-          decoration: InputDecoration(
-            contentPadding: EdgeInsets.all(10.sp),
-            border: const UnderlineInputBorder(),
-            isDense: true,
-            hintText: 'Search...',
-            hintStyle: TextStyle(fontSize: 12.sp),
-            suffixIcon: Icon(
-              Icons.search,
-              size: 25.sp,
-              color: Colors.blue,
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 24.sp),
+          child: TextField(
+            controller: searchController,
+            style: TextStyle(fontSize: 12.sp),
+            decoration: InputDecoration(
+              contentPadding: EdgeInsets.all(10.sp),
+              border: const UnderlineInputBorder(),
+              isDense: true,
+              hintText: 'Search...',
+              hintStyle: TextStyle(fontSize: 12.sp),
+              suffixIcon: Icon(
+                Icons.search,
+                size: 25.sp,
+                color: Colors.blue,
+              ),
             ),
           ),
         ),
@@ -88,15 +92,23 @@ class _SingleSelectState<T extends Object> extends State<SingleSelect<T>> {
                     }
                   },
                   child: Container(
-                    padding: EdgeInsets.symmetric(vertical: 8.h),
+                    padding:
+                        EdgeInsets.symmetric(vertical: 8.h, horizontal: 24.sp),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(item.label),
+                        Text(
+                          item.label,
+                          style: TextStyle(
+                              color: selectedValue == item.value
+                                  ? bgRed
+                                  : basicBlack),
+                        ),
                         if (selectedValue == item.value)
                           Icon(
                             Icons.check,
-                            color: Colors.blue,
+                            color: bgRed,
+                            size: 24.sp,
                           ),
                       ],
                     ),

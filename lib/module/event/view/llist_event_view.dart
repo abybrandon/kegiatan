@@ -112,7 +112,6 @@ class ShimmerGridView extends StatelessWidget {
   }
 }
 
-
 class FilterList extends GetView<EventController> {
   const FilterList({super.key});
 
@@ -277,8 +276,7 @@ class _BodyContent extends GetView<EventController> {
                                           fontWeight: Config.semiBold),
                                     ),
                                     Text(
-                                      controller
-                                          .formatTimestamp(event.createdDate),
+                                      '${controller.formatTimestamps(event.eventDate.startDate, event.eventDate.endDate)}',
                                       overflow: TextOverflow.clip,
                                       style: TextStyle(
                                           fontSize: 8.sp,
@@ -290,24 +288,33 @@ class _BodyContent extends GetView<EventController> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Row(
-                                          children: [
-                                            Icon(
-                                              Remix.map_pin_line,
-                                              size: 8.sp,
-                                              color: Color(0xffBFC300),
+                                        Expanded(
+                                          child: SizedBox(
+                                            child: Row(
+                                              children: [
+                                                Icon(
+                                                  Remix.map_pin_line,
+                                                  size: 8.sp,
+                                                  color: Color(0xffBFC300),
+                                                ),
+                                                2.w.widthBox,
+                                                Expanded(
+                                                  child: Text(
+                                                    event.city,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    style: TextStyle(
+                                                        fontSize: 8.sp,
+                                                        color: basicBlack,
+                                                        fontWeight:
+                                                            Config.medium),
+                                                  ),
+                                                ),
+                                              ],
                                             ),
-                                            2.w.widthBox,
-                                            Text(
-                                              event.city,
-                                              overflow: TextOverflow.clip,
-                                              style: TextStyle(
-                                                  fontSize: 8.sp,
-                                                  color: basicBlack,
-                                                  fontWeight: Config.medium),
-                                            ),
-                                          ],
+                                          ),
                                         ),
+                                        4.w.widthBox,
                                         Row(
                                           children: [
                                             Icon(
@@ -317,7 +324,7 @@ class _BodyContent extends GetView<EventController> {
                                             ),
                                             2.w.widthBox,
                                             Text(
-                                              '13 Liked',
+                                              '130',
                                               overflow: TextOverflow.clip,
                                               style: TextStyle(
                                                   fontSize: 8.sp,
@@ -325,7 +332,7 @@ class _BodyContent extends GetView<EventController> {
                                                   fontWeight: Config.medium),
                                             ),
                                             2.w.widthBox,
-                                              Icon(
+                                            Icon(
                                               Remix.more_2_fill,
                                               size: 8.sp,
                                               color: trueBlack,

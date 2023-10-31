@@ -94,7 +94,6 @@ class _HomeViewState extends State<HomeView> {
                                         style: TextStyle(
                                             fontSize: 24.sp,
                                             color: basicBlack,
-                                            fontFamily: 'ZeroGothic',
                                             fontWeight: FontWeight.bold),
                                       ),
                                     ),
@@ -115,20 +114,18 @@ class _HomeViewState extends State<HomeView> {
                                     ),
                                   ],
                                 ),
-                                12.h.heightBox,
                                 Text(
                                   "Otaku Dreamers, Changing Realities",
                                   style: TextStyle(
                                       fontSize: 20.sp,
                                       color: basicBlack,
-                                      fontFamily: 'ZeroGothic',
-                                      fontWeight: FontWeight.bold),
+                                      fontWeight: Config.semiBold),
                                 ),
                               ],
                             ),
                           ),
                           Container(
-                            height: 25.h,
+                            height: 30.h,
                             color: bgWhite,
                           )
                         ],

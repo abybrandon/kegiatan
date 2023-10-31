@@ -10,7 +10,7 @@ Color bgGrey = const Color(0xff808080);
 Color bgGreyLite = Color(0xffb5b5b5);
 Color semiGrey = Color(0xff877C7C);
 Color trueLove = Color(0xffFF0019);
-Color yellowMap =Color(0xffBFC300);
+Color yellowMap = Color(0xffBFC300);
 
 Color bgBlue = const Color(0xff0063F7);
 Color buttonColor = const Color(0xFF0063F7);
@@ -30,7 +30,6 @@ class Config {
 
   static ThemeData getTheme() {
     return ThemeData(
-      
       fontFamily: 'Poppins',
       inputDecorationTheme: InputDecorationTheme(
         hintStyle: const TextStyle(
@@ -54,6 +53,7 @@ class Config {
         ),
       ),
       checkboxTheme: CheckboxThemeData(
+        
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(4),
         ),
@@ -61,7 +61,7 @@ class Config {
           color: Color(0xFFD9DBE9),
           width: 2.5,
         ),
-        fillColor: const MaterialStatePropertyAll(primaryDefault),
+        fillColor: const MaterialStatePropertyAll(null),
       ),
       bottomSheetTheme: BottomSheetThemeData(
         backgroundColor: Colors.white,

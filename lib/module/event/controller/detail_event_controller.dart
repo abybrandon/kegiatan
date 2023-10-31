@@ -134,8 +134,7 @@ class DetailEventController extends GetxController with StateMixin {
   @override
   void onInit() {
     change(null, status: RxStatus.loading());
-    getSavedEventList();
-    fetchEventDetailById(Get.parameters["id"]!);
+   
     super.onInit();
   }
 
