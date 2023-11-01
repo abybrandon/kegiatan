@@ -9,7 +9,7 @@
 
 
    <application
-        android:label="newtest"
+        android:label="MyJFest"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

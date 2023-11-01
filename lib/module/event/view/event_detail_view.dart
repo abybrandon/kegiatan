@@ -3,12 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_swiper_view/flutter_swiper_view.dart';
 import 'package:get/get.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:newtest/module/event/controller/detail_event_controller.dart';
+import 'package:newtest/module/event/widget/expandable_widget.dart';
 import 'package:newtest/theme.dart';
 import 'package:newtest/widget/asset_photo.dart';
+import 'package:newtest/widget/date_formatter.dart';
 import 'package:newtest/widget/loader.dart';
 import 'package:newtest/widget/sizedbox_extension.dart';
 import 'package:remixicon/remixicon.dart';
@@ -21,6 +22,7 @@ import '../widget/appbar_detail_event.dart';
 part '../widget/tabbar_map.dart';
 part '../widget/tabbar_deskripsi.dart';
 part '../widget/tabbar_guest_start.dart';
+part '../widget/tabbar_content.dart';
 
 class EventDetailView extends StatefulWidget {
   @override
@@ -29,10 +31,10 @@ class EventDetailView extends StatefulWidget {
 
 class _EventDetailViewState extends State<EventDetailView> {
   final controller = Get.find<DetailEventController>();
+
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      controller.getSavedEventList();
       controller.fetchEventDetailById(Get.parameters["id"]!);
     });
     super.initState();
@@ -45,23 +47,29 @@ class _EventDetailViewState extends State<EventDetailView> {
       child: Scaffold(
           backgroundColor: bgWhite,
           body: controller.obx(
-              (state) => Stack(
-                    children: [
-                      _BodyDetail(),
-                      Align(
-                          alignment: Alignment.bottomCenter,
-                          child: _FloatingButton()),
-                      Align(
-                        alignment: Alignment.topCenter,
-                        child: AppBarDetail(
-                          isSearching: controller.isSearching,
-                          title: controller.nameEvent,
-                          isAppBarVisible: controller.isAppBarVisible,
-                        ),
-                      )
-                    ],
+            (state) => Stack(
+              children: [
+                Obx(() => controller.eventDetail.value == null
+                    ? Loader()
+                    : _BodyDetail()),
+                Align(
+                    alignment: Alignment.bottomCenter,
+                    child: _FloatingButton()),
+                Align(
+                  alignment: Alignment.topCenter,
+                  child: AppBarDetail(
+                    isSearching: controller.isSearching,
+                    title: controller.nameEvent,
+                    isAppBarVisible: controller.isAppBarVisible,
                   ),
-              onLoading: Loader())),
+                )
+              ],
+            ),
+            onLoading: Loader(),
+            onError: (error) {
+              return CircularProgressIndicator();
+            },
+          )),
     );
   }
 }
@@ -196,8 +204,9 @@ class _BodyDetailState extends State<_BodyDetail> {
 
 class _ContentBody extends GetView<DetailEventController> {
   _ContentBody({super.key});
-  String namePlace =
-      'Jl. Gerbang Pemuda No.3, RT.1/RW.3, Gelora, Kecamatan Tanah Abang, Kota Jakarta Pusat, Daerah Khusus Ibukota Jakarta 10270 ';
+
+  DateUtil dateUtil = DateUtil();
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -227,7 +236,7 @@ class _ContentBody extends GetView<DetailEventController> {
                             fontWeight: Config.medium,
                             fontSize: 8.sp,
                             color: bgGrey)),
-                    Text('Raf Creatif',
+                    Text(controller.eventOrganizer,
                         style: TextStyle(
                             fontWeight: Config.medium,
                             fontSize: 8.sp,
@@ -260,7 +269,7 @@ class _ContentBody extends GetView<DetailEventController> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Text(
-                            'Mall Senayan Park',
+                            controller.locationName,
                             style: TextStyle(
                                 fontSize: 12.sp,
                                 color: basicBlack,
@@ -268,7 +277,7 @@ class _ContentBody extends GetView<DetailEventController> {
                           ),
                           2.h.heightBox,
                           Text(
-                            namePlace,
+                            controller.locationAddress,
                             style: TextStyle(
                                 fontSize: 8.sp,
                                 color: bgGrey,
@@ -319,7 +328,7 @@ class _ContentBody extends GetView<DetailEventController> {
                     ),
                     4.w.widthBox,
                     Text(
-                      '20 Oktober 2023 05-00 - 21-00 WIB',
+                      '${dateUtil.formatTimestamps(controller.eventDetail.value?.eventDate.startDate, controller.eventDetail.value?.eventDate.endDate)}, ${controller.time}',
                       style: TextStyle(
                           fontSize: 12.sp,
                           color: basicBlack,
@@ -396,13 +405,13 @@ class _ContentBody extends GetView<DetailEventController> {
                     case 1:
                       return const _GuestStartPage();
                     case 2:
-                      return const _MapsEvent();
+                      return const _ContentPage();
                     case 3:
                       return const _MapsEvent();
                     case 4:
                       return const _DescriptionPage();
                     default:
-                      return _MapsEvent();
+                      return _DescriptionPage();
                   }
                 }),
               ]),
@@ -497,7 +506,9 @@ class _FloatingButton extends GetView<DetailEventController> {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: bgRed,
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        controller.updateDocument();
+                      },
                       child: Text(
                         'Check Ticket',
                         style: TextStyle(

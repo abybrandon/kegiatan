@@ -19,7 +19,7 @@ class EventModel {
   factory EventModel.fromJson(Map<String, dynamic> json) {
     final id = json['id'];
     final eventName = json['eventName'] ?? '';
-    final city = json['city'] ?? '';
+    final city = json['locationName']['city'] ?? '';
     final createdDate = json['createdDate'] ?? '';
     final eventPict = json['eventPict'] ?? '';
     final eventDate = EventDate.fromJson(json['eventDate']);
@@ -36,9 +36,13 @@ class EventModel {
 class EventDate {
   final Timestamp? endDate;
   final Timestamp startDate;
+  final String time;
 
-  EventDate({this.endDate, required this.startDate});
+  EventDate({this.endDate, required this.startDate, required this.time});
   factory EventDate.fromJson(Map<String, dynamic> json) {
-    return EventDate(endDate: json['endDate'], startDate: json['startDate']);
+    return EventDate(
+        endDate: json['endDate'],
+        startDate: json['startDate'],
+        time: json['time']);
   }
 }

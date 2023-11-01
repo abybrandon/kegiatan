@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:newtest/module/event/model/event_model.dart';
 
 class EventDetailModel {
   final String id;
@@ -11,6 +12,10 @@ class EventDetailModel {
   final Timestamp createdDate;
   final double latitude;
   final double longitude;
+  final String locationName;
+  final String locationAddress;
+  final EventDate eventDate;
+  final List<ContentEvent> content;
 
   EventDetailModel({
     required this.id,
@@ -23,6 +28,10 @@ class EventDetailModel {
     required this.latitude,
     required this.longitude,
     this.eventPict = const [],
+    required this.locationName,
+    required this.locationAddress,
+    required this.eventDate,
+    required this.content,
   });
 
   Map<String, dynamic> toJson() {
@@ -54,6 +63,15 @@ class EventDetailModel {
     final GeoPoint geoPoint = json['location'] ?? '';
     final latitude = geoPoint.latitude;
     final longitude = geoPoint.longitude;
+    final locationName = json['locationName']['name'] ?? '';
+    final locationAddress = json['locationName']['address'] ?? '';
+    final eventDate = EventDate.fromJson(
+      json['eventDate'],
+    );
+    final content = (json['content'] as List)
+        .map((item) => ContentEvent.fromJson(item))
+        .toList();
+    ;
 
     return EventDetailModel(
         eventName: eventName,
@@ -65,7 +83,11 @@ class EventDetailModel {
         createdDate: createdDate,
         eventPict: eventPict,
         latitude: latitude,
-        longitude: longitude);
+        longitude: longitude,
+        locationName: locationName,
+        locationAddress: locationAddress,
+        eventDate: eventDate,
+        content: content);
   }
 
   factory EventDetailModel.fromJsonPref(Map<String, dynamic> json) {
@@ -86,6 +108,13 @@ class EventDetailModel {
     );
     final latitude = geoPoint.latitude;
     final longitude = geoPoint.longitude;
+    final locationName = json['locaitonName']['name'] ?? '';
+    final locationAddress = json['locationName']['address'] ?? '';
+
+    final eventDate = EventDate.fromJson(json['eventDate']);
+    final content = (json['content'] as List)
+        .map((item) => ContentEvent.fromJson(item))
+        .toList();
 
     return EventDetailModel(
         eventName: eventName,
@@ -97,6 +126,23 @@ class EventDetailModel {
         createdDate: createdDate,
         eventPict: eventPict,
         latitude: latitude,
-        longitude: longitude);
+        longitude: longitude,
+        locationName: locationName,
+        locationAddress: locationAddress,
+        eventDate: eventDate,
+        content: content);
+  }
+}
+
+class ContentEvent {
+  String detail;
+  String name;
+  String pict;
+
+  ContentEvent({required this.detail, required this.name, required this.pict});
+
+  factory ContentEvent.fromJson(Map<String, dynamic> json) {
+    return ContentEvent(
+        detail: json['detail'], name: json['name'], pict: json['pict']);
   }
 }

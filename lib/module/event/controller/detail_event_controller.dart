@@ -12,7 +12,6 @@ import '../../../widget/toast.dart';
 import '../model/event_detail_model.dart';
 
 class DetailEventController extends GetxController with StateMixin {
-
   final RxBool isAppBarVisible = false.obs;
 
   final CollectionReference eventCollection = FirebaseFirestore.instance
@@ -26,12 +25,17 @@ class DetailEventController extends GetxController with StateMixin {
   //data
   String nameEvent = '';
   String organizerEvent = '';
-  String city = '';
+  RxString city = ''.obs;
   String deskripsi = '';
-  List<String> listPict = [];
+  String eventOrganizer = '';
+  String locationName = '';
+  String locationAddress = '';
+  String time = '';
+  RxList<String> listPict = <String>[].obs;
   List<String> listGuestStart = [];
   double latitudeLoc = 0;
   double longitudeLoc = 0;
+  RxList<ContentEvent> listContent = <ContentEvent>[].obs;
 
   List<String> getImages() {
     int desiredLength = 3;
@@ -46,44 +50,51 @@ class DetailEventController extends GetxController with StateMixin {
         listPict.add(placeholderImage);
       }
     }
-
     return listPict;
   }
 
   Future<void> fetchEventDetailById(String id) async {
     change(null, status: RxStatus.loading());
-    var connectivityResult = await (Connectivity().checkConnectivity());
-    if (connectivityResult == ConnectivityResult.none) {
-      Toast.showErrorToastWithoutContext('No Internet Connection');
-    } else {
-      try {
-        final DocumentSnapshot<Map<String, dynamic>> snapshot = await _firestore
-            .collection('events')
-            .doc('events')
-            .collection('eventList')
-            .doc(id)
-            .get();
-        if (snapshot.exists) {
-          final eventData = EventDetailModel.fromJson(snapshot.data()!);
+    try {
+      final DocumentSnapshot<Map<String, dynamic>> snapshot = await _firestore
+          .collection('events')
+          .doc('events')
+          .collection('eventList')
+          .doc(id)
+          .get();
+      if (snapshot.exists) {
+        final eventData = EventDetailModel.fromJson(snapshot.data()!);
 
-          eventDetail.value = eventData;
-          nameEvent = eventData.eventName;
-          city = eventData.city;
-          organizerEvent = eventData.organizerEvent;
-          deskripsi = eventData.deskripsi;
-          listPict = eventData.eventPict.map((e) => e.toString()).toList();
-          listGuestStart =
-              eventData.guestStart.map((e) => e.toString()).toList();
-          latitudeLoc = eventData.latitude;
-          longitudeLoc = eventData.longitude;
-          checkEventSaved(eventDetail.value);
-        } else {
-          print('Dokumen tidak ditemukan');
+        eventDetail.value = eventData;
+        nameEvent = eventData.eventName;
+        city.value = eventData.city;
+        organizerEvent = eventData.organizerEvent;
+        deskripsi = eventData.deskripsi;
+        listPict.value = eventData.eventPict.map((e) => e.toString()).toList();
+        listGuestStart = eventData.guestStart.map((e) => e.toString()).toList();
+        latitudeLoc = eventData.latitude;
+        longitudeLoc = eventData.longitude;
+        eventOrganizer = eventData.organizerEvent;
+        locationName = eventData.locationName;
+        locationAddress = eventData.locationAddress;
+        time = eventData.eventDate.time;
+        listContent.value = eventData.content;
+        checkEventSaved(eventDetail.value);
+        if (eventDetail.value != null) {
+          print('not null');
         }
-      } catch (e) {
-        // Handle error jika terjadi
-        print(e.toString());
+      } else {
+        print('Dokumen tidak ditemukan');
+
+        Toast.showErrorToastWithoutContext('Something Error');
+
+        change(null, status: RxStatus.error());
       }
+    } catch (e) {
+      // Handle error jika terjadi
+
+      change(null, status: RxStatus.error());
+      print(e.toString());
     }
 
     change(null, status: RxStatus.success());
@@ -134,7 +145,7 @@ class DetailEventController extends GetxController with StateMixin {
   @override
   void onInit() {
     change(null, status: RxStatus.loading());
-   
+
     super.onInit();
   }
 
@@ -253,4 +264,29 @@ class DetailEventController extends GetxController with StateMixin {
   //appbar
 
   final RxBool isSearching = false.obs;
+
+  void updateDocument() {
+    final String documentId = '1NRBv4o5KD2CJMzpNpPJ';
+    final CollectionReference collectionReference = FirebaseFirestore.instance
+        .collection('events')
+        .doc('events')
+        .collection('eventList');
+
+    final String alamat =
+        'Jl. Jalur Sutera Bar. No.Kav. 16, RT.002/RW.003, Panunggangan Tim., Kec. Pinang, Kota Tangerang, Banten 15143';
+
+    // Data yang ingin Anda perbarui
+    final Map<String, dynamic> dataToUpdate = {
+      'ticket': {
+        'price': 'Rp 70.000 - 140.000',
+        'link': 'https://www.goersapp.com/venues/festival-citylink--gaeaop'
+      },
+    };
+
+    collectionReference.doc(documentId).update(dataToUpdate).then((value) {
+      print('Dokumen berhasil diperbarui.');
+    }).catchError((error) {
+      print('Terjadi kesalahan: $error');
+    });
+  }
 }

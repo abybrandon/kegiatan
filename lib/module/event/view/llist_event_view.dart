@@ -9,6 +9,7 @@ import 'package:newtest/module/event/widget/filter_event_list.dart';
 import 'package:newtest/routes/app_pages.dart';
 import 'package:newtest/theme.dart';
 import 'package:newtest/widget/custom_textfield.dart';
+import 'package:newtest/widget/date_formatter.dart';
 import 'package:newtest/widget/shimmer_effect.dart';
 import 'package:newtest/widget/sizedbox_extension.dart';
 import 'package:newtest/widget/universal_appbar.dart';
@@ -209,8 +210,9 @@ class FilterList extends GetView<EventController> {
 }
 
 class _BodyContent extends GetView<EventController> {
-  const _BodyContent({super.key});
+  _BodyContent({super.key});
 
+  DateUtil dateUtil = DateUtil();
   @override
   Widget build(BuildContext context) {
     return controller.obx(
@@ -276,7 +278,7 @@ class _BodyContent extends GetView<EventController> {
                                           fontWeight: Config.semiBold),
                                     ),
                                     Text(
-                                      '${controller.formatTimestamps(event.eventDate.startDate, event.eventDate.endDate)}',
+                                      '${dateUtil.formatTimestamps(event.eventDate.startDate, event.eventDate.endDate)}',
                                       overflow: TextOverflow.clip,
                                       style: TextStyle(
                                           fontSize: 8.sp,
