@@ -11,7 +11,7 @@ class CostumeRentDetailController extends GetxController with StateMixin {
   @override
   void onInit() {
     change(null, status: RxStatus.loading());
-  
+
     super.onInit();
   }
 
@@ -99,7 +99,9 @@ class CostumeRentDetailController extends GetxController with StateMixin {
 
   Widget get tabbarWidget {
     if (selectedButton.value == 0) {
-      return DetailCostume(detail: detailCostume,);
+      return DetailCostume(
+        detail: detailCostume,
+      );
     } else {
       return RulesRent();
     }

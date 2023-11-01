@@ -27,8 +27,8 @@ class _CostumeRentDetailViewState extends State<CostumeRentDetailView> {
   final controller = Get.find<CostumeRentDetailController>();
   @override
   void initState() {
-  WidgetsBinding.instance.addPostFrameCallback((_) {
-    controller.fetchCostumeRentDetailById(Get.parameters["id"]!);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      controller.fetchCostumeRentDetailById(Get.parameters["id"]!);
     });
     super.initState();
   }

@@ -15,7 +15,10 @@ class EventDetailModel {
   final String locationName;
   final String locationAddress;
   final EventDate eventDate;
-  final List<ContentEvent> content;
+  final List<ContentEvent>? content;
+  final List<dynamic> rulesEvent;
+  final List<dynamic> rundown;
+  final TicketEvent ticketEvent;
 
   EventDetailModel({
     required this.id,
@@ -31,7 +34,10 @@ class EventDetailModel {
     required this.locationName,
     required this.locationAddress,
     required this.eventDate,
-    required this.content,
+    this.content,
+    this.rulesEvent = const [],
+    this.rundown = const [],
+    required this.ticketEvent,
   });
 
   Map<String, dynamic> toJson() {
@@ -54,13 +60,13 @@ class EventDetailModel {
   factory EventDetailModel.fromJson(Map<String, dynamic> json) {
     final id = json['id'];
     final eventName = json['eventName'] ?? '';
-    final city = json['city'] ?? '';
-    final organizerEvent = json['organizerEvent'] ?? '';
+    final city = json['city']['name'] ?? '';
+    final organizerEvent = json['organizerEvent']['name'] ?? '';
     final createdDate = json['createdDate'] ?? '';
     final deskripsi = json['deskripsi'] ?? '';
     final guestStart = json['guestStart'] ?? [''];
     final eventPict = json['eventPict'] ?? [];
-    final GeoPoint geoPoint = json['location'] ?? '';
+    final GeoPoint geoPoint = json['locationName']['coordinateLocation'] ?? '';
     final latitude = geoPoint.latitude;
     final longitude = geoPoint.longitude;
     final locationName = json['locationName']['name'] ?? '';
@@ -71,6 +77,9 @@ class EventDetailModel {
     final content = (json['content'] as List)
         .map((item) => ContentEvent.fromJson(item))
         .toList();
+    final rulesEvent = json['rules'];
+    final rundown = json['rundown'];
+    final ticketEvent = TicketEvent.fromJson(json['ticket']);
     ;
 
     return EventDetailModel(
@@ -87,7 +96,10 @@ class EventDetailModel {
         locationName: locationName,
         locationAddress: locationAddress,
         eventDate: eventDate,
-        content: content);
+        content: content,
+        rulesEvent: rulesEvent,
+        rundown: rundown,
+        ticketEvent: ticketEvent);
   }
 
   factory EventDetailModel.fromJsonPref(Map<String, dynamic> json) {
@@ -110,11 +122,14 @@ class EventDetailModel {
     final longitude = geoPoint.longitude;
     final locationName = json['locaitonName']['name'] ?? '';
     final locationAddress = json['locationName']['address'] ?? '';
-
     final eventDate = EventDate.fromJson(json['eventDate']);
     final content = (json['content'] as List)
         .map((item) => ContentEvent.fromJson(item))
         .toList();
+    final rulesEvent = json['rules'];
+    final rundown = json['rundown'];
+
+    final ticketEvent = TicketEvent.fromJson(json['ticket']);
 
     return EventDetailModel(
         eventName: eventName,
@@ -130,7 +145,10 @@ class EventDetailModel {
         locationName: locationName,
         locationAddress: locationAddress,
         eventDate: eventDate,
-        content: content);
+        content: content,
+        rulesEvent: rulesEvent,
+        rundown: rundown,
+        ticketEvent: ticketEvent);
   }
 }
 
@@ -144,5 +162,22 @@ class ContentEvent {
   factory ContentEvent.fromJson(Map<String, dynamic> json) {
     return ContentEvent(
         detail: json['detail'], name: json['name'], pict: json['pict']);
+  }
+}
+
+class TicketEvent {
+  String? link;
+  String? price;
+
+  TicketEvent({
+    required this.link,
+    required this.price,
+  });
+
+  factory TicketEvent.fromJson(Map<String, dynamic> json) {
+    return TicketEvent(
+      link: json['link'] ?? '',
+      price: json['price'] ?? "",
+    );
   }
 }

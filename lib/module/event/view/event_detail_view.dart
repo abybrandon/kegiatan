@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_swiper_view/flutter_swiper_view.dart';
 import 'package:get/get.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:newtest/module/event/controller/detail_event_controller.dart';
@@ -12,8 +13,10 @@ import 'package:newtest/widget/asset_photo.dart';
 import 'package:newtest/widget/date_formatter.dart';
 import 'package:newtest/widget/loader.dart';
 import 'package:newtest/widget/sizedbox_extension.dart';
+import 'package:newtest/widget/toast.dart';
 import 'package:remixicon/remixicon.dart';
 import 'package:flutter_map_tile_caching/flutter_map_tile_caching.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../routes/app_pages.dart';
 import '../../../widget/button_tabbar.dart';
 import '../../../widget/confirm_dialog.dart';
@@ -23,6 +26,8 @@ part '../widget/tabbar_map.dart';
 part '../widget/tabbar_deskripsi.dart';
 part '../widget/tabbar_guest_start.dart';
 part '../widget/tabbar_content.dart';
+part '../widget/tabbar_rules.dart';
+part '../widget/tabbar_rundown.dart';
 
 class EventDetailView extends StatefulWidget {
   @override
@@ -284,23 +289,28 @@ class _ContentBody extends GetView<DetailEventController> {
                                 fontWeight: Config.medium),
                           ),
                           2.h.heightBox,
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Text(
-                                'Get Direction',
-                                style: TextStyle(
-                                    fontSize: 8.sp,
-                                    color: bgRed,
-                                    fontWeight: Config.medium),
-                              ),
-                              2.w.widthBox,
-                              Image.asset(
-                                'assets/img/google-maps.png',
-                                height: 14.h,
-                                width: 14.w,
-                              )
-                            ],
+                          InkWell(
+                            onTap: () {
+                              controller.openMapsSheet(context);
+                            },
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Text(
+                                  'Get Direction',
+                                  style: TextStyle(
+                                      fontSize: 8.sp,
+                                      color: bgRed,
+                                      fontWeight: Config.medium),
+                                ),
+                                2.w.widthBox,
+                                Image.asset(
+                                  'assets/img/google-maps.png',
+                                  height: 14.h,
+                                  width: 14.w,
+                                )
+                              ],
+                            ),
                           ),
                         ],
                       ),
@@ -389,9 +399,9 @@ class _ContentBody extends GetView<DetailEventController> {
                         () => ButtonTabbar(
                             tittle: 'Rules',
                             function: () {
-                              controller.selectedButton.value = 3;
+                              controller.selectedButton.value = 4;
                             },
-                            isSelected: controller.selectedButton.value == 3),
+                            isSelected: controller.selectedButton.value == 4),
                       ),
                     ],
                   ),
@@ -407,9 +417,9 @@ class _ContentBody extends GetView<DetailEventController> {
                     case 2:
                       return const _ContentPage();
                     case 3:
-                      return const _MapsEvent();
+                      return const _RundownPage();
                     case 4:
-                      return const _DescriptionPage();
+                      return const _RulesPage();
                     default:
                       return _DescriptionPage();
                   }
@@ -490,7 +500,7 @@ class _FloatingButton extends GetView<DetailEventController> {
                           color: bgRed),
                     ),
                     Text(
-                      'RP 70.000 - 140.000',
+                      controller.ticketprice,
                       style: TextStyle(
                           fontSize: 16,
                           fontWeight: Config.bold,
@@ -506,8 +516,15 @@ class _FloatingButton extends GetView<DetailEventController> {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: bgRed,
                       ),
-                      onPressed: () {
-                        controller.updateDocument();
+                      onPressed: () async {
+                        // controller.updateMultipleDocuments();
+                        if (controller.linkTicket != '') {
+                          await launchUrl(Uri.parse(controller.linkTicket),
+                              mode: LaunchMode.externalApplication);
+                        } else {
+                          Toast.showWarningToastWithoutContext(
+                              'No ticket needed');
+                        }
                       },
                       child: Text(
                         'Check Ticket',

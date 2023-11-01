@@ -123,6 +123,56 @@ class Toast {
     );
   }
 
+  static showWarningToastWithoutContext(String message) {
+    rootScaffoldMessengerKey.currentState?.showSnackBar(
+      SnackBar(
+        duration: const Duration(milliseconds: 700),
+        behavior: SnackBarBehavior.floating,
+        width: 320.sp,
+        padding: const EdgeInsets.all(12),
+        backgroundColor: bgWhite,
+        elevation: 1,
+        shape: RoundedRectangleBorder(
+          side: BorderSide(width: 1, color: Color(0xFFE6E6E6)),
+          borderRadius: BorderRadius.circular(8),
+        ),
+        content: Row(
+          children: [
+            Container(
+              margin: EdgeInsets.only(right: 8.sp),
+              child: Icon(
+                Icons.warning,
+                color: yellowMap,
+                size: 16.sp,
+              ),
+            ),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Warning',
+                    style: TextStyle(
+                        fontSize: 14.sp,
+                        color: yellowMap,
+                        fontWeight: Config.semiBold),
+                  ),
+                  Text(
+                    message,
+                    style: TextStyle(
+                        fontSize: 12.sp,
+                        color: bgGrey,
+                        fontWeight: Config.reguler),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   static showSuccessToastWithoutContext(String message) {
     rootScaffoldMessengerKey.currentState?.showSnackBar(
       SnackBar(

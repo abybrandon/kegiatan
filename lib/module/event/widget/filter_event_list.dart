@@ -82,13 +82,13 @@ class FilterEventController extends GetxController with StateMixin {
   }
 
   final List<SelectItem<String>> cityOption = [
-    SelectItem(label: 'Jakarta', value: 'Jakarta'),
-    SelectItem(label: 'Surabaya', value: 'Surabaya'),
-    SelectItem(label: 'Bandung', value: 'Bandung'),
-    SelectItem(label: 'Bekasi', value: 'Bekasi'),
-    SelectItem(label: 'Medan', value: 'Medan'),
-    SelectItem(label: 'Semarang', value: 'Semarang'),
-    SelectItem(label: 'Makassar', value: 'Makassar'),
+    SelectItem(label: 'Kota Jakarta', value: 'Jakarta'),
+    SelectItem(label: 'Kota Surabaya', value: 'Surabaya'),
+    SelectItem(label: 'Kota Bandung', value: 'Bandung'),
+    SelectItem(label: 'Kota Bekasi', value: 'Bekasi'),
+    SelectItem(label: 'Kota Medan', value: 'Medan'),
+    SelectItem(label: 'Kota Semarang', value: 'Semarang'),
+    SelectItem(label: 'Kota Makassar', value: 'Makassar'),
   ];
 
   final List<SelectItem<String>> locationOption = [
@@ -100,9 +100,9 @@ class FilterEventController extends GetxController with StateMixin {
   final RxList<String> selectedTag = RxList();
 
   final List<SelectItem<String>> eventOrganizer = [
-     SelectItem(label: 'Raf Creatif', value: 'Raf Creatif'),
+    SelectItem(label: 'Raf Creatif', value: 'Raf Creatif'),
     SelectItem(label: 'Momiji Gari', value: 'Momiji Gari'),
-      SelectItem(label: 'Mukashi', value: 'Momiji Gari'),
+    SelectItem(label: 'Mukashi', value: 'Momiji Gari'),
   ];
 
   //date filter
@@ -200,17 +200,16 @@ class FilterEventListState extends State<FilterEventList> {
             ),
           ),
           12.h.heightBox,
-              Obx(
-              () => BadgeSelectorField(
-                label: 'Event Organizer',
-                items: controller.eventOrganizer,
-                selectedItems: curSelectedStatus,
-                onSelect: (selectedItems) {
-                  curSelectedStatus.value = [...selectedItems];
-                },
-              ),
+          Obx(
+            () => BadgeSelectorField(
+              label: 'Event Organizer',
+              items: controller.eventOrganizer,
+              selectedItems: curSelectedStatus,
+              onSelect: (selectedItems) {
+                curSelectedStatus.value = [...selectedItems];
+              },
             ),
-            
+          ),
           SizedBox(height: 12.h),
           Obx(
             () => BadgeSelectorField(

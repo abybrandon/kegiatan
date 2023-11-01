@@ -22,7 +22,7 @@ class _ContentPage extends GetView<DetailEventController> {
                           AssetPhoto(
                             image: data.pict,
                             height: 150.h,
-                            width: 250.w,
+                            width: double.infinity,
                           ),
                           8.h.heightBox,
                           Text(data.detail),
@@ -30,7 +30,10 @@ class _ContentPage extends GetView<DetailEventController> {
                       ));
                 }),
               )
-            : Text('kosong'))
+            : Image.asset(
+                'assets/img/staytuned.png',
+                height: 100.h,
+              ))
       ],
     );
   }

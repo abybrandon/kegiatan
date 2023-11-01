@@ -19,7 +19,7 @@ class EventModel {
   factory EventModel.fromJson(Map<String, dynamic> json) {
     final id = json['id'];
     final eventName = json['eventName'] ?? '';
-    final city = json['locationName']['city'] ?? '';
+    final city = json['city']['name'] ?? '';
     final createdDate = json['createdDate'] ?? '';
     final eventPict = json['eventPict'] ?? '';
     final eventDate = EventDate.fromJson(json['eventDate']);

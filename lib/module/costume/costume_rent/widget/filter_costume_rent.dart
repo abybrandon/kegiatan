@@ -79,13 +79,13 @@ class FilterCostumeRentController extends GetxController with StateMixin {
   }
 
   final List<SelectItem<String>> cityOption = [
-    SelectItem(label: 'Jakarta', value: 'Jakarta'),
-    SelectItem(label: 'Surabaya', value: 'Surabaya'),
-    SelectItem(label: 'Bandung', value: 'Bandung'),
-    SelectItem(label: 'Bekasi', value: 'Bekasi'),
-    SelectItem(label: 'Medan', value: 'Medan'),
-    SelectItem(label: 'Semarang', value: 'Semarang'),
-    SelectItem(label: 'Makassar', value: 'Makassar'),
+    SelectItem(label: 'Kota Jakarta', value: 'Jakarta'),
+    SelectItem(label: 'Kota Surabaya', value: 'Surabaya'),
+    SelectItem(label: 'Kota Bandung', value: 'Bandung'),
+    SelectItem(label: 'Kota Bekasi', value: 'Bekasi'),
+    SelectItem(label: 'Kota Medan', value: 'Medan'),
+    SelectItem(label: 'Kota Semarang', value: 'Semarang'),
+    SelectItem(label: 'Kota Makassar', value: 'Makassar'),
   ];
 
   final List<SelectItem<String>> statusOption = [
@@ -100,28 +100,32 @@ class FilterCostumeRentController extends GetxController with StateMixin {
     SelectItem(label: 'Original', value: 'Original'),
   ];
 
-final List<SelectItem<String>> animeOption = [
+  final List<SelectItem<String>> animeOption = [
     SelectItem(label: 'Naruto', value: 'Naruto'),
     SelectItem(label: 'One Piece', value: 'One Piece'),
     SelectItem(label: 'Attack on Titan', value: 'Attack on Titan'),
     SelectItem(label: 'Dragon Ball Z', value: 'Dragon Ball Z'),
     SelectItem(label: 'Death Note', value: 'Death Note'),
-    SelectItem(label: 'Fullmetal Alchemist: Brotherhood', value: 'Fullmetal Alchemist: Brotherhood'),
+    SelectItem(
+        label: 'Fullmetal Alchemist: Brotherhood',
+        value: 'Fullmetal Alchemist: Brotherhood'),
     SelectItem(label: 'My Hero Academia', value: 'My Hero Academia'),
     SelectItem(label: 'Cowboy Bebop', value: 'Cowboy Bebop'),
     SelectItem(label: 'One Punch Man', value: 'One Punch Man'),
     SelectItem(label: 'Hunter x Hunter', value: 'Hunter x Hunter'),
     SelectItem(label: 'Bleach', value: 'Bleach'),
     SelectItem(label: 'Sword Art Online', value: 'Sword Art Online'),
-    SelectItem(label: 'Neon Genesis Evangelion', value: 'Neon Genesis Evangelion'),
+    SelectItem(
+        label: 'Neon Genesis Evangelion', value: 'Neon Genesis Evangelion'),
     SelectItem(label: 'Code Geass', value: 'Code Geass'),
     SelectItem(label: 'Fairy Tail', value: 'Fairy Tail'),
     SelectItem(label: 'Steins;Gate', value: 'Steins;Gate'),
     SelectItem(label: 'Black Clover', value: 'Black Clover'),
-    SelectItem(label: 'Demon Slayer: Kimetsu no Yaiba', value: 'Demon Slayer: Kimetsu no Yaiba'),
+    SelectItem(
+        label: 'Demon Slayer: Kimetsu no Yaiba',
+        value: 'Demon Slayer: Kimetsu no Yaiba'),
     SelectItem(label: 'Tokyo Ghoul', value: 'Tokyo Ghoul'),
-   
-];
+  ];
   final RxList<String> selectedTag = RxList();
 
   void onResetFilter() {
@@ -204,7 +208,7 @@ class FilterCostumeRentState extends State<FilterCostumeRent> {
             ),
           ),
           12.h.heightBox,
-           Obx(
+          Obx(
             () => BadgeSelectorField(
               label: 'Anime',
               items: controller.animeOption,
