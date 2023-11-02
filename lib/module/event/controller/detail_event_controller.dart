@@ -86,7 +86,7 @@ class DetailEventController extends GetxController with StateMixin {
         listRules = eventData.rulesEvent.map((e) => e.toString()).toList();
         listRundown = eventData.rundown.map((e) => e.toString()).toList();
 
-        if (eventData.ticketEvent.price == null) {
+        if (eventData.ticketEvent.price == '') {
           ticketprice = 'Free';
         } else {
           ticketprice = eventData.ticketEvent.price!;

@@ -10,8 +10,11 @@ class Toast {
     final scaffold = ScaffoldMessenger.of(context);
     scaffold.showSnackBar(
       SnackBar(
+        margin: EdgeInsets.only(
+            bottom: MediaQuery.of(context).size.height / 2,
+            left: 10.w,
+            right: 10.w),
         behavior: SnackBarBehavior.floating,
-        width: MediaQuery.of(context).size.width * 0.9,
         padding: const EdgeInsets.all(12),
         backgroundColor: const Color(0xFFFF0022),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
@@ -68,6 +71,63 @@ class Toast {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  static showWarningToast(BuildContext context, String message) {
+    final scaffold = ScaffoldMessenger.of(context);
+    scaffold.showSnackBar(
+      SnackBar(
+        duration: const Duration(milliseconds: 700),
+        behavior: SnackBarBehavior.floating,
+        margin: EdgeInsets.only(
+            bottom: MediaQuery.of(context).size.height / 2,
+            left: 20.w,
+            right: 20.w),
+        padding: const EdgeInsets.all(12),
+        backgroundColor: bgWhite,
+        elevation: 2,
+        shape: RoundedRectangleBorder(
+          side: BorderSide(width: 1, color: Color(0xFFE6E6E6)),
+          borderRadius: BorderRadius.circular(8),
+        ),
+        content: Align(
+          alignment: Alignment.topCenter,
+          child: Row(
+            children: [
+              Container(
+                margin: EdgeInsets.only(right: 8.sp),
+                child: Icon(
+                  Icons.warning,
+                  color: yellowMap,
+                  size: 16.sp,
+                ),
+              ),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Warning',
+                      style: TextStyle(
+                          fontSize: 14.sp,
+                          color: yellowMap,
+                          fontWeight: Config.semiBold),
+                    ),
+                    Text(
+                      message,
+                      style: TextStyle(
+                          fontSize: 12.sp,
+                          color: bgGrey,
+                          fontWeight: Config.reguler),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -136,38 +196,41 @@ class Toast {
           side: BorderSide(width: 1, color: Color(0xFFE6E6E6)),
           borderRadius: BorderRadius.circular(8),
         ),
-        content: Row(
-          children: [
-            Container(
-              margin: EdgeInsets.only(right: 8.sp),
-              child: Icon(
-                Icons.warning,
-                color: yellowMap,
-                size: 16.sp,
+        content: Align(
+          alignment: Alignment.topCenter,
+          child: Row(
+            children: [
+              Container(
+                margin: EdgeInsets.only(right: 8.sp),
+                child: Icon(
+                  Icons.warning,
+                  color: yellowMap,
+                  size: 16.sp,
+                ),
               ),
-            ),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Warning',
-                    style: TextStyle(
-                        fontSize: 14.sp,
-                        color: yellowMap,
-                        fontWeight: Config.semiBold),
-                  ),
-                  Text(
-                    message,
-                    style: TextStyle(
-                        fontSize: 12.sp,
-                        color: bgGrey,
-                        fontWeight: Config.reguler),
-                  ),
-                ],
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Warning',
+                      style: TextStyle(
+                          fontSize: 14.sp,
+                          color: yellowMap,
+                          fontWeight: Config.semiBold),
+                    ),
+                    Text(
+                      message,
+                      style: TextStyle(
+                          fontSize: 12.sp,
+                          color: bgGrey,
+                          fontWeight: Config.reguler),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

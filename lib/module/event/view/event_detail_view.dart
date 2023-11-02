@@ -299,15 +299,15 @@ class _ContentBody extends GetView<DetailEventController> {
                                 Text(
                                   'Get Direction',
                                   style: TextStyle(
-                                      fontSize: 8.sp,
+                                      fontSize: 10.sp,
                                       color: bgRed,
                                       fontWeight: Config.medium),
                                 ),
                                 2.w.widthBox,
                                 Image.asset(
                                   'assets/img/google-maps.png',
-                                  height: 14.h,
-                                  width: 14.w,
+                                  height: 16.h,
+                                  width: 16.w,
                                 )
                               ],
                             ),
@@ -522,8 +522,7 @@ class _FloatingButton extends GetView<DetailEventController> {
                           await launchUrl(Uri.parse(controller.linkTicket),
                               mode: LaunchMode.externalApplication);
                         } else {
-                          Toast.showWarningToastWithoutContext(
-                              'No ticket needed');
+                          Toast.showWarningToast(context, 'No ticket needed');
                         }
                       },
                       child: Text(
