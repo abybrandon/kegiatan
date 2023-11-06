@@ -39,7 +39,7 @@ class CostumeRentListView extends GetView<CostumeRentController> {
                                 padding: EdgeInsets.symmetric(
                                     horizontal: 10.w, vertical: 8.h),
                                 width: 150.w,
-                                height: 241.h,
+                                height: 243.h,
                                 decoration: ShapeDecoration(
                                   color: Colors.white,
                                   shape: RoundedRectangleBorder(
@@ -87,13 +87,27 @@ class CostumeRentListView extends GetView<CostumeRentController> {
                                               .withOpacity(0.8),
                                           fontWeight: Config.bold),
                                     ),
-                                    Text(
-                                      'Rp ${data.priceRent['rentPrice']} / ${data.priceRent['rentDay']} Day',
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                          fontSize: 8.sp,
-                                          color: bgGrey,
-                                          fontWeight: Config.medium),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          'Rp ${data.priceRent['rentPrice']} / ${data.priceRent['rentDay']} Day',
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                              fontSize: 8.sp,
+                                              color: bgGrey,
+                                              fontWeight: Config.medium),
+                                        ),
+                                        Text(
+                                          'Full Set',
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                              fontSize: 8.sp,
+                                              color: bgGrey,
+                                              fontWeight: Config.medium),
+                                        ),
+                                      ],
                                     ),
                                     4.h.heightBox,
                                     Row(
@@ -151,8 +165,8 @@ class CostumeRentListView extends GetView<CostumeRentController> {
                                                   color: trueLove,
                                                   fontWeight: Config.medium),
                                             ),
-                                                2.w.widthBox,
-                                              Icon(
+                                            2.w.widthBox,
+                                            Icon(
                                               Remix.more_2_fill,
                                               size: 8.sp,
                                               color: trueBlack,

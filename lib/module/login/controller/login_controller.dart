@@ -80,7 +80,6 @@ class LoginController extends GetxController with StateMixin {
       UserCredential userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password)
           .then((UserCredential userCredential) {
-            
         return userCredential.user!.getIdToken().then((String token) {
           print(token);
           return userCredential;
@@ -113,14 +112,14 @@ class LoginController extends GetxController with StateMixin {
       Toast.showSuccessToastWithoutContext('Berhasil Login');
 
       QuerySnapshot userDocs = await usersCollection
-          .where('_id', isEqualTo: userCredential.user!.uid)
+          .where('id', isEqualTo: userCredential.user!.uid)
           .get();
 
       DocumentSnapshot userDoc = userDocs.docs[0];
       Map<String, dynamic> userData = userDoc.data() as Map<String, dynamic>;
 
       UserData userDataToSave = UserData(
-          id: userData['_id'],
+          id: userData['id'],
           role: userData['role'],
           username: userData['username']);
 

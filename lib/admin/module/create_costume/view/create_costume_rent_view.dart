@@ -337,6 +337,7 @@ class _FloatingButtonSubmit extends GetView<CreateCostumeController> {
           ),
           onPressed: () async {
             await controller.createData();
+            // controller.costumeRentDetail();
           },
           child: Text(
             'Submit',

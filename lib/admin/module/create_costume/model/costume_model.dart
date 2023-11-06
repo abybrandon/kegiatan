@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:newtest/module/costume/costume_rent/model/costume_rent_owner_detail_model.dart';
 
 import 'category_costume_model.dart';
 
@@ -13,7 +14,7 @@ class CreateEventModel {
   final Timestamp endDate;
   final List<String>? fotoKegiatanUrls;
   final List<String> guestStart;
-  final GeoPoint? location; 
+  final GeoPoint? location;
 
   CreateEventModel(
       {required this.id,
@@ -48,7 +49,6 @@ class CreateEventModel {
   }
 }
 
-
 class ModelCostume {
   final String id;
   final String nameCostume;
@@ -57,7 +57,7 @@ class ModelCostume {
   final bool status;
   final List<String> categoryCostume;
   final Timestamp createdDate;
-  final String locationName;
+  final CategoryModel locationName;
   final List<String> availSize;
   final CategoryModel brandCostume;
   final String detailCostume;
@@ -92,18 +92,20 @@ class ModelCostume {
       charackterName: CategoryModel.fromJson(json['charackterName']),
       status: json['status'],
       categoryCostume: List<String>.from(json['categoryCostume']),
-      createdDate: json['createdDate'], 
-      locationName: json['locationName'],
+      createdDate: json['createdDate'],
+      locationName: CategoryModel.fromJson(json['city']),
       availSize: List<String>.from(json['availSize']),
       brandCostume: CategoryModel.fromJson(json['brandCostume']),
       detailCostume: json['detailCostume'],
-      owner: Map<String, dynamic>.from(json['owner']),
+      owner:
+          // CostumeRentOwnerDetailModel.fromJson(json['owner']),
+          json['owner'],
       genderCostume: json['gender'],
       priceRent: Map<String, dynamic>.from(json['priceRent']),
       listPhotoCostume: List<String>.from(json['listPhotoCostume']),
     );
   }
-    Map<String, dynamic> toJson() {
+  Map<String, dynamic> toJson() {
     return {
       'id': id,
       'nameCostume': nameCostume,
@@ -112,15 +114,14 @@ class ModelCostume {
       'status': status,
       'categoryCostume': categoryCostume,
       'createdDate': createdDate,
-      'locationName': locationName,
+      'city': locationName.toJson(),
       'availSize': availSize,
       'brandCostume': brandCostume.toJson(),
       'detailCostume': detailCostume,
-      'owner': owner,
-      'gender' : genderCostume,
-      'priceRent' : priceRent,
-      'listPhotoCostume' : listPhotoCostume
+      // 'owner': owner.toJson(),
+      'gender': genderCostume,
+      'priceRent': priceRent,
+      'listPhotoCostume': listPhotoCostume
     };
   }
 }
-

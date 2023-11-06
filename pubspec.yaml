@@ -63,6 +63,7 @@ dependencies:
   scroll_date_picker: ^3.7.1
   flutter_native_splash: ^2.3.5
   expandable: ^5.0.1
+  flutter_launcher_icons: ^0.13.1
   
   
 
@@ -87,6 +88,13 @@ flutter_native_splash:
   android: true
   ios: false
   android_disable_fullscreen: false
+
+flutter_launcher_icons:
+  #  image_path: "assets/images/icon-128x128.png"
+  image_path_android: "assets/icon/logoApp.png"
+  image_path_ios: "assets/icon/logoApp.png"
+  android: true # can specify file name here e.g. "ic_launcher"
+  ios: true # can specify file name here e.g. "My-Launcher-Icon
   
 
   

@@ -280,48 +280,53 @@ class DetailEventController extends GetxController with StateMixin {
 
   void updateMultipleDocuments() {
     final List<String> listId = [
-      'cLZi6YlJMmjvNnT2k7y2',
-      'mUE4bFpxNfRsVDZLVCZI',
-      'n5Yd3VwPczOzXUhiH5NC',
-      'uUhOlu5D70UWMkyWUmfG',
-      'ulRoWgG4nZEMwkrKOxAS',
-      'vs1EC0n6EkvPI5FObi5t',
-      'wBI2c8sBJ88E8HBe4K12'
+      '6i8vFUdQjw3h7MGGOZhK',
+      'Gi6ow04jKs4QGOUHXquj',
+      'IxbGw1dPdx1T1j3N4hko',
+      'TtXDi8iD5UvUypS1sM67',
+      'XYOYuxju1dz0NWteJs2m',
+      'eW3LLnHcRFQ5Fz1gY9Z7',
+      'jnZY8EdTfSCyMF4BO90R',
+      'rXtv0xZeOG5SpsyG7Jff'
     ];
     final CollectionReference collectionReference = FirebaseFirestore.instance
-        .collection('events')
-        .doc('events')
-        .collection('eventList');
-    final String location =
-        'Jl. Jalur Sutera Bar. No.Kav. 16, RT.002/RW.003, Panunggangan Tim., Kec. Pinang, Kota Tangerang, Banten 15143';
+        .collection('costume')
+        .doc('costume')
+        .collection('costume_rent');
+    // final String location =
+    //     'Jl. Jalur Sutera Bar. No.Kav. 16, RT.002/RW.003, Panunggangan Tim., Kec. Pinang, Kota Tangerang, Banten 15143';
 
     // Data yang ingin Anda perbarui
     final Map<String, dynamic> dataToUpdate = {
-      // 'city': {'key': 3, 'name': 'Kota Tangerang'},
+      'city': {
+        'key': 3,
+        'name': 'Kota Tangerang',
+        'id': 'VNXv1zwcE3txsVLs3QV7'
+      },
       // 'locationName': {
       //   'address': location, // Perbaikan: Hapus spasi ekstra di sini
       //   'name': 'Mall Alam Sutera',
       //   'coordinateLocation': GeoPoint(-6.1189117, 106.1819121)
       // },
       // 'organizerEvent': {'key': 1, 'name': 'Raf Creatif'}
-      'content': [
-        {
-          'detail': 'ini detail',
-          'name': 'Karaoke Fest',
-          'pict':
-              'https://firebasestorage.googleapis.com/v0/b/eventku-d1719.appspot.com/o/event_images%2FScreenshot_7.png?alt=media&token=ee2f9bac-f45d-4058-b010-b4bd38f8a050&_gl=1*773mtj*_ga*MTc3MTE3Nzk4OS4xNjc1ODMyNjA1*_ga_CW55HF8NVT*MTY5NzY4MjM4Ni40NS4xLjE2OTc2ODI4MDYuMjkuMC4w'
-        }
-      ],
-      'rules': [
-        'https://firebasestorage.googleapis.com/v0/b/eventku-d1719.appspot.com/o/event_images%2FSnapinsta.app_396761057_1482877412500261_2058448033506264423_n_1080.jpg?alt=media&token=4431726a-efce-40fd-917f-4d5e72f9adef&_gl=1*17wcnyj*_ga*MTc3MTE3Nzk4OS4xNjc1ODMyNjA1*_ga_CW55HF8NVT*MTY5ODgwNDMwOS45NS4xLjE2OTg4MDUyMTMuMzYuMC4w',
-        'https://firebasestorage.googleapis.com/v0/b/eventku-d1719.appspot.com/o/event_images%2FSnapinsta.app_396439832_1244545682879808_7265617429495067603_n_1080.jpg?alt=media&token=7dd7cf49-2156-4f7e-8409-9277dc642388&_gl=1*tjiwlx*_ga*MTc3MTE3Nzk4OS4xNjc1ODMyNjA1*_ga_CW55HF8NVT*MTY5ODgwNDMwOS45NS4xLjE2OTg4MDUyMDguNDEuMC4w'
-      ],
-      'rundown': [],
-      'ticket': {
-        'link':
-            'https://www.goersapp.com/venues/taman-pantai-ancol-regular--yyrhie',
-        'price': 'Rp 70.000'
-      }
+      // 'content': [
+      //   {
+      //     'detail': 'ini detail',
+      //     'name': 'Karaoke Fest',
+      //     'pict':
+      //         'https://firebasestorage.googleapis.com/v0/b/eventku-d1719.appspot.com/o/event_images%2FScreenshot_7.png?alt=media&token=ee2f9bac-f45d-4058-b010-b4bd38f8a050&_gl=1*773mtj*_ga*MTc3MTE3Nzk4OS4xNjc1ODMyNjA1*_ga_CW55HF8NVT*MTY5NzY4MjM4Ni40NS4xLjE2OTc2ODI4MDYuMjkuMC4w'
+      //   }
+      // ],
+      // 'rules': [
+      //   'https://firebasestorage.googleapis.com/v0/b/eventku-d1719.appspot.com/o/event_images%2FSnapinsta.app_396761057_1482877412500261_2058448033506264423_n_1080.jpg?alt=media&token=4431726a-efce-40fd-917f-4d5e72f9adef&_gl=1*17wcnyj*_ga*MTc3MTE3Nzk4OS4xNjc1ODMyNjA1*_ga_CW55HF8NVT*MTY5ODgwNDMwOS45NS4xLjE2OTg4MDUyMTMuMzYuMC4w',
+      //   'https://firebasestorage.googleapis.com/v0/b/eventku-d1719.appspot.com/o/event_images%2FSnapinsta.app_396439832_1244545682879808_7265617429495067603_n_1080.jpg?alt=media&token=7dd7cf49-2156-4f7e-8409-9277dc642388&_gl=1*tjiwlx*_ga*MTc3MTE3Nzk4OS4xNjc1ODMyNjA1*_ga_CW55HF8NVT*MTY5ODgwNDMwOS45NS4xLjE2OTg4MDUyMDguNDEuMC4w'
+      // ],
+      // 'rundown': [],
+      // 'ticket': {
+      //   'link':
+      //       'https://www.goersapp.com/venues/taman-pantai-ancol-regular--yyrhie',
+      //   'price': 'Rp 70.000'
+      // }
     };
 
     for (String documentId in listId) {

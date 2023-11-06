@@ -307,37 +307,37 @@ class _ListRecord extends GetView<HomeController> {
             )
           ],
         ),
-        20.h.heightBox,
-        _HeaderTittle(
-          title: 'Search Event by city',
-        ),
-        8.h.heightBox,
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Padding(
-            padding: EdgeInsets.only(left: 8.w),
-            child: Row(
-              children: List.generate(
-                  controller.dataCity.length,
-                  (index) => Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 8.w),
-                        child: Container(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 8.w, vertical: 6.h),
-                            decoration: BoxDecoration(
-                                color: bgRed,
-                                borderRadius: BorderRadius.circular(5.r)),
-                            child: Text(
-                              '${controller.dataCity[index]}',
-                              style: TextStyle(
-                                  fontSize: 12.sp,
-                                  color: bgWhite,
-                                  fontWeight: Config.medium),
-                            )),
-                      )),
-            ),
-          ),
-        ),
+        // 20.h.heightBox,
+        // _HeaderTittle(
+        //   title: 'Search Event by city',
+        // ),
+        // 8.h.heightBox,
+        // SingleChildScrollView(
+        //   scrollDirection: Axis.horizontal,
+        //   child: Padding(
+        //     padding: EdgeInsets.only(left: 8.w),
+        //     child: Row(
+        //       children: List.generate(
+        //           controller.dataCity.length,
+        //           (index) => Padding(
+        //                 padding: EdgeInsets.symmetric(horizontal: 8.w),
+        //                 child: Container(
+        //                     padding: EdgeInsets.symmetric(
+        //                         horizontal: 8.w, vertical: 6.h),
+        //                     decoration: BoxDecoration(
+        //                         color: bgRed,
+        //                         borderRadius: BorderRadius.circular(5.r)),
+        //                     child: Text(
+        //                       '${controller.dataCity[index]}',
+        //                       style: TextStyle(
+        //                           fontSize: 12.sp,
+        //                           color: bgWhite,
+        //                           fontWeight: Config.medium),
+        //                     )),
+        //               )),
+        //     ),
+        //   ),
+        // ),
         20.h.heightBox,
         _HeaderTittle(
           title: 'Event Near You',

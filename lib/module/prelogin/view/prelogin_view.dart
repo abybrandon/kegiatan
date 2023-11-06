@@ -94,7 +94,7 @@ class PreLoginViewState extends State<PreLoginView> {
                 imageFlex: 6,
               ),
             ),
-           PageViewModel(
+            PageViewModel(
               title: 'My Event',
               body: '',
               footer: Padding(

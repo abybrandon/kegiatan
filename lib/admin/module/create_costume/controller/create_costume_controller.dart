@@ -3,6 +3,9 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:newtest/local_storage/local_storage_helper.dart';
+import 'package:newtest/local_storage/user_model.dart';
+import 'package:newtest/module/costume/costume_rent/model/costume_rent_owner_detail_model.dart';
 import 'package:newtest/widget/multi_select/multi_select.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:newtest/widget/toast.dart';
@@ -20,7 +23,6 @@ class CreateCostumeController extends GetxController with StateMixin {
     fetchAll();
     super.onInit();
   }
-
 
   @override
   void onClose() {
@@ -201,15 +203,19 @@ class CreateCostumeController extends GetxController with StateMixin {
 
   Future<void> createData() async {
     change(null, status: RxStatus.loading());
-    try {
-      final newDoc = firestoreCollections.costumeListCollection.doc();
-       List<String> fotoKegiatanUrls = [];
 
-      if (photoList.isNotEmpty) {
-        fotoKegiatanUrls = await uploadImagesToFirebaseStorage(photoList);
-      }
+    CostumeRentOwnerDetailModel? dataOwner = await costumeRentDetail();
 
-      final newCostumeRentData = ModelCostume(
+    if (dataOwner != null) {
+      try {
+        final newDoc = firestoreCollections.costumeListCollection.doc();
+        List<String> fotoKegiatanUrls = [];
+
+        if (photoList.isNotEmpty) {
+          fotoKegiatanUrls = await uploadImagesToFirebaseStorage(photoList);
+        }
+
+        final newCostumeRentData = ModelCostume(
           id: newDoc.id,
           nameCostume: nameCostumeController.text,
           charackterOrigin: selectedCharackter.value!,
@@ -221,19 +227,22 @@ class CreateCostumeController extends GetxController with StateMixin {
           availSize: sizeAvail,
           createdDate: Timestamp.now(),
           detailCostume: controlelrDetail.text,
-          owner: {'nameOwner': 'mazuyaShiro'},
+          owner: {},
           status: true,
-          locationName: 'Kota Jakarta',
-          priceRent: {'rentPrice' : controllerPrice.text, 'rentDay' : 3 },
-          listPhotoCostume: fotoKegiatanUrls
-          );
+          locationName: dataOwner.city,
+          priceRent: {'rentPrice': controllerPrice.text, 'rentDay': 3},
+          listPhotoCostume: fotoKegiatanUrls,
+        );
 
-      await newDoc.set(newCostumeRentData.toJson());
+        await newDoc.set(newCostumeRentData.toJson());
 
-      Toast.showSuccessToastWithoutContext('Success');
-    } catch (e) {
-      print(e.toString());
-      Toast.showErrorToastWithoutContext('error');
+        Toast.showSuccessToastWithoutContext('Success');
+      } catch (e) {
+        print(e.toString());
+        Toast.showErrorToastWithoutContext('error');
+      }
+    } else {
+      print('data owner kosong');
     }
     change(null, status: RxStatus.success());
   }
@@ -277,8 +286,7 @@ class CreateCostumeController extends GetxController with StateMixin {
     List<String> downloadURLs = [];
     try {
       for (var imageFile in imageFiles) {
-        final fileName =
-            '${DateTime.now().millisecondsSinceEpoch}_.jpg';
+        final fileName = '${DateTime.now().millisecondsSinceEpoch}_.jpg';
         final destination = 'costume_rent_images/$fileName';
         firebase_storage.Reference ref =
             firebase_storage.FirebaseStorage.instance.ref().child(destination);
@@ -290,6 +298,28 @@ class CreateCostumeController extends GetxController with StateMixin {
     } catch (e) {
       print('gagal upload gambar: $e');
       return [];
+    }
+  }
+
+  Future<CostumeRentOwnerDetailModel?> costumeRentDetail() async {
+    CollectionReference usersCollection =
+        FirebaseFirestore.instance.collection('users');
+
+    UserData? dataUser = await SharedPreferenceHelper.getUserData();
+    QuerySnapshot userDocs =
+        await usersCollection.where('id', isEqualTo: dataUser!.id).get();
+
+    if (userDocs.docs.isNotEmpty) {
+      DocumentSnapshot userDoc = userDocs.docs[0];
+      Map<String, dynamic> userData = userDoc.data() as Map<String, dynamic>;
+
+      CostumeRentOwnerDetailModel rentDetail =
+          CostumeRentOwnerDetailModel.fromJson(userData['ownerRentDetail']);
+
+      return rentDetail;
+    } else {
+      // Dokumen tidak ditemukan
+      print('Dokumen tidak ditemukan.');
     }
   }
 }

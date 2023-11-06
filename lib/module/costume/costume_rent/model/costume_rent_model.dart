@@ -22,7 +22,6 @@ class ModelCostume {
     required this.listPhotoCostume,
   });
 
-
   factory ModelCostume.fromJson(Map<String, dynamic> json) {
     return ModelCostume(
       id: json['id'],
@@ -30,7 +29,7 @@ class ModelCostume {
       charackterOrigin: CategoryModel.fromJson(json['charackterOrigin']),
       status: json['status'],
       categoryCostume: List<String>.from(json['categoryCostume']),
-      locationName: json['locationName'],
+      locationName: json['city']['name'],
       priceRent: Map<String, dynamic>.from(json['priceRent']),
       listPhotoCostume: List<String>.from(json['listPhotoCostume']),
     );
